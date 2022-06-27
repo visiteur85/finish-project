@@ -1,17 +1,37 @@
-import {combineReducers, createStore} from "redux";
-import {loginReducer} from "./loginReducer";
-import {regReducer} from "./regReducer";
 import {forgotPasReducer} from "./forgotPasReducer";
 import {setPassReducer} from "./setPassReducer";
 import {profileReducer} from "./profileReducer";
+import {TypedUseSelectorHook, useDispatch, useSelector,} from "react-redux";
+import {applyMiddleware, combineReducers, legacy_createStore as createStore} from 'redux'
+import thunkMiddleware, {ThunkAction, ThunkDispatch} from 'redux-thunk'
+import {AuthActionsType, authReducer} from "../components/LoginNew/authReducer";
+import {AppActionType, appReducer} from "../components/Initialized/app-reducer";
 
-let rootReducer = combineReducers({
-    login: loginReducer,
-    registration: regReducer,
+
+const rootReducer = combineReducers({
+    auth: authReducer ,
     forgotPas: forgotPasReducer,
     setPass: setPassReducer,
-    profile: profileReducer
+    profile: profileReducer,
+    app: appReducer,
 });
 
-export type rootReducerType = ReturnType<typeof rootReducer>;
-export let store = createStore(rootReducer)
+export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+
+type AppRootActionType= AuthActionsType | AppActionType
+
+// export type AppRootStateType = ReturnType<typeof rootReducer>  old type
+export type RootState = ReturnType<typeof store.getState>
+// типизация всех диспатчей
+export type AppDispatch=ThunkDispatch<RootState,unknown,AppRootActionType>
+// new type for all Thunk, will be work just with useAppSelector!!!
+export type AppThunk<ReturnType = void>=ThunkAction<ReturnType,RootState,unknown,AppRootActionType>
+
+
+// кастомный хук
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+export const useAppDispatch=()=>useDispatch<AppDispatch>()
+
+// а это, чтобы можно было в консоли браузера обращаться к store в любой момент
+// @ts-ignore
+window.store = store;
