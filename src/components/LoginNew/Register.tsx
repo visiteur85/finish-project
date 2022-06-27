@@ -1,5 +1,4 @@
 import React from 'react'
-import Grid from '@mui/material/Grid';
 import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
 import TextField from '@mui/material/TextField';
@@ -8,6 +7,15 @@ import {useFormik} from "formik";
 import {registerTC,} from "./authReducer";
 import {LoginParamsType} from "../api";
 import {useAppDispatch, useAppSelector} from "../../store/store";
+import reg from "./Register.module.css";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Visibility from "@mui/icons-material/Visibility";
+import IconButton from '@mui/material/IconButton';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormLabel from '@mui/material/FormLabel';
+
 
 // type FormikErrorType = {
 //     email?: string
@@ -37,8 +45,8 @@ export const Register = () => {
             }
             if (!values.password) {
                 errors.password = 'Required';
-            } else if (values.password.length<3) {
-                errors.password = 'password shout be > 3 symbols';
+            } else if (values.password.length<8) {
+                errors.password = 'password shout be > 8 symbols';
             }
             return errors;
         },
@@ -47,44 +55,96 @@ export const Register = () => {
             formik.resetForm()
         },
     })
+    const [values, setValues] = React.useState({
+        amount: '',
+        password: '',
+        weight: '',
+        weightRange: '',
+        showPassword: false,
+    });
 
+    const handleClickShowPassword = () => {
+        setValues({
+            ...values,
+            showPassword: !values.showPassword,
+        });
+    };
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
     // if(isLoggedIn) {
     //     return <Navigate to={'/'}/>
     // }
 
-    return <Grid container justifyContent={'center'}>
-        <Grid item justifyContent={'center'}>
-            <FormControl>
-
-                <h2>it-incubator</h2>
-                <p>sign up</p>
-                <form onSubmit={formik.handleSubmit}>
-                <FormGroup>
-                    <TextField margin="normal"
-                                label="Email"
-                               {...formik.getFieldProps('email')}
-                    />
-                    {formik.errors.email && formik.touched.email &&
-                    <div style={{color:"red"}}>{formik.errors.email}</div>}
-                    <TextField type="password" label="Password"
-                               margin="normal"
-                               {...formik.getFieldProps('password')}
-                    />
-                    {formik.errors.password && formik.touched.email &&
-                    <div style={{color:"red"}}>{formik.errors.password}</div>
-                    }
-                    <TextField type="password" label="Confirm Password"
-                               margin="normal"
-                               {...formik.getFieldProps('Confirm Password')}
-                    />
-                    <Button type={'submit'} variant={'contained'} color={'primary'}>
-                       Register
-                    </Button>
-                </FormGroup>
-                </form>
-            </FormControl>
-        </Grid>
- </Grid>
+    return (
+        <div className={reg.container}>
+            <div className={reg.group}>
+                <FormControl>
+                    <FormLabel>
+                    <h2>it-incubator</h2>
+                    <p>sign up</p>
+                    </FormLabel>
+                    <form onSubmit={formik.handleSubmit}>
+                        <FormGroup>
+                            <TextField margin="normal"
+                                       label="Email"
+                                       {...formik.getFieldProps('email')}
+                            />
+                            {formik.errors.email && formik.touched.email &&
+                            <div style={{color:"red"}}>{formik.errors.email}</div>}
+                            <FormControl variant="outlined">
+                                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                <OutlinedInput label="Password"
+                                               type={values.showPassword ? 'text' : 'password'}
+                                               {...formik.getFieldProps('password')}
+                                               endAdornment={
+                                                   <InputAdornment position="end">
+                                                       <IconButton
+                                                           aria-label="toggle password visibility"
+                                                           onClick={handleClickShowPassword}
+                                                           onMouseDown={handleMouseDownPassword}
+                                                           edge="end"
+                                                       >
+                                                           {values.showPassword ? <VisibilityOff/> : <Visibility/>}
+                                                       </IconButton>
+                                                   </InputAdornment>
+                                               }
+                                />
+                            </FormControl>
+                            {formik.errors.password && formik.touched.email &&
+                            <div style={{color:"red"}}>{formik.errors.password}</div>
+                            }
+                            <FormControl variant="outlined" className={reg.confirmPass}>
+                                <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
+                                <OutlinedInput label="Confirm Password"
+                                               type={values.showPassword ? 'text' : 'password'}
+                                               {...formik.getFieldProps('Confirm Password')}
+                                               endAdornment={
+                                                   <InputAdornment position="end">
+                                                       <IconButton
+                                                           aria-label="toggle password visibility"
+                                                           onClick={handleClickShowPassword}
+                                                           onMouseDown={handleMouseDownPassword}
+                                                           edge="end"
+                                                       >
+                                                           {values.showPassword ? <VisibilityOff/> : <Visibility/>}
+                                                       </IconButton>
+                                                   </InputAdornment>
+                                               }
+                                />
+                            </FormControl>
+                            {formik.errors.password && formik.touched.email &&
+                            <div style={{color:"red"}}>{formik.errors.password}</div>
+                            }
+                            <Button type={'submit'} variant={'contained'} color={'primary'}>
+                                Register
+                            </Button>
+                        </FormGroup>
+                    </form>
+                </FormControl>
+            </div>
+            </div>
+        )
 }
 
 

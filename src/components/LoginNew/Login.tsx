@@ -1,5 +1,4 @@
 import React from 'react'
-import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -10,6 +9,13 @@ import Button from '@mui/material/Button';
 import {useFormik} from "formik";
 import {loginTC} from "./authReducer";
 import {useAppDispatch, useAppSelector} from "../../store/store";
+import log from './Login.module.css'
+import IconButton from '@mui/material/IconButton';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 type FormikErrorType = {
     email?: string
@@ -21,8 +27,8 @@ type FormikErrorType = {
 // Omit убирает одном поле, перечисление через |
 // Pick добовляет  поле, перечисление через | .  const errors: Partial<Pick<LoginParamsType, 'email'| 'password' |'rememberMe'>> = {};
 export const Login = () => {
-    const dispatch=useAppDispatch()
-    const isLoggedIn=useAppSelector(state => state.auth.isLoggedIn)
+    const dispatch = useAppDispatch()
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -31,7 +37,7 @@ export const Login = () => {
         },
         validate: (values) => {
             const errors: FormikErrorType = {};
-             // const errors: Partial<Omit<LoginParamsType, 'captcha'>> = {};
+            // const errors: Partial<Omit<LoginParamsType, 'captcha'>> = {};
             if (!values.email) {
                 errors.email = 'Required';
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -39,7 +45,7 @@ export const Login = () => {
             }
             if (!values.password) {
                 errors.password = 'Required';
-            } else if (values.password.length<8) {
+            } else if (values.password.length < 8) {
                 errors.password = 'password shout be > 8 symbols';
             }
             return errors;
@@ -49,50 +55,87 @@ export const Login = () => {
             formik.resetForm()
         },
     })
+        const [values, setValues] = React.useState({
+            amount: '',
+            password: '',
+            weight: '',
+            weightRange: '',
+            showPassword: false,
+        });
 
-    // if(isLoggedIn) {
-    //     return <Navigate to={'/'}/>
-    // }
+        const handleClickShowPassword = () => {
+            setValues({
+                ...values,
+                showPassword: !values.showPassword,
+            });
+        };
+        const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+            event.preventDefault();
+        };
 
-    return <Grid container justifyContent={'center'}>
-        <Grid item justifyContent={'center'}>
-            <FormControl>
-                <FormLabel>
-                    <h2>it-incubator</h2>
-                    <p>SIGN IN</p>
-                </FormLabel>
-                <form onSubmit={formik.handleSubmit}>
-                <FormGroup>
-                    <TextField margin="normal"
-                                label="Email"
-                               {...formik.getFieldProps('email')}
-                    />
-                    {formik.errors.email && formik.touched.email &&
-                    <div style={{color:"red"}}>{formik.errors.email}</div>}
-                    <TextField type="password" label="Password"
-                               margin="normal" autoComplete='current-password'
-                               {...formik.getFieldProps('password')}
-                    />
-                    {formik.errors.password && formik.touched.email &&
-                    <div style={{color:"red"}}>{formik.errors.password}</div>}
+        // if(isLoggedIn) {
+        //     return <Navigate to={'/'}/>
+        // }
 
-                    <FormControlLabel label={'Remember me'} control=
-                        {<Checkbox
-                             checked={formik.values.rememberMe}
-                            {...formik.getFieldProps('rememberMe')}
-                            />}/>
-                    <Button type={'submit'} variant={'contained'} color={'primary'}>
-                        Login
-                    </Button>
-                    <FormLabel>
-                        <p>don't have an an account?</p>
-                        <p>SIGN UP</p>
-                    </FormLabel>
-                </FormGroup>
-                </form>
-            </FormControl>
-        </Grid>
- </Grid>
-}
+        return (
+            <div className={log.container}>
+                <div className={log.group}>
+                    <FormControl>
+                        <FormLabel>
+                            <h2>it-incubator</h2>
+                            <p>SIGN IN</p>
+                        </FormLabel>
+                        <form onSubmit={formik.handleSubmit}>
+                            <FormGroup>
+                                <TextField margin="normal"
+                                           label="Email"
+                                           {...formik.getFieldProps('email')}
+                                />
+                                {formik.errors.email && formik.touched.email &&
+                                <div style={{color: "red"}}>{formik.errors.email}</div>}
+                                <FormControl variant="outlined">
+                                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                    <OutlinedInput label="Password"
+                                        type={values.showPassword ? 'text' : 'password'}
+                                        {...formik.getFieldProps('password')}
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                    edge="end"
+                                                >
+                                                    {values.showPassword ? <VisibilityOff/> : <Visibility/>}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                    />
+                                </FormControl>
+                                {formik.errors.password && formik.touched.email &&
+                                <div style={{color: "red"}}>{formik.errors.password}</div>}
+
+                                <FormControlLabel label={'Remember me'} control=
+                                    {<Checkbox
+                                        checked={formik.values.rememberMe}
+                                        {...formik.getFieldProps('rememberMe')}
+                                    />}/>
+                                <Button type={'submit'} variant={'contained'} color={'primary'}>
+                                    Login
+                                </Button>
+                                <FormLabel>
+                                    <p>don't have an an account?</p>
+                                    <p>SIGN UP</p>
+                                </FormLabel>
+                            </FormGroup>
+                        </form>
+                    </FormControl>
+                </div>
+            </div>
+        )
+    }
+
+
+
 
 

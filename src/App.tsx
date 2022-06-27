@@ -36,12 +36,14 @@ const App = () => {
     const logoutHandler = () => {
         dispatch(logoutTC())
     };
-            return (
+            // @ts-ignore
+    return (
         <div className="App">
             <NavBar/>
             {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Logout</Button>}
 
             <Routes>
+                //@ts-ignore
                 <Route path={"login"} element={<Login/>}/>
                 <Route path={"/"} element={<Profile/>}/>
                 <Route path={"register"} element={<Register/>}/>
