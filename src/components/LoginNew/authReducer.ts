@@ -1,6 +1,7 @@
 import {authAPI, LoginParamsType, ProfileType} from "../api";
 import {setAppErrorAC, setAppIsInitializedAC, setAppStatusAC} from "../Initialized/app-reducer";
 import {AppThunk} from "../../store/store";
+import {getProfileDataAC, getProfileDataType} from "../../store/profileReducer";
 // import {setAppErrorAC, setAppIsInitializedAC, setAppStatusAC} from '../../app/app-reducer'
 // import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 // import {clearTodosDataAC} from "../TodolistsList/todolists-reducer";
@@ -64,6 +65,7 @@ export const loginTC = (data: LoginParamsType): AppThunk => (dispatch) => {
             dispatch(setAppStatusAC('succeeded'))
             // @ts-ignore
             dispatch(setUserProfileAC(res.data))
+            dispatch(getProfileDataAC(res.data))
             dispatch(setIdProfileAC(res.data._id))
         })
         .catch((error) => {
@@ -92,6 +94,7 @@ export const logoutTC = (): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.logout()
         .then(res => {
+            debugger
                 dispatch(setIsLoggedInAC(false))
                 dispatch(setAppStatusAC('succeeded'))
                 // dispatch(clearTodosDataAC()) //clear asinc
@@ -109,4 +112,5 @@ export type AuthActionsType =
     | ReturnType<typeof setAppIsInitializedAC>
     | ReturnType<typeof setUserProfileAC>
     | ReturnType<typeof setIdProfileAC>
+| getProfileDataType
 // | ReturnType<typeof clearTodosDataAC>

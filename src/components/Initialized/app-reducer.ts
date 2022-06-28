@@ -2,6 +2,7 @@ import {Dispatch} from "redux";
 import {authAPI} from "../api";
 import {setIsLoggedInAC} from "../LoginNew/authReducer";
 import {AppThunk} from "../../store/store";
+import {getProfileDataAC} from "../../store/profileReducer";
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 //status===loading - see
@@ -33,6 +34,7 @@ export const initializeAppTC = ():AppThunk => (dispatch) => {
         .then((res) => {
             dispatch(setIsLoggedInAC(true));
             dispatch(setAppStatusAC('succeeded'))
+            dispatch(getProfileDataAC(res.data))
         })
         .catch((error) => {
             // handleServerNetworkError(dispatch,error )
