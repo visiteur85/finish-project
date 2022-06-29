@@ -1,17 +1,15 @@
 import {authAPI, LoginParamsType, ProfileType} from "../api";
 import {setAppErrorAC, setAppIsInitializedAC, setAppStatusAC} from "../Initialized/app-reducer";
 import {AppThunk} from "../../store/store";
-// import {setAppErrorAC, setAppIsInitializedAC, setAppStatusAC} from '../../app/app-reducer'
-// import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
-// import {clearTodosDataAC} from "../TodolistsList/todolists-reducer";
+import {handleServerAppError} from "../../utils/error-utils";
+
 
 
 export type ProfileInitialStateType = {
     profile: ProfileType
     myId: string | null
     isLoggedIn: boolean
-    // error: RequestErrorType
-    // status: RequestStatusType
+    registrationError: string | null
 }
 const initialState: ProfileInitialStateType = {
     isLoggedIn: false,
@@ -26,9 +24,11 @@ const initialState: ProfileInitialStateType = {
         isAdmin: null,
         verified: null,
         rememberMe: null,
-        error: null
+        error: null,
     },
     myId: null,
+    registrationError: null
+
 }
 type InitialStateType = typeof initialState
 
@@ -36,25 +36,18 @@ export const authReducer = (state: ProfileInitialStateType = initialState, actio
     switch (action.type) {
         case 'login/SET-IS-LOGGED-IN':
             return {...state, isLoggedIn: action.value}
-        case 'PROFILE/SET_USER_PROFILE':
-            return {
-                ...state,
-                profile: action.profile
-            }
-        case 'PROFILE/SET_MY_ID': {
-            return {
-                ...state,
-                myId: action.myId
-            }
-        }
+        case 'PROFILE/SET_MY_ID':
+            return {...state, myId: action.myId}
+        case 'login/REGISTRATION-ERROR':
+            return {...state, registrationError: action.error}
         default:
             return state
     }
 }
 // actions
 export const setIsLoggedInAC = (value: boolean) => ({type: 'login/SET-IS-LOGGED-IN', value} as const)
-export const setUserProfileAC = (profile: ProfileType) => ({type: 'PROFILE/SET_USER_PROFILE', profile} as const)
 export const setIdProfileAC = (myId: string | null) => ({type: 'PROFILE/SET_MY_ID', myId} as const)
+export const setServerErrorAC = (error: string | null) => ({type: 'login/REGISTRATION-ERROR', error} as const)
 // thunks
 export const loginTC = (data: LoginParamsType): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
@@ -62,31 +55,11 @@ export const loginTC = (data: LoginParamsType): AppThunk => (dispatch) => {
         .then(res => {
             dispatch(setIsLoggedInAC(true))
             dispatch(setAppStatusAC('succeeded'))
-            // @ts-ignore
-            dispatch(setUserProfileAC(res.data))
             dispatch(setIdProfileAC(res.data._id))
         })
-        .catch((error) => {
-            // handleServerNetworkError(dispatch,error )
+        .catch((e) => {
+            handleServerAppError(e,dispatch)
         })
-}
-export const registerTC = (data: LoginParamsType):AppThunk => (dispatch) => {
-    dispatch(setAppStatusAC('loading'))
-    authAPI.register(data)
-        .then(res => {
-                dispatch(setIsLoggedInAC(true))
-                dispatch(setAppStatusAC('succeeded'))
-        })
-        // .catch(err => {
-        //     const error = err.response
-        //         ? err.response.data.error
-        //         : (err.message + ', more details in the console');
-        //     dispatch(signUpServerErrorAC(error))
-        //
-        // })
-        // .finally(() => {
-        //     dispatch(signUpStatusAC('succeeded'))
-        // })
 }
 export const logoutTC = (): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
@@ -94,10 +67,20 @@ export const logoutTC = (): AppThunk => (dispatch) => {
         .then(res => {
                 dispatch(setIsLoggedInAC(false))
                 dispatch(setAppStatusAC('succeeded'))
-                // dispatch(clearTodosDataAC()) //clear asinc
         })
-        .catch((error) => {
-            // handleServerNetworkError(dispatch,error )
+        .catch(e => {
+            handleServerAppError(e,dispatch)
+        })
+}
+export const registerTC = (data: LoginParamsType):AppThunk => (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
+    authAPI.register(data)
+        .then(res => {
+            dispatch(setIsLoggedInAC(true))
+            dispatch(setAppStatusAC('succeeded'))
+        })
+        .catch(e => {
+            handleServerAppError(e,dispatch)
         })
 }
 
@@ -107,6 +90,5 @@ export type AuthActionsType =
     | ReturnType<typeof setAppErrorAC>
     | ReturnType<typeof setAppStatusAC>
     | ReturnType<typeof setAppIsInitializedAC>
-    | ReturnType<typeof setUserProfileAC>
+    | ReturnType<typeof setServerErrorAC>
     | ReturnType<typeof setIdProfileAC>
-// | ReturnType<typeof clearTodosDataAC>

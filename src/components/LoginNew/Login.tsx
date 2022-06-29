@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -16,6 +16,8 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import {Navigate} from "react-router-dom";
+
 
 type FormikErrorType = {
     email?: string
@@ -28,6 +30,8 @@ type FormikErrorType = {
 // Pick добовляет  поле, перечисление через | .  const errors: Partial<Pick<LoginParamsType, 'email'| 'password' |'rememberMe'>> = {};
 export const Login = () => {
     const dispatch = useAppDispatch()
+    const [disable, setDisable] = useState<boolean>(false)
+
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const formik = useFormik({
         initialValues: {
@@ -48,14 +52,18 @@ export const Login = () => {
             } else if (values.password.length < 8) {
                 errors.password = 'password shout be > 8 symbols';
             }
+            if (formik.errors.email || formik.errors.password) {
+                Object.keys(errors).length === 0 ? setDisable(false) : setDisable(true)
+            }
             return errors;
         },
         onSubmit: values => {
             dispatch(loginTC(values))
+            setDisable(true)
             formik.resetForm()
         },
     })
-        const [values, setValues] = React.useState({
+        const [value, setValue] = React.useState({
             amount: '',
             password: '',
             weight: '',
@@ -64,9 +72,7 @@ export const Login = () => {
         });
 
         const handleClickShowPassword = () => {
-            setValues({
-                ...values,
-                showPassword: !values.showPassword,
+            setValue({...value, showPassword: !value.showPassword,
             });
         };
         const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -74,7 +80,7 @@ export const Login = () => {
         };
 
         // if(isLoggedIn) {
-        //     return <Navigate to={'/'}/>
+        //     return <Navigate to={'/profile'}/>
         // }
 
         return (
@@ -96,7 +102,7 @@ export const Login = () => {
                                 <FormControl variant="outlined">
                                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                     <OutlinedInput label="Password"
-                                        type={values.showPassword ? 'text' : 'password'}
+                                        type={value.showPassword ? 'text' : 'password'}
                                         {...formik.getFieldProps('password')}
                                         endAdornment={
                                             <InputAdornment position="end">
@@ -106,7 +112,7 @@ export const Login = () => {
                                                     onMouseDown={handleMouseDownPassword}
                                                     edge="end"
                                                 >
-                                                    {values.showPassword ? <VisibilityOff/> : <Visibility/>}
+                                                    {value.showPassword ? <VisibilityOff/> : <Visibility/>}
                                                 </IconButton>
                                             </InputAdornment>
                                         }
@@ -120,7 +126,7 @@ export const Login = () => {
                                         checked={formik.values.rememberMe}
                                         {...formik.getFieldProps('rememberMe')}
                                     />}/>
-                                <Button type={'submit'} variant={'contained'} color={'primary'}>
+                                <Button disabled={disable} type={'submit'} variant={'contained'} color={'primary'}>
                                     Login
                                 </Button>
                                 <FormLabel>
@@ -131,7 +137,7 @@ export const Login = () => {
                         </form>
                     </FormControl>
                 </div>
-            </div>
+                </div>
         )
     }
 

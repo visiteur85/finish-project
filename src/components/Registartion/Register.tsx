@@ -1,10 +1,10 @@
-import React from 'react'
+import React, {useState} from 'react'
 import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
-import {registerTC,} from "./authReducer";
+import {registerTC,} from "../LoginNew/authReducer";
 import {LoginParamsType} from "../api";
 import {useAppDispatch, useAppSelector} from "../../store/store";
 import reg from "./Register.module.css";
@@ -15,29 +15,31 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormLabel from '@mui/material/FormLabel';
+import { Navigate } from 'react-router-dom';
 
 
-// type FormikErrorType = {
-//     email?: string
-//     password?: string
-//     rememberMe?: boolean
-// }
+type  FormikErrorType = {
+    email?: string
+    password?: string
+    confirmPassword?: string
+}
 
 // Partial делае все поля необязательными
 // Omit убирает одном поле, перечисление через |
 // Pick добовляет  поле, перечисление через | .  const errors: Partial<Pick<LoginParamsType, 'email'| 'password' |'rememberMe'>> = {};
 export const Register = () => {
+    const [disable, setDisable] = useState<boolean>(false)
+
     const dispatch=useAppDispatch()
     const isLoggedIn=useAppSelector(state => state.auth.isLoggedIn)
     const formik = useFormik({
         initialValues: {
             email: '',
             password: '',
-            rememberMe: false
+            confirmPassword:'',
         },
         validate: (values) => {
-            // const errors: FormikErrorType = {};
-             const errors: Partial<Omit<LoginParamsType, 'captcha'>> = {};
+            const errors: FormikErrorType = {};
             if (!values.email) {
                 errors.email = 'Required';
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -48,10 +50,20 @@ export const Register = () => {
             } else if (values.password.length<8) {
                 errors.password = 'password shout be > 8 symbols';
             }
+            if (!values.confirmPassword) {
+                errors.confirmPassword = 'Password is required';
+            }
+            if (values.password !== values.confirmPassword) {
+                errors.confirmPassword = 'Passwords are not equal';
+            }
+            if (formik.errors.email || formik.errors.password || formik.errors.confirmPassword) {
+                Object.keys(errors).length === 0 ? setDisable(false) : setDisable(true)
+            }
             return errors;
         },
         onSubmit: values => {
             dispatch(registerTC(values))
+            setDisable(true)
             formik.resetForm()
         },
     })
@@ -64,17 +76,16 @@ export const Register = () => {
     });
 
     const handleClickShowPassword = () => {
-        setValues({
-            ...values,
-            showPassword: !values.showPassword,
-        });
+        setValues({...values, showPassword: !values.showPassword,});
     };
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
+
     // if(isLoggedIn) {
-    //     return <Navigate to={'/'}/>
+    //     return <Navigate to={'/profile'}/>
     // }
+
 
     return (
         <div className={reg.container}>
@@ -134,9 +145,8 @@ export const Register = () => {
                                 />
                             </FormControl>
                             {formik.errors.password && formik.touched.email &&
-                            <div style={{color:"red"}}>{formik.errors.password}</div>
-                            }
-                            <Button type={'submit'} variant={'contained'} color={'primary'}>
+                            <div style={{color:"red"}}>{formik.errors.password}</div>}
+                            <Button disabled={disable} type={'submit'} variant={'contained'} color={'primary'}>
                                 Register
                             </Button>
                         </FormGroup>
