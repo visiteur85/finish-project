@@ -1,16 +1,18 @@
-import React, { useState} from 'react';
+import React, {useState} from 'react';
 import {Navigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../store/store";
 
 import style from "../Profile/Profile.module.css"
 import {Slider} from "@mui/material";
 
-import {SuperInput} from "../Test/universalComponents/SuperInput/SuperInput";
+
+import { changeNameTC} from "../../store/profileReducer";
 
 export const Profile = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
     const profile = useAppSelector(state => state.profile);
     const [editMode, setEditMode] = useState(false)
+    const [name, SetNewName] = useState<string>(profile.name)
 
 
     const dispatch = useAppDispatch()
@@ -20,12 +22,20 @@ export const Profile = () => {
         setEditMode(true)
     }
     const onBlurHandler = () => {
+
+        dispatch(changeNameTC(name))
         setEditMode(false)
+    }
+
+    const onChangeHandler = (e: any) => {
+        let newValue = e.currentTarget.value
+        SetNewName(newValue)
     }
 
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
     }
+
 
     return (
         <div className={style.profileContainer}>
@@ -40,8 +50,12 @@ export const Profile = () => {
                                 <img className={style.imagForProfile}
                                      src="https://billionnews.ru/uploads/posts/2021-09/1631790015_2.jpg" alt="avatar"/>
                             </div>
-                            {editMode ? <SuperInput onBlur={onBlurHandler} autoFocus/> :
-                                <p onDoubleClick={editModeHandler} className={style.nameOfProfile}>{profile.email}</p>}
+                            <div className={style.changeInput}>
+                                {editMode ?
+                                    <input onChange={onChangeHandler} value={name} onBlur={onBlurHandler} autoFocus/> :
+                                    <p onDoubleClick={editModeHandler}
+                                       className={style.nameOfProfile}>{profile.name}</p>}
+                            </div>
 
                             <p className={style.description}>Front-end developer</p>
                         </div>

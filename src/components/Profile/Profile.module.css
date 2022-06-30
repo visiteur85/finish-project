@@ -28,7 +28,7 @@
     font-size: 26px;
     font-weight: 600;
     line-height: 39px;
-    letter-spacing: 0em;
+    /*letter-spacing: 0em;*/
     text-align: left;
 
 
@@ -115,4 +115,9 @@ width: 243px;
     width: 90%;
     margin-left: auto;
     margin-right: auto;
+}
+
+.changeInput {
+    height: 25px;
+    margin-top: 14px;
 }
