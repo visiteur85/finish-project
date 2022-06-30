@@ -24,7 +24,6 @@ const App = () => {
     const dispatch = useAppDispatch()
     const status=useAppSelector(state=>state.app.status)
     const isInitialized = useAppSelector((state) => state.app.isInitialized)
-    const isRegistration = useAppSelector((state) => state.app.isRegistration)
     const isLoggedIn=useAppSelector(state => state.auth.isLoggedIn)
 
     useEffect(() => {
@@ -39,8 +38,8 @@ const App = () => {
             <CircularProgress/>
         </div>
     }
-    if (!isInitialized) {
-        return <Navigate to={'/registration'}/>
+    if (!isInitialized ) {
+        return <Navigate to={'/login'}/>
     }
 
     const logoutHandler = () => {
@@ -50,12 +49,10 @@ const App = () => {
     return (
         <div className="App">
             <ErrorSnackbar/>
-
             <NavBar/>
             {status === 'loading' && <LinearProgress color="success" />}
             {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Logout</Button>}
             <Routes>
-                //@ts-ignore
                 <Route path={"login"} element={<Login/>}/>
                 <Route path={"/"} element={<Profile/>}/>
                 <Route path={"registration"} element={<Register/>}/>
@@ -64,7 +61,7 @@ const App = () => {
                 <Route path={"profile"} element={<Profile/>}/>
                 <Route path={"test"} element={<Test/>}/>
                 <Route path={"404"} element={<PageNotFound/>}/>
-                {/*<Route path="*" element={<Navigate to={"404"}/>}/>*/}
+                <Route path="*" element={<Navigate to={"404"}/>}/>
             </Routes>
         </div>
     );

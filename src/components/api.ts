@@ -1,12 +1,5 @@
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 
-// const instance = axios.create({
-//     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
-//     withCredentials: true,
-//     headers: {
-//         'API-KEY': '28c4b33d-5608-4f66-821c-2b5b991e596b'
-//     }
-// })
 export const instance = axios.create({
     baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/',
     withCredentials: true,
@@ -64,18 +57,3 @@ export type LoginParamsType = {
     password: string
     rememberMe?: boolean
 }
-// isLoggedIn: false,
-//     profile: {
-//     _id: null as string | null,
-//         email: null as string | null,
-//         name: null as string | null,
-//         avatar: null as string | null,
-//         publicCardPacksCount: null as number | null,
-//         created: null as string | null,
-//         updated: null as string | null,
-//         isAdmin: null as boolean | null,
-//         verified: null as boolean | null,
-//         rememberMe: null as boolean | null,
-//         error: null  as string | null,
-// },
-// myId: null as string | null,

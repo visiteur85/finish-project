@@ -16,7 +16,8 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import {Navigate} from "react-router-dom";
+import {Navigate, NavLink, Route} from "react-router-dom";
+import {Register} from "../Registartion/Register";
 
 
 type FormikErrorType = {
@@ -71,18 +72,13 @@ export const Login = () => {
             showPassword: false,
         });
 
-        const handleClickShowPassword = () => {
-            setValue({...value, showPassword: !value.showPassword,
-            });
-        };
+        const handleClickShowPassword = () => {setValue({...value, showPassword: !value.showPassword,});};
         const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
             event.preventDefault();
         };
-
         if(isLoggedIn) {
             return <Navigate to={'/profile'}/>
         }
-        // debugger
         return (
             <div className={log.container}>
                 <div className={log.group}>
@@ -129,12 +125,15 @@ export const Login = () => {
                                 <Button disabled={disable} type={'submit'} variant={'contained'} color={'primary'}>
                                     Login
                                 </Button>
-                                <FormLabel>
-                                    <p>don't have an an account?</p>
-                                    <p>SIGN UP</p>
-                                </FormLabel>
                             </FormGroup>
                         </form>
+                        <FormLabel>
+                            <p>don't have an an account?</p>
+                            {/*<Button onClick={handleSignUp} type={'submit'} variant={'contained'} color={'primary'}>*/}
+                            {/*    SIGN UP*/}
+                            {/*</Button>*/}
+                            <NavLink to={'/registration'}>SIGN UP</NavLink>
+                        </FormLabel>
                     </FormControl>
                 </div>
                 </div>
