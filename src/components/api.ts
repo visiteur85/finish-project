@@ -39,8 +39,8 @@ export type ParamsType = {
     name: string;
     avatar?: string;
     publicCardPacksCount: number; // количество колод
-    created: Date;
-    updated: Date;
+    created: Date | null;
+    updated: Date | null;
     isAdmin: boolean;
     verified: boolean; // подтвердил ли почту
     rememberMe: boolean;
