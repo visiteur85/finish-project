@@ -82,9 +82,9 @@ export const Register = () => {
         event.preventDefault();
     };
 
-    // if(isLoggedIn) {
-    //     return <Navigate to={'/profile'}/>
-    // }
+    if(isLoggedIn) {
+        return <Navigate to={'/profile'}/>
+    }
 
 
     return (

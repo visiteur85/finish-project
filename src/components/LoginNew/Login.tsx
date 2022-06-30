@@ -79,10 +79,10 @@ export const Login = () => {
             event.preventDefault();
         };
 
-        // if(isLoggedIn) {
-        //     return <Navigate to={'/profile'}/>
-        // }
-        debugger
+        if(isLoggedIn) {
+            return <Navigate to={'/profile'}/>
+        }
+        // debugger
         return (
             <div className={log.container}>
                 <div className={log.group}>

@@ -2,6 +2,8 @@ import {authAPI, LoginParamsType, ProfileType} from "../api";
 import {setAppErrorAC, setAppIsInitializedAC, setAppStatusAC} from "../Initialized/app-reducer";
 import {AppThunk} from "../../store/store";
 import {handleServerAppError} from "../../utils/error-utils";
+import {getProfileDataAC} from "../../store/profileReducer";
+import {Dispatch} from "redux";
 
 
 
@@ -49,13 +51,14 @@ export const setIsLoggedInAC = (value: boolean) => ({type: 'login/SET-IS-LOGGED-
 export const setIdProfileAC = (myId: string | null) => ({type: 'PROFILE/SET_MY_ID', myId} as const)
 export const setServerErrorAC = (error: string | null) => ({type: 'login/REGISTRATION-ERROR', error} as const)
 // thunks
-export const loginTC = (data: LoginParamsType): AppThunk => (dispatch) => {
+export const loginTC = (data: LoginParamsType) => (dispatch:Dispatch) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.login(data)
         .then(res => {
             dispatch(setIsLoggedInAC(true))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setIdProfileAC(res.data._id))
+            dispatch(getProfileDataAC(res.data))
         })
         .catch((e) => {
             handleServerAppError(e,dispatch)

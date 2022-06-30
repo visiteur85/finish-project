@@ -41,9 +41,9 @@ export const initializeAppTC = ():AppThunk => (dispatch) => {
         .catch((e) => {
             handleServerAppError(e,dispatch)
         })
-        // .finally(()=> {
-        //     dispatch(setAppIsInitializedAC(true))
-        // })
+        .finally(()=> {
+            dispatch(setAppIsInitializedAC(true))
+        })
 }
 export const setAppErrorAC = (error: string | null) => ({type: 'APP/SET-ERROR', error} as const)
 export const setAppStatusAC = (status: RequestStatusType) => ({type: 'APP/SET-STATUS', status} as const)

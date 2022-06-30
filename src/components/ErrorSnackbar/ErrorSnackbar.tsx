@@ -3,7 +3,7 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, {AlertProps} from '@mui/material/Alert';
 import {useAppDispatch, useAppSelector} from "../../store/store";
 import {setAppErrorAC} from "../Initialized/app-reducer";
-import { SnackbarCloseReason } from '@material-ui/core/Snackbar/Snackbar';
+ import { SnackbarCloseReason } from '@material-ui/core/Snackbar/Snackbar';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props, ref) {
