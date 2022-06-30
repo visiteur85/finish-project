@@ -17,6 +17,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {Navigate} from "react-router-dom";
+import styleContainer from "../../style/Container.module.css"
 
 
 type FormikErrorType = {
@@ -84,6 +85,7 @@ export const Login = () => {
         }
         // debugger
         return (
+            <div className={styleContainer.container}>
             <div className={log.container}>
                 <div className={log.group}>
                     <FormControl>
@@ -138,6 +140,7 @@ export const Login = () => {
                     </FormControl>
                 </div>
                 </div>
+            </div>
         )
     }
 

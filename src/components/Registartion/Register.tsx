@@ -16,6 +16,7 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormLabel from '@mui/material/FormLabel';
 import { Navigate } from 'react-router-dom';
+import styleContainer from "../../style/Container.module.css"
 
 
 type  FormikErrorType = {
@@ -88,6 +89,7 @@ export const Register = () => {
 
 
     return (
+        <div className={styleContainer.container}>
         <div className={reg.container}>
             <div className={reg.group}>
                 <FormControl>
@@ -152,6 +154,7 @@ export const Register = () => {
                         </FormGroup>
                     </form>
                 </FormControl>
+            </div>
             </div>
             </div>
         )
