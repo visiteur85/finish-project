@@ -18,7 +18,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {Navigate, NavLink, Route} from "react-router-dom";
 import {Register} from "../Registartion/Register";
-
+import styleContainer from "../../style/Container.module.css"
 
 type FormikErrorType = {
     email?: string
@@ -72,14 +72,20 @@ export const Login = () => {
             showPassword: false,
         });
 
-        const handleClickShowPassword = () => {setValue({...value, showPassword: !value.showPassword,});};
+        const handleClickShowPassword = () => {
+            setValue({...value, showPassword: !value.showPassword,
+            });
+        };
         const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
             event.preventDefault();
         };
+
         if(isLoggedIn) {
             return <Navigate to={'/profile'}/>
         }
+
         return (
+            <div className={styleContainer.container}>
             <div className={log.container}>
                 <div className={log.group}>
                     <FormControl>
@@ -129,14 +135,12 @@ export const Login = () => {
                         </form>
                         <FormLabel>
                             <p>don't have an an account?</p>
-                            {/*<Button onClick={handleSignUp} type={'submit'} variant={'contained'} color={'primary'}>*/}
-                            {/*    SIGN UP*/}
-                            {/*</Button>*/}
                             <NavLink to={'/registration'}>SIGN UP</NavLink>
                         </FormLabel>
                     </FormControl>
                 </div>
-                </div>
+            </div>
+            </div>
         )
     }
 

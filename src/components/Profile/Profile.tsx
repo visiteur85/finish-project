@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Navigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../store/store";
+import styleContainer from "../../style/Container.module.css"
 
 import style from "../Profile/Profile.module.css"
 import {Slider} from "@mui/material";
@@ -40,7 +41,7 @@ export const Profile = () => {
 
 
     return (
-        <div className={style.profileContainer}>
+        <div className={styleContainer.container}>
             <div className={style.profileHeader}>
                 <div className={style.headerProfileHeader}>It-incubator</div>
             </div>
