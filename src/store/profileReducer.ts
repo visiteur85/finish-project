@@ -1,10 +1,9 @@
-import {authAPI, LoginParamsType, ParamsType} from "../components/api";
+import {ParamsType} from "../components/api";
 import {AppThunk} from "./store";
 import {setAppStatusAC} from "../components/Initialized/app-reducer";
-import {setIsLoggedInAC} from "../components/LoginNew/authReducer";
 import {profileApi} from "../components/ApiProfile";
 import {Dispatch} from "redux";
-
+import {handleServerAppError} from "../utils/error-utils";
 
 
 const initialState: ParamsType  = {
@@ -23,14 +22,10 @@ const initialState: ParamsType  = {
 
 export const profileReducer = (state = initialState, action: ProfileActionType) => {
     switch (action.type) {
-        case "profile/GET-PROFILE": {
-            // return action.ProfileData
+        case "profile/GET-PROFILE":
             return {...state, ...action.ProfileData}
-        }
-        case "profile/CHANGE-NAME": {
-            debugger
+        case "profile/CHANGE-NAME":
             return {...state, name:action.newName}
-        }
         default: return state
     }
 };
@@ -47,7 +42,7 @@ export const changeNameAC = (newName: string) => ({type: "profile/CHANGE-NAME", 
 
 
 //thunks
-export const changeNameTC = (newName:string) => (dispatch:Dispatch) => {
+export const changeNameTC = (newName:string): AppThunk  => (dispatch:Dispatch) => {
     console.log(newName)
     dispatch(setAppStatusAC('loading'))
     profileApi.changeName({name:newName})
@@ -55,13 +50,9 @@ export const changeNameTC = (newName:string) => (dispatch:Dispatch) => {
             dispatch(changeNameAC(newName))
             dispatch(setAppStatusAC('succeeded'))
         })
-    // .catch(err => {
-    //     const error = err.response
-    //         ? err.response.data.error
-    //         : (err.message + ', more details in the console');
-    //     dispatch(signUpServerErrorAC(error))
-    //
-    // })
+        .catch(e => {
+            handleServerAppError(e,dispatch)
+        })
     // .finally(() => {
     //     dispatch(signUpStatusAC('succeeded'))
     // })

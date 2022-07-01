@@ -1,14 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Navigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../store/store";
 import styleContainer from "../../style/Container.module.css"
-
 import style from "../Profile/Profile.module.css"
 import {Slider} from "@mui/material";
-
-
 import {changeNameTC} from "../../store/profileReducer";
-import {initializeAppTC} from "../Initialized/app-reducer";
 
 export const Profile = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
@@ -16,11 +12,6 @@ export const Profile = () => {
     const [editMode, setEditMode] = useState(false)
     const [name, SetNewName] = useState<string>(profile.name)
     const [error, SetError] = useState<null | string>(null)
-    useEffect(() => {
-            dispatch(initializeAppTC())
-    }, [])
-    const isInitialized = useAppSelector((state) => state.app.isInitialized)
-
     const dispatch = useAppDispatch()
 
     const editModeHandler = () => {
