@@ -17,7 +17,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {Navigate, NavLink, Route} from "react-router-dom";
-import {Register} from "../Registartion/Register";
+import {Registration} from "../Registartion/Registration";
 import styleContainer from "../../style/Container.module.css"
 
 type FormikErrorType = {

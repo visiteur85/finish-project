@@ -7,7 +7,7 @@ import style from "../Profile/Profile.module.css"
 import {Slider} from "@mui/material";
 
 
-import { changeNameTC} from "../../store/profileReducer";
+import {changeNameTC} from "../../store/profileReducer";
 import {initializeAppTC} from "../Initialized/app-reducer";
 
 export const Profile = () => {
@@ -15,9 +15,10 @@ export const Profile = () => {
     const profile = useAppSelector(state => state.profile);
     const [editMode, setEditMode] = useState(false)
     const [name, SetNewName] = useState<string>(profile.name)
-    // useEffect(() => {
-    //         dispatch(initializeAppTC())
-    // }, [])
+    const [error, SetError] = useState<null | string>(null)
+    useEffect(() => {
+            dispatch(initializeAppTC())
+    }, [])
     const isInitialized = useAppSelector((state) => state.app.isInitialized)
 
     const dispatch = useAppDispatch()
@@ -26,11 +27,17 @@ export const Profile = () => {
         setEditMode(true)
     }
     const onBlurHandler = () => {
-        dispatch(changeNameTC(name))
-        setEditMode(false)
+        if (name.trim() !== "") {
+            dispatch(changeNameTC(name))
+            setEditMode(false)
+            SetError(null)
+        } else {
+            SetError("Введите текст")
+        }
     }
 
     const onChangeHandler = (e: any) => {
+        SetError(null)
         let newValue = e.currentTarget.value
         SetNewName(newValue)
     }
@@ -51,14 +58,21 @@ export const Profile = () => {
                         <div className={style.profileInfo}>
                             <div>
                                 <img className={style.imagForProfile}
-                                     src="https://im.kommersant.ru/Issues.photo/OGONIOK/2014/031/KMO_121006_03711_1_t218_105126.jpg" alt="avatar"/>
+                                     src="https://im.kommersant.ru/Issues.photo/OGONIOK/2014/031/KMO_121006_03711_1_t218_105126.jpg"
+                                     alt="avatar"/>
                             </div>
                             <div className={style.changeInput}>
                                 {editMode ?
-                                    <input onChange={onChangeHandler} value={name} onBlur={onBlurHandler} autoFocus/> :
+                                    <input className={error ? style.errorInput : ""}
+                                           onChange={onChangeHandler} value={name}
+                                           onBlur={onBlurHandler} autoFocus
+
+                                    />
+                                    :
                                     <p onDoubleClick={editModeHandler}
                                        className={style.nameOfProfile}>{profile.name}</p>}
                             </div>
+                            {error && <div className={style.error}>{error}</div>}
                             <p className={style.description}>Front-end developer</p>
                         </div>
                         <div className={style.numberOfCards}>

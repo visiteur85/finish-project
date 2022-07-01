@@ -8,7 +8,7 @@ import {Profile} from "./components/Profile/Profile";
 import {Test} from "./components/Test/Test";
 import {PageNotFound} from "./components/Page404/PageNotFound";
 import {Login} from "./components/LoginNew/Login";
-import {Register} from "./components/Registartion/Register";
+import {Registration} from "./components/Registartion/Registration";
 import {useAppDispatch, useAppSelector} from "./store/store";
 import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
 import {initializeAppTC} from "./components/Initialized/app-reducer";
@@ -55,7 +55,7 @@ const App = () => {
             <Routes>
                 <Route path={"login"} element={<Login/>}/>
                 <Route path={"/"} element={<Profile/>}/>
-                <Route path={"registration"} element={<Register/>}/>
+                <Route path={"registration"} element={<Registration/>}/>
                 <Route path={"forgotPass"} element={<ForgotPass/>}/>
                 <Route path={"setPass"} element={<SetPassword/>}/>
                 <Route path={"profile"} element={<Profile/>}/>

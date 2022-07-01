@@ -18,15 +18,17 @@ const initialState: ParamsType  = {
     isAdmin: true,
     verified: true,
     rememberMe: true,
-    error: "string | null"
+    error: "string | null",
 };
 
 export const profileReducer = (state = initialState, action: ProfileActionType) => {
     switch (action.type) {
         case "profile/GET-PROFILE": {
-            return action.ProfileData
+            // return action.ProfileData
+            return {...state, ...action.ProfileData}
         }
         case "profile/CHANGE-NAME": {
+            debugger
             return {...state, name:action.newName}
         }
         default: return state

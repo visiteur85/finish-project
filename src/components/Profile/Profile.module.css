@@ -121,3 +121,10 @@ width: 243px;
     height: 25px;
     margin-top: 14px;
 }
+
+.error {
+    color: red
+}
+.errorInput {
+    border-color: red;
+}

@@ -10,6 +10,7 @@ export const authAPI = {
         return instance.post<ParamsType>(`/auth/login`, data)
     },
     register(data: LoginParamsType) {
+        debugger
         return instance.post<LoginParamsType>(`/auth/register`, data)
     },
     me() {

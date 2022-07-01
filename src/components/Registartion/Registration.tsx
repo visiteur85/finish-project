@@ -28,9 +28,10 @@ type  FormikErrorType = {
 // Partial делае все поля необязательными
 // Omit убирает одном поле, перечисление через |
 // Pick добовляет  поле, перечисление через | .  const errors: Partial<Pick<LoginParamsType, 'email'| 'password' |'rememberMe'>> = {};
-export const Register = () => {
+export const Registration = () => {
     const [disable, setDisable] = useState<boolean>(false)
     const isRegistration = useAppSelector((state) => state.auth.isRegistration)
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const dispatch=useAppDispatch()
     const formik = useFormik({
         initialValues: {
@@ -62,6 +63,7 @@ export const Register = () => {
             return errors;
         },
         onSubmit: values => {
+            debugger
             dispatch(registerTC(values))
             setDisable(true)
             formik.resetForm()
@@ -73,6 +75,7 @@ export const Register = () => {
         weight: '',
         weightRange: '',
         showPassword: false,
+
     });
 
     const handleClickShowPassword = () => {
@@ -84,6 +87,9 @@ export const Register = () => {
 
     if(isRegistration) {
         return <Navigate to={'/login'}/>
+    }
+    if(isLoggedIn) {
+        return <Navigate to={'/profile'}/>
     }
 
     return (
@@ -103,6 +109,7 @@ export const Register = () => {
                             />
                             {formik.errors.email && formik.touched.email &&
                             <div style={{color:"red"}}>{formik.errors.email}</div>}
+
                             <FormControl variant="outlined">
                                 <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                 <OutlinedInput label="Password"
@@ -125,11 +132,13 @@ export const Register = () => {
                             {formik.errors.password && formik.touched.email &&
                             <div style={{color:"red"}}>{formik.errors.password}</div>
                             }
+
+
                             <FormControl variant="outlined" className={reg.confirmPass}>
                                 <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
                                 <OutlinedInput label="Confirm Password"
                                                type={values.showPassword ? 'text' : 'password'}
-                                               {...formik.getFieldProps('Confirm Password')}
+                                               {...formik.getFieldProps("confirmPassword")}
                                                endAdornment={
                                                    <InputAdornment position="end">
                                                        <IconButton

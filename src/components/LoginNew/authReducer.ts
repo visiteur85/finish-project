@@ -60,9 +60,10 @@ export const loginTC = (data: LoginParamsType) => (dispatch:Dispatch) => {
     authAPI.login(data)
         .then(res => {
             dispatch(setIsLoggedInAC(true))
+            dispatch(getProfileDataAC(res.data))
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setIdProfileAC(res.data._id))
-            dispatch(getProfileDataAC(res.data))
+
         })
         .catch((e) => {
             handleServerAppError(e,dispatch)
@@ -80,12 +81,14 @@ export const logoutTC = (): AppThunk => (dispatch) => {
         })
 }
 export const registerTC = (data: LoginParamsType):AppThunk => (dispatch) => {
+    debugger
     dispatch(setAppStatusAC('loading'))
     authAPI.register(data)
         .then(res => {
             debugger
             // dispatch(setIsLoggedInAC(true))
             dispatch(signUpAC(true))
+
             dispatch(setAppStatusAC('succeeded'))
         })
         .catch(e => {
