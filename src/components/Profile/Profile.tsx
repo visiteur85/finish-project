@@ -49,7 +49,7 @@ export const Profile = () => {
                         <div className={style.profileInfo}>
                             <div>
                                 <img className={style.imagForProfile}
-                                     src="https://billionnews.ru/uploads/posts/2021-09/1631790015_2.jpg" alt="avatar"/>
+                                     src="https://im.kommersant.ru/Issues.photo/OGONIOK/2014/031/KMO_121006_03711_1_t218_105126.jpg" alt="avatar"/>
                             </div>
                             <div className={style.changeInput}>
                                 {editMode ?
