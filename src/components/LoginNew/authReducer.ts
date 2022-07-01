@@ -6,12 +6,12 @@ import {getProfileDataAC} from "../../store/profileReducer";
 import {Dispatch} from "redux";
 
 
-
 export type ProfileInitialStateType = {
     profile: ProfileType
     myId: string | null
     isLoggedIn: boolean
     registrationError: string | null
+    isRegistration: boolean
 }
 const initialState: ProfileInitialStateType = {
     isLoggedIn: false,
@@ -29,8 +29,8 @@ const initialState: ProfileInitialStateType = {
         error: null,
     },
     myId: null,
-    registrationError: null
-
+    registrationError: null,
+    isRegistration: false
 }
 type InitialStateType = typeof initialState
 
@@ -42,6 +42,8 @@ export const authReducer = (state: ProfileInitialStateType = initialState, actio
             return {...state, myId: action.myId}
         case 'login/REGISTRATION-ERROR':
             return {...state, registrationError: action.error}
+        case "APP/SIGN-UP":
+            return {...state, isRegistration: action.isRegistration}
         default:
             return state
     }
@@ -50,6 +52,8 @@ export const authReducer = (state: ProfileInitialStateType = initialState, actio
 export const setIsLoggedInAC = (value: boolean) => ({type: 'login/SET-IS-LOGGED-IN', value} as const)
 export const setIdProfileAC = (myId: string | null) => ({type: 'PROFILE/SET_MY_ID', myId} as const)
 export const setServerErrorAC = (error: string | null) => ({type: 'login/REGISTRATION-ERROR', error} as const)
+export const signUpAC = (isRegistration: boolean) => ({type: 'APP/SIGN-UP', isRegistration} as const)
+
 // thunks
 export const loginTC = (data: LoginParamsType) => (dispatch:Dispatch) => {
     dispatch(setAppStatusAC('loading'))
@@ -79,10 +83,13 @@ export const registerTC = (data: LoginParamsType):AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.register(data)
         .then(res => {
-            dispatch(setIsLoggedInAC(true))
+            debugger
+            // dispatch(setIsLoggedInAC(true))
+            dispatch(signUpAC(true))
             dispatch(setAppStatusAC('succeeded'))
         })
         .catch(e => {
+            debugger
             handleServerAppError(e,dispatch)
         })
 }
@@ -95,3 +102,5 @@ export type AuthActionsType =
     | ReturnType<typeof setAppIsInitializedAC>
     | ReturnType<typeof setServerErrorAC>
     | ReturnType<typeof setIdProfileAC>
+   | ReturnType<typeof signUpAC>
+

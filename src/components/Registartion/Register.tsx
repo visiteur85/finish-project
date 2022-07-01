@@ -30,9 +30,8 @@ type  FormikErrorType = {
 // Pick добовляет  поле, перечисление через | .  const errors: Partial<Pick<LoginParamsType, 'email'| 'password' |'rememberMe'>> = {};
 export const Register = () => {
     const [disable, setDisable] = useState<boolean>(false)
-
+    const isRegistration = useAppSelector((state) => state.auth.isRegistration)
     const dispatch=useAppDispatch()
-    const isLoggedIn=useAppSelector(state => state.auth.isLoggedIn)
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -83,10 +82,9 @@ export const Register = () => {
         event.preventDefault();
     };
 
-    if(isLoggedIn) {
-        return <Navigate to={'/profile'}/>
+    if(isRegistration) {
+        return <Navigate to={'/login'}/>
     }
-
 
     return (
         <div className={styleContainer.container}>
@@ -148,7 +146,7 @@ export const Register = () => {
                             </FormControl>
                             {formik.errors.password && formik.touched.email &&
                             <div style={{color:"red"}}>{formik.errors.password}</div>}
-                            <Button disabled={disable} type={'submit'} variant={'contained'} color={'primary'}>
+                            <Button  type={'submit'} variant={'contained'} color={'primary'}>
                                 Register
                             </Button>
                         </FormGroup>

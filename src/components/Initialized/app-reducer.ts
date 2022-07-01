@@ -12,7 +12,6 @@ const initialState = {
     status: 'succeeded',
     error: null as null | string,
     isInitialized: false,
-    isRegistration: false,
 }
 export type InitialStateType = typeof initialState
 
@@ -24,8 +23,7 @@ export const appReducer = (state: InitialStateType = initialState, action: AppAc
             return {...state, error: action.error}
         case 'APP/SET-IS-INITIALIZED':
             return {...state, isInitialized: action.isInitialized}
-        case "APP/SIGN-UP":
-            return {...state, isRegistration: action.isRegistration}
+
         default:
             return state
     }
@@ -35,7 +33,7 @@ export const initializeAppTC = ():AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.me()
         .then((res) => {
-            dispatch(signUpAC(true))
+            dispatch(setIsLoggedInAC(true))
             dispatch(setAppStatusAC('succeeded'))
         })
         .catch((e) => {
@@ -49,10 +47,8 @@ export const setAppErrorAC = (error: string | null) => ({type: 'APP/SET-ERROR', 
 export const setAppStatusAC = (status: RequestStatusType) => ({type: 'APP/SET-STATUS', status} as const)
 export const setAppIsInitializedAC = (isInitialized: boolean) => ({
     type: 'APP/SET-IS-INITIALIZED', isInitialized} as const)
-export const signUpAC = (isRegistration: boolean) => ({type: 'APP/SIGN-UP', isRegistration} as const)
 
 export type AppActionType =
     | ReturnType<typeof setAppErrorAC>
     | ReturnType<typeof setAppStatusAC>
     | ReturnType<typeof setAppIsInitializedAC>
-    | ReturnType<typeof signUpAC>

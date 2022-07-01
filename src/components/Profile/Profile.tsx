@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Navigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../store/store";
 import styleContainer from "../../style/Container.module.css"
@@ -8,22 +8,24 @@ import {Slider} from "@mui/material";
 
 
 import { changeNameTC} from "../../store/profileReducer";
+import {initializeAppTC} from "../Initialized/app-reducer";
 
 export const Profile = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
     const profile = useAppSelector(state => state.profile);
     const [editMode, setEditMode] = useState(false)
     const [name, SetNewName] = useState<string>(profile.name)
-
+    // useEffect(() => {
+    //         dispatch(initializeAppTC())
+    // }, [])
+    const isInitialized = useAppSelector((state) => state.app.isInitialized)
 
     const dispatch = useAppDispatch()
-
 
     const editModeHandler = () => {
         setEditMode(true)
     }
     const onBlurHandler = () => {
-
         dispatch(changeNameTC(name))
         setEditMode(false)
     }
@@ -57,7 +59,6 @@ export const Profile = () => {
                                     <p onDoubleClick={editModeHandler}
                                        className={style.nameOfProfile}>{profile.name}</p>}
                             </div>
-
                             <p className={style.description}>Front-end developer</p>
                         </div>
                         <div className={style.numberOfCards}>
@@ -70,7 +71,6 @@ export const Profile = () => {
                                     valueLabelDisplay="auto"
                                 />
                             </div>
-
                         </div>
                     </div>
                     <div className={style.table}>Table</div>
