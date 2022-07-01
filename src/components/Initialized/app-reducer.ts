@@ -24,7 +24,6 @@ export const appReducer = (state: InitialStateType = initialState, action: AppAc
             return {...state, error: action.error}
         case 'APP/SET-IS-INITIALIZED':
             return {...state, isInitialized: action.isInitialized}
-
         default:
             return state
     }
@@ -36,7 +35,6 @@ export const initializeAppTC = ():AppThunk => (dispatch) => {
         .then((res) => {
             dispatch(setIsLoggedInAC(true))
             dispatch(setAppStatusAC('succeeded'))
-            // @ts-ignore
             dispatch(getProfileDataAC(res.data))
         })
         .catch((e) => {
