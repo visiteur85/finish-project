@@ -1,30 +1,31 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import {NavBar} from "./components/Header/NavBar/NavBar";
-import {Route, Routes} from "react-router-dom";
+import {Route, Routes, useNavigate} from "react-router-dom";
 import {ForgotPass} from "./components/ForgotPass/ForgotPass";
 import {SetPassword} from "./components/setPassword/SetPassword";
 import {Profile} from "./components/Profile/Profile";
 import {Test} from "./components/Test/Test";
 import {PageNotFound} from "./components/Page404/PageNotFound";
-import {Login} from "./components/LoginNew/Login";
+import {Login} from "./components/Login/Login";
 import {Registration} from "./components/Registartion/Registration";
 import {useAppDispatch, useAppSelector} from "./store/store";
 import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
-import {initializeAppTC} from "./components/Initialized/app-reducer";
+import {initializeAppTC} from "./store/app-reducer";
 import Button from "@mui/material/Button";
-import {logoutTC} from "./components/LoginNew/authReducer";
+import {logoutTC} from "./store/authReducer";
 import LinearProgress from '@mui/material/LinearProgress';
 import {ErrorSnackbar} from "./components/ErrorSnackbar/ErrorSnackbar";
 import { Navigate } from 'react-router-dom';
 
 
 
-const App = () => {
+export const App = () => {
     const dispatch = useAppDispatch()
     const status=useAppSelector(state=>state.app.status)
     const isInitialized = useAppSelector((state) => state.app.isInitialized)
     const isLoggedIn=useAppSelector(state => state.auth.isLoggedIn)
+    const navigate=useNavigate()
 
     useEffect(() => {
         if (!isInitialized) {
@@ -38,9 +39,7 @@ const App = () => {
             <CircularProgress/>
         </div>
     }
-    if (!isInitialized ) {
-        return <Navigate to={'/login'}/>
-    }
+
 
     const logoutHandler = () => {
         dispatch(logoutTC())
@@ -67,4 +66,4 @@ const App = () => {
     );
 }
 
-export default App;
+

@@ -1,27 +1,23 @@
-import axios from 'axios'
+import {instance} from './ApiProfile'
 
 // export const instance = axios.create({
 //     baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/',
 //     withCredentials: true,
 // })
-export const instance = axios.create({
-    baseURL: process.env.REACT_APP_BACK_URL || ' https://neko-back.herokuapp.com/2.0',
-    withCredentials: true,
-})
+
 
 export const authAPI = {
     login(data: LoginParamsType) {
         return instance.post<ParamsType>(`/auth/login`, data)
     },
     register(data: LoginParamsType) {
-        debugger
         return instance.post<LoginParamsType>(`/auth/register`, data)
     },
     me() {
         return instance.post(`/auth/me`)
     },
     logout() {
-        return instance.delete(`auth/me`)
+        return instance.delete(`/auth/me`)
     },
 }
 

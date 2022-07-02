@@ -1,8 +1,8 @@
-import {authAPI, LoginParamsType, ProfileType} from "../api";
-import {setAppErrorAC, setAppIsInitializedAC, setAppStatusAC} from "../Initialized/app-reducer";
-import {AppThunk} from "../../store/store";
-import {handleServerAppError} from "../../utils/error-utils";
-import {getProfileDataAC} from "../../store/profileReducer";
+import {authAPI, LoginParamsType, ProfileType} from "../components/api/api";
+import {setAppErrorAC, setAppIsInitializedAC, setAppStatusAC} from "./app-reducer";
+import {AppThunk} from "./store";
+import {handleServerAppError} from "../utils/error-utils";
+import {getProfileDataAC} from "./profileReducer";
 import {Dispatch} from "redux";
 
 
@@ -70,7 +70,7 @@ export const loginTC = (data: LoginParamsType): AppThunk => (dispatch: Dispatch)
 export const logoutTC = (): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.logout()
-        .then(res => {
+        .then(() => {
             dispatch(setIsLoggedInAC(false))
             dispatch(setAppStatusAC('succeeded'))
         })
@@ -81,7 +81,7 @@ export const logoutTC = (): AppThunk => (dispatch) => {
 export const registerTC = (data: LoginParamsType): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.register(data)
-        .then(res => {
+        .then(() => {
             dispatch(signUpAC(true))
             dispatch(setAppStatusAC('succeeded'))
         })

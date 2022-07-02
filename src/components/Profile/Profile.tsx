@@ -57,7 +57,6 @@ export const Profile = () => {
                                     <input className={error ? style.errorInput : ""}
                                            onChange={onChangeHandler} value={name}
                                            onBlur={onBlurHandler} autoFocus
-
                                     />
                                     :
                                     <p onDoubleClick={editModeHandler}

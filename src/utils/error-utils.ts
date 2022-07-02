@@ -1,12 +1,13 @@
-import {AppActionType, setAppErrorAC, setAppStatusAC} from "../components/Initialized/app-reducer";
+import {setAppErrorAC, setAppStatusAC} from "../store/app-reducer";
 import {Dispatch} from "redux";
-import {AuthActionsType, setServerErrorAC} from "../components/LoginNew/authReducer";
+import {AuthActionsType} from "../store/authReducer";
+import axios, {AxiosError} from "axios";
 
-export const handleServerAppError = (e: any, dispatch: Dispatch<AuthActionsType>) => {
-    const error = e.response
-        ? e.response.data.error
-        : (e.message + ', more details in the console');
-    dispatch(setAppErrorAC(error))
+export const handleServerAppError = (error: Error | AxiosError, dispatch: Dispatch<AuthActionsType>) => {
+    const errorMessage = axios.isAxiosError(error)
+        ? (error.response?.data as {error:string}).error
+        : (error.message + ', more details in the console');
+    dispatch(setAppErrorAC(errorMessage))
     dispatch(setAppStatusAC('failed'))
 }
 // export const handleServerNetworkError = (err:any,dispatch: Dispatch<AuthActionsType>) => {

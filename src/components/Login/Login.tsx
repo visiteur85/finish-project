@@ -7,7 +7,7 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
-import {loginTC} from "./authReducer";
+import {loginTC} from "../../store/authReducer";
 import {useAppDispatch, useAppSelector} from "../../store/store";
 import log from './Login.module.css'
 import IconButton from '@mui/material/IconButton';
@@ -16,19 +16,10 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import {Navigate, NavLink, Route} from "react-router-dom";
-import {Registration} from "../Registartion/Registration";
+import {Navigate, NavLink} from "react-router-dom";
+import {FormikErrorType} from "../Registartion/Registration";
 import styleContainer from "../../style/Container.module.css"
 
-type FormikErrorType = {
-    email?: string
-    password?: string
-    rememberMe?: boolean
-}
-
-// Partial делае все поля необязательными
-// Omit убирает одном поле, перечисление через |
-// Pick добовляет  поле, перечисление через | .  const errors: Partial<Pick<LoginParamsType, 'email'| 'password' |'rememberMe'>> = {};
 export const Login = () => {
     const dispatch = useAppDispatch()
     const [disable, setDisable] = useState<boolean>(false)
@@ -41,8 +32,7 @@ export const Login = () => {
             rememberMe: false
         },
         validate: (values) => {
-            const errors: FormikErrorType = {};
-            // const errors: Partial<Omit<LoginParamsType, 'captcha'>> = {};
+            const errors: Partial<Omit<FormikErrorType, 'rememberMe'>> = {};
             if (!values.email) {
                 errors.email = 'Required';
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -120,7 +110,7 @@ export const Login = () => {
                                         }
                                     />
                                 </FormControl>
-                                {formik.errors.password && formik.touched.email &&
+                                {formik.errors.password && formik.touched.password &&
                                 <div style={{color: "red"}}>{formik.errors.password}</div>}
 
                                 <FormControlLabel label={'Remember me'} control=

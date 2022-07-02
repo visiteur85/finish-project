@@ -1,9 +1,7 @@
-import {Dispatch} from "redux";
-import {authAPI} from "../api";
-import {setIsLoggedInAC} from "../LoginNew/authReducer";
-import {AppThunk} from "../../store/store";
-import {handleServerAppError} from "../../utils/error-utils";
-import {getProfileDataAC} from "../../store/profileReducer";
+import {authAPI} from "../components/api/api";
+import {setIsLoggedInAC} from "./authReducer";
+import {AppThunk} from "./store";
+import {getProfileDataAC} from "./profileReducer";
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 //status===loading - see
@@ -14,9 +12,9 @@ const initialState = {
     error: null as null | string,
     isInitialized: false,
 }
-export type InitialStateType = typeof initialState
+export type AppInitialStateType = typeof initialState
 
-export const appReducer = (state: InitialStateType = initialState, action: AppActionType): InitialStateType => {
+export const appReducer = (state: AppInitialStateType = initialState, action: AppActionType): AppInitialStateType => {
     switch (action.type) {
         case 'APP/SET-STATUS':
             return {...state, status: action.status}
@@ -37,9 +35,11 @@ export const initializeAppTC = ():AppThunk => (dispatch) => {
             dispatch(setAppStatusAC('succeeded'))
             dispatch(getProfileDataAC(res.data))
         })
-        .catch((e) => {
-            handleServerAppError(e,dispatch)
+        .catch(() => {
+            dispatch(setIsLoggedInAC(false))
+            dispatch(setAppStatusAC('failed'))
         })
+        //     handleServerAppError(e,dispatch)
         .finally(()=> {
             dispatch(setAppIsInitializedAC(true))
         })

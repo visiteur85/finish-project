@@ -1,8 +1,7 @@
-import {ParamsType} from "../components/api";
+import {ParamsType} from "../components/api/api";
 import {AppThunk} from "./store";
-import {setAppStatusAC} from "../components/Initialized/app-reducer";
-import {profileApi} from "../components/ApiProfile";
-import {Dispatch} from "redux";
+import {setAppStatusAC} from "./app-reducer";
+import {profileApi} from "../components/api/ApiProfile";
 import {handleServerAppError} from "../utils/error-utils";
 
 
@@ -12,15 +11,17 @@ const initialState: ParamsType  = {
     name: "",
     avatar: "",
     publicCardPacksCount: 0,
-    created: null,
-    updated: null,
-    isAdmin: true,
-    verified: true,
-    rememberMe: true,
-    error: "string | null",
+    created: null, //0
+    updated: null, //0 works will be
+    isAdmin: false,
+    verified: false,
+    rememberMe: false,
+    error: "",
 };
+//    ???? How do it?
+export type ProfileReducerType = typeof initialState
 
-export const profileReducer = (state = initialState, action: ProfileActionType) => {
+export const profileReducer = (state = initialState, action: ProfileActionType):ParamsType => {
     switch (action.type) {
         case "profile/GET-PROFILE":
             return {...state, ...action.ProfileData}
@@ -29,24 +30,20 @@ export const profileReducer = (state = initialState, action: ProfileActionType) 
         default: return state
     }
 };
-//types for AC
-export type ProfileActionType = getProfileDataType | ChangeNameType
-//AC with types
-//загружаем данные пользователя
-export type getProfileDataType = ReturnType<typeof getProfileDataAC>
-export const getProfileDataAC = (ProfileData: ParamsType) => ({type: "profile/GET-PROFILE", ProfileData} as const);
 
-//изменение имени пользователя
-export type ChangeNameType = ReturnType<typeof changeNameAC>
+
+
+export const getProfileDataAC = (profileData: ParamsType) => ({type: "profile/GET-PROFILE", ProfileData: profileData} as const);
 export const changeNameAC = (newName: string) => ({type: "profile/CHANGE-NAME", newName} as const);
-
+//types for AC
+export type ProfileActionType = ReturnType<typeof getProfileDataAC> | ReturnType<typeof changeNameAC>
 
 //thunks
-export const changeNameTC = (newName:string): AppThunk  => (dispatch:Dispatch) => {
+export const changeNameTC = (newName:string): AppThunk  => (dispatch) => {
     console.log(newName)
     dispatch(setAppStatusAC('loading'))
     profileApi.changeName({name:newName})
-        .then(res => {
+        .then(() => {
             dispatch(changeNameAC(newName))
             dispatch(setAppStatusAC('succeeded'))
         })

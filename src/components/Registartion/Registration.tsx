@@ -4,7 +4,7 @@ import FormGroup from '@mui/material/FormGroup';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
-import {registerTC,} from "../LoginNew/authReducer";
+import {registerTC,} from "../../store/authReducer";
 import {useAppDispatch, useAppSelector} from "../../store/store";
 import reg from "./Register.module.css";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -14,22 +14,20 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormLabel from '@mui/material/FormLabel';
-import {Navigate} from 'react-router-dom';
+import {Navigate, NavLink} from 'react-router-dom';
 import styleContainer from "../../style/Container.module.css"
 
 
-type  FormikErrorType = {
-    email?: string
-    password?: string
-    confirmPassword?: string
+export type  FormikErrorType = {
+    email: string
+    password: string
+    confirmPassword: string
+    rememberMe: boolean
 }
 
-// Partial делае все поля необязательными
-// Omit убирает одном поле, перечисление через |
-// Pick добовляет  поле, перечисление через | .  const errors: Partial<Pick<LoginParamsType, 'email'| 'password' |'rememberMe'>> = {};
 export const Registration = () => {
     const [disable, setDisable] = useState<boolean>(false)
-    const isRegistration = useAppSelector((state) => state.auth.isRegistration)
+    const isRegistration = useAppSelector(state => state.auth.isRegistration)
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const dispatch = useAppDispatch()
     const formik = useFormik({
@@ -39,7 +37,7 @@ export const Registration = () => {
             confirmPassword: '',
         },
         validate: (values) => {
-            const errors: FormikErrorType = {};
+            const errors: Partial<FormikErrorType> = {};
             if (!values.email) {
                 errors.email = 'Required';
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -64,7 +62,6 @@ export const Registration = () => {
         onSubmit: values => {
             dispatch(registerTC(values))
             setDisable(true)
-            formik.resetForm()
         },
     })
     const [values, setValues] = React.useState({
@@ -126,14 +123,14 @@ export const Registration = () => {
                                                    }
                                     />
                                 </FormControl>
-                                {formik.errors.password && formik.touched.email &&
+                                {formik.errors.password && formik.touched.password &&
                                 <div style={{color: "red"}}>{formik.errors.password}</div>
                                 }
 
                                 <FormControl variant="outlined" className={reg.confirmPass}>
                                     <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
                                     <OutlinedInput label="Confirm Password"
-                                                   type={values.showPassword ? 'text' : 'password'}
+                                                   type={values.showPassword ? 'text' : 'confirmPassword'}
                                                    {...formik.getFieldProps("confirmPassword")}
                                                    endAdornment={
                                                        <InputAdornment position="end">
@@ -149,13 +146,17 @@ export const Registration = () => {
                                                    }
                                     />
                                 </FormControl>
-                                {formik.errors.password && formik.touched.email &&
-                                <div style={{color: "red"}}>{formik.errors.password}</div>}
+                                {formik.errors.confirmPassword && formik.touched.confirmPassword &&
+                                <div style={{color: "red"}}>{formik.errors.confirmPassword}</div>}
                                 <Button disabled={disable} type={'submit'} variant={'contained'} color={'primary'}>
                                     Register
                                 </Button>
                             </FormGroup>
                         </form>
+                        <FormLabel>
+                            <p>Already registered?</p>
+                            <NavLink to={'/login'}>SIGN IN</NavLink>
+                        </FormLabel>
                     </FormControl>
                 </div>
             </div>
