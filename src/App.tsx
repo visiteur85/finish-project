@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import {NavBar} from "./components/Header/NavBar/NavBar";
-import {Route, Routes, useNavigate} from "react-router-dom";
+import {Route, Routes, useNavigate, useParams} from "react-router-dom";
 import {ForgotPass} from "./components/ForgotPass/ForgotPass";
 import {SetPassword} from "./components/setPassword/SetPassword";
 import {Profile} from "./components/Profile/Profile";
@@ -26,6 +26,7 @@ export const App = () => {
     const isInitialized = useAppSelector((state) => state.app.isInitialized)
     const isLoggedIn=useAppSelector(state => state.auth.isLoggedIn)
     const navigate=useNavigate()
+    const {token} = useParams<string>()
 
     useEffect(() => {
         if (!isInitialized) {
@@ -40,7 +41,7 @@ export const App = () => {
         </div>
     }
 
-
+    // http://localhost:3000/#/set-new-password/?token=d6666f00-fad8-11ec-b7ab-979eef7aec19
     const logoutHandler = () => {
         dispatch(logoutTC())
     };
@@ -57,10 +58,12 @@ export const App = () => {
                 <Route path={"registration"} element={<Registration/>}/>
                 <Route path={"forgotPass"} element={<ForgotPass/>}/>
                 <Route path={"setPass"} element={<SetPassword/>}/>
+                <Route path={"setPass/:token"} element={<SetPassword/>}/>
                 <Route path={"profile"} element={<Profile/>}/>
                 <Route path={"test"} element={<Test/>}/>
                 <Route path={"404"} element={<PageNotFound/>}/>
                 <Route path="*" element={<Navigate to={"404"}/>}/>
+
             </Routes>
         </div>
     );

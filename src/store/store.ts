@@ -1,4 +1,4 @@
-import {forgotPasReducer} from "./forgotPasReducer";
+import {forgotPasswordReducer, ForgotPasswordActionsType} from "./forgotPasReducer";
 import {setPassReducer} from "./setPassReducer";
 import {ProfileActionType, profileReducer} from "./profileReducer";
 import {TypedUseSelectorHook, useDispatch, useSelector,} from "react-redux";
@@ -10,15 +10,15 @@ import {AppActionType, appReducer} from "./app-reducer";
 
 const rootReducer = combineReducers({
     auth: authReducer ,
-    forgotPas: forgotPasReducer,
+    forgotPas: forgotPasswordReducer,
     setPass: setPassReducer,
     profile: profileReducer,
     app: appReducer,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
-
-type AppRootActionType= AuthActionsType | AppActionType | ProfileActionType
+type AppRootActionType= AuthActionsType | AppActionType | ProfileActionType 
+    | ForgotPasswordActionsType  
 
 // export type AppRootStateType = ReturnType<typeof rootReducer>  old type
 export type RootState = ReturnType<typeof store.getState>

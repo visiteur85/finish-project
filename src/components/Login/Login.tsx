@@ -51,7 +51,6 @@ export const Login = () => {
         onSubmit: values => {
             dispatch(loginTC(values))
             setDisable(true)
-            formik.resetForm()
         },
     })
         const [value, setValue] = React.useState({
