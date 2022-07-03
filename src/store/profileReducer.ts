@@ -40,7 +40,6 @@ export type ProfileActionType = ReturnType<typeof getProfileDataAC> | ReturnType
 
 //thunks
 export const changeNameTC = (newName:string): AppThunk  => (dispatch) => {
-    console.log(newName)
     dispatch(setAppStatusAC('loading'))
     profileApi.changeName({name:newName})
         .then(() => {
