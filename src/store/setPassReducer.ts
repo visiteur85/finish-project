@@ -1,9 +1,11 @@
-export type SetPassInitialStateType = {}
 
-let initialState: SetPassInitialStateType = {};
+const initialState = {
 
-export const setPassReducer = (state = initialState, action: SetPassActionType) => {
+}
+export type InitialStateType = typeof initialState
+export const setPassReducer = (state = initialState, action: SetPassActionType):InitialStateType => {
     switch (action.type) {
+
         default: return state
     }
 };
