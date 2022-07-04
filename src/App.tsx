@@ -18,6 +18,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import {ErrorSnackbar} from "./components/ErrorSnackbar/ErrorSnackbar";
 import { Navigate } from 'react-router-dom';
 import {Cards} from "./components/Cards/Cards";
+import {CheckEmail} from "./components/ForgotPass/checkEmail/CheckEmail";
 
 
 

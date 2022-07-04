@@ -6,8 +6,10 @@ import style from "../Profile/Profile.module.css"
 import {Slider} from "@mui/material";
 import {changeNameTC} from "../../store/profileReducer";
 import editPictureForInput from "../../style/images/pngwing.com.png"
-import packsListAvatar from "../../style/images/Group 608.png"
-import profileAvatar from "../../style/images/Union (Stroke).png"
+import {EnhancedTable} from "./EnhancedTable/EnhancedTable";
+
+
+
 
 export const Profile = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
@@ -121,7 +123,10 @@ export const Profile = () => {
                             </div>
                         </div>
                     </div>
-                    <div className={style.table}>Table</div>
+                    <div className={style.table}>
+                        <EnhancedTable/>
+
+                    </div>
                 </div>
             </div>
         </div>
