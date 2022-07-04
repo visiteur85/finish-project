@@ -27,19 +27,7 @@ export type RegisterType<D = {}> = {
     addedUser:D
     error?: string;
 }
-// export type ParamsType = {
-//     _id: string;
-//     email: string;
-//     name: string;
-//     avatar?: string;
-//     publicCardPacksCount: number; // количество колод
-//     created: Date | null;
-//     updated: Date | null;
-//     isAdmin: boolean;
-//     verified: boolean; // подтвердил ли почту
-//     rememberMe: boolean;
-//     error?: string;
-// }
+
 export type ProfileType = {
     _id: string | null
     email: string | null

@@ -7,18 +7,18 @@ import {handleServerAppError} from "../utils/error-utils";
 
 const initialState = {
     profile: {
-    _id: "",
+        _id: "",
         email: "",
-    name: "",
-    avatar: "",
-    publicCardPacksCount: 0,
-    created: null, //0
-    updated: null, //0 works will be
-    isAdmin: false,
-    verified: false,
-    rememberMe: false,
-} as ProfileType,
-error: ''
+        name: "",
+        avatar: "",
+        publicCardPacksCount: 0,
+        created: null, //0
+        updated: null, //0 works will be
+        isAdmin: false,
+        verified: false,
+        rememberMe: false,
+    } as ProfileType,
+    error: ''
 };
 // const initialState = {
 //     profile: null as null | ProfileType  ,
@@ -42,7 +42,7 @@ export const getProfileDataAC = (profileData: ProfileType) => ({
     type: "profile/GET-PROFILE",
     ProfileData: profileData
 } as const);
-export const changeNameAC = (newName: string)  => ({type: "profile/CHANGE-NAME", newName} as const);
+export const changeNameAC = (newName: string) => ({type: "profile/CHANGE-NAME", newName} as const);
 //types for AC
 export type ProfileActionType = ReturnType<typeof getProfileDataAC> | ReturnType<typeof changeNameAC>
 

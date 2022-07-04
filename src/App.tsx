@@ -17,6 +17,7 @@ import {logoutTC} from "./store/authReducer";
 import LinearProgress from '@mui/material/LinearProgress';
 import {ErrorSnackbar} from "./components/ErrorSnackbar/ErrorSnackbar";
 import { Navigate } from 'react-router-dom';
+import {Cards} from "./components/Cards/Cards";
 
 
 
@@ -54,6 +55,7 @@ export const App = () => {
             <Routes>
                 <Route path={"login"} element={<Login/>}/>
                 <Route path={"/"} element={<Profile/>}/>
+                <Route path={"/cards"} element={<Cards/>}/>
                 <Route path={"registration"} element={<Registration/>}/>
                 <Route path={"forgotPass"} element={<ForgotPass/>}/>
                 <Route path={"setPass"} element={<SetPassword/>}/>

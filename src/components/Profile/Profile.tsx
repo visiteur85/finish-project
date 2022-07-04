@@ -6,6 +6,8 @@ import style from "../Profile/Profile.module.css"
 import {Slider} from "@mui/material";
 import {changeNameTC} from "../../store/profileReducer";
 import editPictureForInput from "../../style/images/pngwing.com.png"
+import packsListAvatar from "../../style/images/Group 608.png"
+import profileAvatar from "../../style/images/Union (Stroke).png"
 
 export const Profile = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
@@ -51,9 +53,27 @@ export const Profile = () => {
 
     return (
         <div className={styleContainer.container}>
-            <div className={style.profileHeader}>
-                <div className={style.headerProfileHeader}>It-incubator</div>
-            </div>
+            {/*<div className={style.profileHeader}>*/}
+            {/*    <div className={style.headerProfileHeader}>It-incubator</div>*/}
+            {/*    <div className={style.buttonsForNavigate}>*/}
+            {/*        <div className={style.PacksList}>*/}
+            {/*            <div>*/}
+            {/*            <img src={packsListAvatar} alt="packsListAvatar"/>*/}
+            {/*            </div>*/}
+            {/*            <p>Packs list</p>*/}
+
+            {/*        </div>*/}
+            {/*        <div className={style.ProfileList}>*/}
+            {/*            <div>*/}
+            {/*            <img src={profileAvatar} alt="profileAvatar"/>*/}
+            {/*            </div>*/}
+            {/*            <p> Profile</p>*/}
+
+            {/*        </div>*/}
+            {/*    </div>*/}
+
+
+            {/*</div>*/}
             <div className={style.mainProfile}>
                 <div className={style.profileWithTable}>
                     <div className={style.profile}>
