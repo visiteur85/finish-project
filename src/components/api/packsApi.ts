@@ -31,6 +31,7 @@ export type AnswerGetPackType = {
 export type OnePackType = {
     _id: string
     user_id: string
+    user_name:string
     name: string
     path: string
     cardsCount: number

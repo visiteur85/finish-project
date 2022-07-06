@@ -39,7 +39,7 @@ export const EnhancedTable = () => {
                         <td>{d.name}</td>
                         <td>{d.cardsCount}</td>
                         <td>{d.updated}</td>
-                        <td>{d.user_id}</td>
+                        <td>{d.user_name}</td>
                         <td>
 
                             <button> </button>
