@@ -7,15 +7,15 @@ import {AnswerGetPackType, OnePackType, PacksApi} from "../components/api/packsA
 import {loginTC} from "./authReducer";
 
 
-const initialState   = {
+const initialState  = {
     cardPacks: [] as OnePackType[],
     cardPacksTotalCount: 0,
     maxCardsCount: 0,
     minCardsCount: 0,
     page: 0,
-    pageCount: 0,
+    pageCount: 0
 
-}
+} as AnswerGetPackType
 //
 export type PAckReducerType = typeof initialState
 
@@ -48,10 +48,5 @@ export const getPacksTC = (): AppThunk => (dispatch) => {
             dispatch(getPacksDataAC(res.data))
             dispatch(setAppStatusAC('succeeded'))
         })
-        // .catch(e => {
-        //     handleServerAppError(e, dispatch)
-        // })
-    // .finally(() => {
-    //     dispatch(signUpStatusAC('succeeded'))
-    // })
-}
+
+};
