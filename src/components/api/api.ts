@@ -8,7 +8,7 @@ import {instance} from './ApiProfile'
 
 export const authAPI = {
     login(data: LoginParamsType) {
-        return instance.post<ParamsType>(`/auth/login`, data)
+        return instance.post<ProfileType>(`/auth/login`, data)
     },
     register(data: LoginParamsType) {
         return instance.post<LoginParamsType>(`/auth/register`, data)
@@ -27,19 +27,19 @@ export type RegisterType<D = {}> = {
     addedUser:D
     error?: string;
 }
-export type ParamsType = {
-    _id: string;
-    email: string;
-    name: string;
-    avatar?: string;
-    publicCardPacksCount: number; // количество колод
-    created: Date | null;
-    updated: Date | null;
-    isAdmin: boolean;
-    verified: boolean; // подтвердил ли почту
-    rememberMe: boolean;
-    error?: string;
-}
+// export type ParamsType = {
+//     _id: string;
+//     email: string;
+//     name: string;
+//     avatar?: string;
+//     publicCardPacksCount: number; // количество колод
+//     created: Date | null;
+//     updated: Date | null;
+//     isAdmin: boolean;
+//     verified: boolean; // подтвердил ли почту
+//     rememberMe: boolean;
+//     error?: string;
+// }
 export type ProfileType = {
     _id: string | null
     email: string | null
@@ -51,10 +51,11 @@ export type ProfileType = {
     isAdmin: boolean | null
     verified: boolean | null
     rememberMe: boolean | null
-    error: string | null
+    error?: string | null
 }
 export type LoginParamsType = {
     email: string
     password: string
     rememberMe?: boolean
 }
+
