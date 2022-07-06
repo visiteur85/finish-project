@@ -11,6 +11,8 @@ export const NavBar = () => {
             <div className={s.item}><NavLink to="/setPass" className={({isActive})=> isActive ? s.active : s.item}>Set Password</NavLink></div>
             <div className={s.item}><NavLink to="/profile" className={({isActive})=> isActive ? s.active : s.item}>Profile</NavLink></div>
             <div className={s.item}><NavLink to="/test" className={({isActive})=> isActive ? s.active : s.item}>Test</NavLink></div>
+            <div className={s.item}><NavLink to="/packs" className={({isActive})=> isActive ? s.active : s.item}>packs</NavLink></div>
+            <div className={s.item}><NavLink to="/cards" className={({isActive})=> isActive ? s.active : s.item}>packs</NavLink></div>
 
 
         </nav>

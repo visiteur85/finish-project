@@ -11,9 +11,9 @@ export const passwordRecoveryAPI = {
     sendEmail(data: SendMailType) {
         return instance.post<RequestType>(`auth/forgot`, data)
     },
-        sendNewPassword(data: NewPasswordType) {
-            return instance.post<RequestType>(`auth/set-new-password`,data)
-        }
+    sendNewPassword(data: NewPasswordType) {
+        return instance.post<RequestType>(`auth/set-new-password`, data)
+    }
 }
 
 export type SendMailType = {

@@ -1,4 +1,4 @@
-import {forgotPasswordReducer, ForgotPasswordActionsType} from "./forgotPasReducer";
+import {ForgotPasswordActionsType, forgotPasswordReducer} from "./forgotPasReducer";
 import {setPassReducer} from "./setPassReducer";
 import {ProfileActionType, profileReducer} from "./profileReducer";
 import {TypedUseSelectorHook, useDispatch, useSelector,} from "react-redux";
@@ -6,6 +6,8 @@ import {applyMiddleware, combineReducers, legacy_createStore as createStore} fro
 import thunkMiddleware, {ThunkAction, ThunkDispatch} from 'redux-thunk'
 import {AuthActionsType, authReducer} from "./authReducer";
 import {AppActionType, appReducer} from "./app-reducer";
+import { cardsReducer, CardssActionType } from "./cardsReducer";
+import { packReducer, PacksActionType } from "./packsReducer";
 
 
 const rootReducer = combineReducers({
@@ -14,11 +16,13 @@ const rootReducer = combineReducers({
     setPass: setPassReducer,
     profile: profileReducer,
     app: appReducer,
+    pack:packReducer,
+    card: cardsReducer,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 type AppRootActionType= AuthActionsType | AppActionType | ProfileActionType 
-    | ForgotPasswordActionsType  
+    | ForgotPasswordActionsType  | PacksActionType | CardssActionType
 
 // export type AppRootStateType = ReturnType<typeof rootReducer>  old type
 export type RootState = ReturnType<typeof store.getState>

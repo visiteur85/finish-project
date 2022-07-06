@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import {NavBar} from "./components/Header/NavBar/NavBar";
-import {Route, Routes, useNavigate, useParams} from "react-router-dom";
+import {Navigate, Route, Routes, useNavigate, useParams} from "react-router-dom";
 import {ForgotPass} from "./components/ForgotPass/ForgotPass";
 import {SetPassword} from "./components/setPassword/SetPassword";
 import {Profile} from "./components/Profile/Profile";
@@ -16,17 +16,28 @@ import Button from "@mui/material/Button";
 import {logoutTC} from "./store/authReducer";
 import LinearProgress from '@mui/material/LinearProgress';
 import {ErrorSnackbar} from "./components/ErrorSnackbar/ErrorSnackbar";
-import { Navigate } from 'react-router-dom';
+import {Packs} from './components/Packs';
+import {Cards} from './components/Cards';
 
-
+export const PATH = {
+    LOGIN: '/login',
+    REGISTER: '/register',
+    PROFILE: '/profile',
+    PACKS: '/packs',
+    CARDS: '/cards',
+    LEARN: '/learn',
+    TEST_MAP: '/test-map',
+    TEST: '/text',
+};
 
 export const App = () => {
     const dispatch = useAppDispatch()
-    const status=useAppSelector(state=>state.app.status)
+    const status = useAppSelector(state => state.app.status)
     const isInitialized = useAppSelector((state) => state.app.isInitialized)
-    const isLoggedIn=useAppSelector(state => state.auth.isLoggedIn)
-    const navigate=useNavigate()
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+    const navigate = useNavigate()
     const {token} = useParams<string>()
+
 
     useEffect(() => {
         if (!isInitialized) {
@@ -50,7 +61,7 @@ export const App = () => {
         <div className="App">
             <ErrorSnackbar/>
             <NavBar/>
-            {status === 'loading' && <LinearProgress color="success" />}
+            {status === 'loading' && <LinearProgress color="success"/>}
             {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Logout</Button>}
             <Routes>
                 <Route path={"login"} element={<Login/>}/>
@@ -60,6 +71,8 @@ export const App = () => {
                 <Route path={"setPass"} element={<SetPassword/>}/>
                 <Route path={"setPass/:token"} element={<SetPassword/>}/>
                 <Route path={"profile"} element={<Profile/>}/>
+                <Route path={"packs"} element={<Packs/>}/>
+                <Route path={"cards"} element={<Cards/>}/>
                 <Route path={"test"} element={<Test/>}/>
                 <Route path={"404"} element={<PageNotFound/>}/>
                 <Route path="*" element={<Navigate to={"404"}/>}/>

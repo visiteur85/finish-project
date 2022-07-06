@@ -5,25 +5,16 @@ import styleContainer from "../../style/Container.module.css"
 import style from "../Profile/Profile.module.css"
 import {Slider} from "@mui/material";
 import {changeNameTC} from "../../store/profileReducer";
-import editPictureForInput from "../../style/images/pngwing.com.png"
+
 
 export const Profile = () => {
+
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
-
-    const profile = useAppSelector(state => state.profile.profile);
-
-    const [editMode, setEditMode] = useState(false);
-
-    const [name, SetNewName] = useState<string>(profile && profile.name ? profile.name : '')
-
-    const [error, SetError] = useState<null | string>(null);
-
-    const dispatch = useAppDispatch();
-
-    const editPicture = {
-        backgroundImage: `url(${editPictureForInput})`,
-
-    }
+    const profile = useAppSelector(state => state.profile);
+    const [editMode, setEditMode] = useState(false)
+    const [name, SetNewName] = useState<string>(profile.name)
+    const [error, SetError] = useState<null | string>(null)
+    const dispatch = useAppDispatch()
 
     const editModeHandler = () => {
         setEditMode(true)
@@ -68,15 +59,10 @@ export const Profile = () => {
                                     <input className={error ? style.errorInput : ""}
                                            onChange={onChangeHandler} value={name}
                                            onBlur={onBlurHandler} autoFocus
-                                           maxLength={20}
                                     />
                                     :
-                                    <p data-tooltip={"Изменить имя"} className={style.nameOfProfile}>{profile.name}
-                                        <button  onClick={editModeHandler}
-                                                style={editPicture}></button>
-                                    </p>
-
-                                }
+                                    <p onDoubleClick={editModeHandler}
+                                       className={style.nameOfProfile}>{profile.name}</p>}
                             </div>
                             {error && <div className={style.error}>{error}</div>}
                             <p className={style.description}>Front-end developer</p>
@@ -90,20 +76,12 @@ export const Profile = () => {
                                     aria-label="Small"
                                     valueLabelDisplay="auto"
                                 />
-
-                                {/*<Slider*/}
-                                {/*    getAriaLabel={() => 'Temperature range'}*/}
-                                {/*    value={value}*/}
-                                {/*    onChange={handleChange}*/}
-                                {/*    valueLabelDisplay="auto"*/}
-                                {/*    getAriaValueText={valuetext}*/}
-                                {/*/>*/}
                             </div>
                         </div>
                     </div>
-                    <div className={style.table}>Table</div>
                 </div>
             </div>
         </div>
     );
 };
+

@@ -8,7 +8,7 @@ export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 //status===| 'succeeded' | 'failed''idle' | no see
 
 const initialState = {
-    status: 'succeeded' as RequestStatusType,
+    status: 'succeeded',
     error: null as null | string,
     isInitialized: false,
 }
