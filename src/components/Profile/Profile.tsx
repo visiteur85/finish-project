@@ -118,13 +118,13 @@ export const Profile = () => {
                                     valueLabelDisplay="auto"
                                 />
 
-                                {/*<Slider*/}
-                                {/*    getAriaLabel={() => 'Temperature range'}*/}
-                                {/*    value={value}*/}
-                                {/*    onChange={handleChange}*/}
-                                {/*    valueLabelDisplay="auto"*/}
-                                {/*    getAriaValueText={valuetext}*/}
-                                {/*/>*/}
+                                <Slider
+                                    getAriaLabel={() => 'Temperature range'}
+                                    value={[2,89]}
+                                    // onChange={handleChange}
+                                    // valueLabelDisplay="auto"
+                                    // getAriaValueText={valuetext}
+                                />
                             </div>
                         </div>
                     </div>

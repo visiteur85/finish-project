@@ -1,6 +1,11 @@
 import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../store/store";
 import {getPacksTC} from "../../../store/packsReducer";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from '@mui/icons-material/Delete';
+import {Fab} from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
+
 
 export const EnhancedTable = () => {
 
@@ -14,15 +19,16 @@ export const EnhancedTable = () => {
 
     }, [dispatch])
 
-    if (!packs) {
-        return <div><span>LOADING....</span></div>
-    }
+    // if (!packs) {
+    //     return <div><span>LOADING....</span></div>
+    // }
     return (
-        <div>
-            <table>
+        <div className='container' >
+            <table className="table table-bordered" >
                 <thead>
                 <th>Name</th>
-                <th>Cards</th>
+                <th>Cards
+                </th>
                 <th>Last Updated</th>
                 <th>Created by</th>
                 <th>Actions</th>
@@ -35,9 +41,9 @@ export const EnhancedTable = () => {
                         <td>{d.updated}</td>
                         <td>{d.user_id}</td>
                         <td>
-                        <button></button>
-                        <button></button>
-                        <button></button>
+
+                            <button> </button>
+                            <button></button>
 
                         </td>
 

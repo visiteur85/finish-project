@@ -1,21 +1,29 @@
 
 import {AppThunk} from "./store";
 import {setAppStatusAC} from "./app-reducer";
-import {profileApi} from "../components/api/ApiProfile";
+
 import {handleServerAppError} from "../utils/error-utils";
 import {AnswerGetPackType, OnePackType, PacksApi} from "../components/api/packsApi";
 import {loginTC} from "./authReducer";
 
 
-const initialState = {
-} as AnswerGetPackType;
-//
-// export type PAckReducerType = typeof initialState
+const initialState   = {
+    cardPacks: [] as OnePackType[],
+    cardPacksTotalCount: 0,
+    maxCardsCount: 0,
+    minCardsCount: 0,
+    page: 0,
+    pageCount: 0,
 
-export const packReducer = (state = initialState, action: PacksActionType): AnswerGetPackType => {
+}
+//
+export type PAckReducerType = typeof initialState
+
+export const packReducer = (state = initialState, action: PacksActionType): PAckReducerType => {
     switch (action.type) {
         case "pack/GET-PACKS":
-        return {...state,...action.packs}
+
+        return {...state, ...action.packs}
 
         default:
             return state
