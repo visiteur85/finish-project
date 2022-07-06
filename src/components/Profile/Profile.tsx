@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Navigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../store/store";
 import styleContainer from "../../style/Container.module.css"
@@ -7,6 +7,8 @@ import {Slider} from "@mui/material";
 import {changeNameTC} from "../../store/profileReducer";
 import editPictureForInput from "../../style/images/pngwing.com.png"
 import {EnhancedTable} from "./EnhancedTable/EnhancedTable";
+import {getPacksTC} from "../../store/packsReducer";
+import {OnePackType} from "../api/packsApi";
 
 
 
@@ -15,6 +17,7 @@ export const Profile = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
 
     const profile = useAppSelector(state => state.profile.profile);
+    const dispatch = useAppDispatch();
 
     const [editMode, setEditMode] = useState(false);
 
@@ -22,7 +25,6 @@ export const Profile = () => {
 
     const [error, SetError] = useState<null | string>(null);
 
-    const dispatch = useAppDispatch();
 
     const editPicture = {
         backgroundImage: `url(${editPictureForInput})`,
@@ -54,7 +56,9 @@ export const Profile = () => {
 
 
     return (
+
         <div className={styleContainer.container}>
+
             {/*<div className={style.profileHeader}>*/}
             {/*    <div className={style.headerProfileHeader}>It-incubator</div>*/}
             {/*    <div className={style.buttonsForNavigate}>*/}
@@ -106,6 +110,7 @@ export const Profile = () => {
                         <div className={style.numberOfCards}>
                             <p className={style.nameOfDescription}>Number of cards</p>
                             <div className={style.slider}>
+
                                 <Slider
                                     // size="middle"
                                     defaultValue={70}
@@ -124,6 +129,7 @@ export const Profile = () => {
                         </div>
                     </div>
                     <div className={style.table}>
+
                         <EnhancedTable/>
 
                     </div>
