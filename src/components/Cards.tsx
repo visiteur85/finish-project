@@ -3,16 +3,16 @@ import CircularProgress from '@mui/material/CircularProgress';
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useAppDispatch, useAppSelector} from '../store/store';
-import {NavLink, useParams} from "react-router-dom";
+import {NavLink, useNavigate, useParams} from "react-router-dom";
 import {PATH} from '../App';
 import {getPacksTC} from '../store/packsReducer';
 import {getCardsTC} from '../store/cardsReducer';
 
 export const Cards = () => {
-
+    const {id} = useParams<{ id: string }>()
     useEffect(() => {
-        dispatch(getCardsTC());
-    }, [])
+        if (id) dispatch(getCardsTC(id));
+    }, [id])
     const cards = useAppSelector(state => state.card.cards);
     const dispatch = useAppDispatch()
 
@@ -36,7 +36,7 @@ export const Cards = () => {
                 <tbody>
                 {cards.map((d) => (
                     <tr key={d._id}>
-                            <td>{d.question}</td>
+                        <td>{d.question}</td>
                         <td>{d.answer}</td>
                         <td>{d.updated}</td>
                         <td>{d.grade}</td>

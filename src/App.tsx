@@ -40,9 +40,7 @@ export const App = () => {
 
 
     useEffect(() => {
-        if (!isInitialized) {
-            dispatch(initializeAppTC())
-        }
+        if (!isInitialized) {dispatch(initializeAppTC())}
     }, [isInitialized, dispatch])
 
     if (!isInitialized) {
@@ -72,11 +70,9 @@ export const App = () => {
                 <Route path={"setPass/:token"} element={<SetPassword/>}/>
                 <Route path={"profile"} element={<Profile/>}/>
                 <Route path={"packs"} element={<Packs/>}/>
-                <Route path={"cards"} element={<Cards/>}/>
                 <Route path={"test"} element={<Test/>}/>
                 <Route path={"404"} element={<PageNotFound/>}/>
                 <Route path="*" element={<Navigate to={"404"}/>}/>
-
             </Routes>
         </div>
     );

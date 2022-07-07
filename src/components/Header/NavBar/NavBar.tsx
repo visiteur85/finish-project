@@ -12,9 +12,7 @@ export const NavBar = () => {
             <div className={s.item}><NavLink to="/profile" className={({isActive})=> isActive ? s.active : s.item}>Profile</NavLink></div>
             <div className={s.item}><NavLink to="/test" className={({isActive})=> isActive ? s.active : s.item}>Test</NavLink></div>
             <div className={s.item}><NavLink to="/packs" className={({isActive})=> isActive ? s.active : s.item}>packs</NavLink></div>
-            <div className={s.item}><NavLink to="/cards" className={({isActive})=> isActive ? s.active : s.item}>packs</NavLink></div>
-
-
+            <div className={s.item}><NavLink to="/cards" className={({isActive})=> isActive ? s.active : s.item}>cards</NavLink></div>
         </nav>
     );
 };

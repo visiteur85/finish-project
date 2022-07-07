@@ -11,14 +11,14 @@ export const instance = axios.create({
 // })
 
 export const profileApi = {
-    changeName(data:ChangeProfileType) {
+    changeName(data: ChangeProfileType) {
         return instance.put<AnswerChangeProfileType>(`/auth/me`, data)
-    } ,
+    },
     getPacks() {
         return instance.get<AnswerGetPackType>(`/cards/pack`)
     },
-    getCards() {
-        return instance.get<RequestCardType>(`/cards/card`)
+    getCards(cardsPack_id: string) {
+        return instance.get<RequestCardType>(`/cards/card`, {params: {cardsPack_id}})
     }
 }
 
@@ -30,7 +30,7 @@ export type ChangeProfileType = {
 
 export type AnswerChangeProfileType = {
     updatedUser: ParamsType
-    error?:string
+    error?: string
 }
 
 export type AnswerGetPackType = {
@@ -64,7 +64,7 @@ export type OnePackType = {
     created: string
     updated: string
     __v: number
-    user_name:string
+    user_name: string
     private: boolean, // тру вижу только я
 }
 // card
@@ -87,12 +87,12 @@ export type RequestCardType = {
 }
 export type CardsType = {
     answer: string
-    question:  string
-    cardsPack_id:  string
+    question: string
+    cardsPack_id: string
     grade: number
     shots: number
-    user_id:  string
-    created:  string
-    updated:  string
-    _id:  string
+    user_id: string
+    created: string
+    updated: string
+    _id: string
 }

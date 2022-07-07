@@ -35,9 +35,9 @@ export const Packs = () => {
                 <tbody>
                 {cardPacks.map((d) => (
                     <tr key={d._id}>
-                       {/*<NavLink to={PATH.CARDS}>*/}
+                       <NavLink to={PATH.CARDS + `/${d._id}`}>
                            <td>{d.name}</td>
-                       {/*</NavLink>*/}
+                      </NavLink>
                         <td>{d.cardsCount}</td>
                         <td>{d.updated}</td>
                         <td>{d.user_name}</td>

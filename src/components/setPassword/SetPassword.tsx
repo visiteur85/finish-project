@@ -14,7 +14,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormLabel from '@mui/material/FormLabel';
-import {Navigate, NavLink, useParams} from 'react-router-dom';
+import {Navigate, NavLink, useNavigate, useParams} from 'react-router-dom';
 import styleContainer from "../../style/Container.module.css"
 import {FormikErrorType} from '../Registartion/Registration';
 import { sendNewPasswordTC } from '../../store/forgotPasReducer';
@@ -24,6 +24,7 @@ export const SetPassword = () => {
     const isRegistration = useAppSelector(state => state.auth.isRegistration)
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const {token} = useParams<string>()
     const formik = useFormik({
         initialValues: {
@@ -42,8 +43,9 @@ export const SetPassword = () => {
             }
             return errors;
         },
-        onSubmit: values => {
-            dispatch(sendNewPasswordTC(values))
+        onSubmit: async (values) => {
+            await dispatch(sendNewPasswordTC(values))
+            navigate('confirm-email')
             setDisable(true)
             formik.resetForm()
         },

@@ -1,5 +1,5 @@
 import {AppThunk} from "./store";
-import {AnswerGetPackType, CardsType, profileApi, RequestCardType} from "../components/api/ApiProfile";
+import {profileApi, RequestCardType} from "../components/api/ApiProfile";
 import {setAppStatusAC} from "./app-reducer";
 import {handleServerAppError} from "../utils/error-utils";
 
@@ -11,7 +11,6 @@ export const cardsReducer = (state = initialState, action: CardssActionType): Ca
     switch (action.type) {
         case "cards/GET-CARDS":
             return {...state, ...action.cards}
-
         default:
             return state
     }
@@ -22,9 +21,9 @@ export const getCardsDataAC = (cards: RequestCardType) => ({
 
 export type CardssActionType = ReturnType<typeof getCardsDataAC>
 
-export const getCardsTC = (): AppThunk => (dispatch) => {
+export const getCardsTC = (cardsPack_id: string): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
-    profileApi.getCards()
+    profileApi.getCards(cardsPack_id)
         .then((res) => {
             dispatch(getCardsDataAC(res.data))
             dispatch(setAppStatusAC('succeeded'))

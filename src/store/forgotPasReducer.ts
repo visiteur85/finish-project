@@ -3,7 +3,6 @@ import {RequestStatusType, setAppStatusAC} from "./app-reducer";
 import {AppThunk} from "./store";
 import {handleServerAppError} from "../utils/error-utils";
 
-
 const initialState = {
     recoverySuccess: '',
     successMessage: ''

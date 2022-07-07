@@ -35,9 +35,6 @@ export const getPacksTC = (): AppThunk => (dispatch) => {
         .catch(e => {
             handleServerAppError(e, dispatch)
         })
-    // .finally(() => {
-    //     dispatch(signUpStatusAC('succeeded'))
-    // })
 }
 
 

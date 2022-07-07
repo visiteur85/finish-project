@@ -55,13 +55,12 @@ export const Profile = () => {
                                      alt="avatar"/>
                             </div>
                             <div className={style.changeInput}>
-                                {editMode ?
-                                    <input className={error ? style.errorInput : ""}
+                                {editMode
+                                    ? <input className={error ? style.errorInput : ""}
                                            onChange={onChangeHandler} value={name}
                                            onBlur={onBlurHandler} autoFocus
                                     />
-                                    :
-                                    <p onDoubleClick={editModeHandler}
+                                    : <p onDoubleClick={editModeHandler}
                                        className={style.nameOfProfile}>{profile.name}</p>}
                             </div>
                             {error && <div className={style.error}>{error}</div>}
