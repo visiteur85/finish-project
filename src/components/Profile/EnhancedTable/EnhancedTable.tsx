@@ -23,8 +23,8 @@ export const EnhancedTable = () => {
     //     return <div><span>LOADING....</span></div>
     // }
     return (
-        <div className='container' >
-            <table className="table table-bordered" >
+        <div style={{wordBreak:"break-all"}} className='container'>
+            <table  className="table table-bordered">
                 <thead>
                 <th>Name</th>
                 <th>Cards
@@ -42,8 +42,9 @@ export const EnhancedTable = () => {
                         <td>{d.user_name}</td>
                         <td>
 
-                            <button> </button>
-                            <button></button>
+                            {/*<IconButton aria-label="delete">*/}
+                            {/*    <DeleteIcon/>*/}
+                            {/*</IconButton>*/}
 
                         </td>
 

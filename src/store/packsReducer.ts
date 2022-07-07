@@ -50,3 +50,14 @@ export const getPacksTC = (): AppThunk => (dispatch) => {
         })
 
 };
+
+export const getPacksWithCardsContityTC = (arrOfCards:number[]): AppThunk => (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
+    PacksApi.getPackWithCardsContity(arrOfCards)
+        .then((res) => {
+            console.log(res.data)
+            dispatch(getPacksDataAC(res.data))
+            dispatch(setAppStatusAC('succeeded'))
+        })
+
+};

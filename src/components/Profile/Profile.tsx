@@ -7,8 +7,9 @@ import {Slider} from "@mui/material";
 import {changeNameTC} from "../../store/profileReducer";
 import editPictureForInput from "../../style/images/pngwing.com.png"
 import {EnhancedTable} from "./EnhancedTable/EnhancedTable";
-import {getPacksTC} from "../../store/packsReducer";
+import {getPacksTC, getPacksWithCardsContityTC} from "../../store/packsReducer";
 import {OnePackType} from "../api/packsApi";
+
 
 
 
@@ -24,6 +25,11 @@ export const Profile = () => {
     const [name, SetNewName] = useState<string>(profile && profile.name ? profile.name : '')
 
     const [error, SetError] = useState<null | string>(null);
+    const [valueOfSlider, setValue] = useState<number[]>([20, 37]);
+
+
+
+
 
 
     const editPicture = {
@@ -54,6 +60,15 @@ export const Profile = () => {
         return <Navigate to={'/login'}/>
     }
 
+
+
+    const handleChange = (event: Event, newValue: number | number[]) => {
+        setValue(newValue as number[]);
+
+        if(Array.isArray(newValue)) {
+            dispatch(getPacksWithCardsContityTC(newValue))
+        }
+    };
 
     return (
 
@@ -110,19 +125,11 @@ export const Profile = () => {
                         <div className={style.numberOfCards}>
                             <p className={style.nameOfDescription}>Number of cards</p>
                             <div className={style.slider}>
-
-                                <Slider
-                                    // size="middle"
-                                    defaultValue={70}
-                                    aria-label="Small"
-                                    valueLabelDisplay="auto"
-                                />
-
                                 <Slider
                                     getAriaLabel={() => 'Temperature range'}
-                                    value={[2,89]}
-                                    // onChange={handleChange}
-                                    // valueLabelDisplay="auto"
+                                    value={valueOfSlider}
+                                    onChange={handleChange}
+                                    valueLabelDisplay="auto"
                                     // getAriaValueText={valuetext}
                                 />
                             </div>

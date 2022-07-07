@@ -13,11 +13,16 @@ export const instance = axios.create({
 export const PacksApi = {
     getPack() {
         return instance.get<AnswerGetPackType>(`cards/pack`)
+    },
+    getPackWithCardsContity(arrOfCards:number[]) {
+        return instance.get<AnswerGetPackType>(`cards/pack?min=${arrOfCards[0]}&max=${arrOfCards[1]}`)
     }
 }
 
 
 //types
+
+
 
 export type AnswerGetPackType = {
     cardPacks: OnePackType[]
