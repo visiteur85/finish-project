@@ -75,35 +75,7 @@ export type PacksActionType = ReturnType<typeof getPacksDataAC>
 
 
 //thunks
-// export const getPacksTC = (): AppThunk => (dispatch) => {
-//     dispatch(setAppStatusAC('loading'))
-//     PacksApi.getPack()
-//         .then((res) => {
-//             dispatch(getPacksDataAC(res.data))
-//             dispatch(setAppStatusAC('succeeded'))
-//         })
-//
-// };
-//
-// export const getPacksWithCardsContityTC = (arrOfCards:number[]): AppThunk => (dispatch) => {
-//     dispatch(setAppStatusAC('loading'))
-//     PacksApi.getPackWithCardsContity(arrOfCards)
-//         .then((res) => {
-//             dispatch(getPacksDataAC(res.data))
-//             dispatch(setAppStatusAC('succeeded'))
-//         })
-//
-// };
-//
-// export const changeCountOfRows = ({countOfPages:number}): AppThunk => (dispatch) => {
-//     try {
-//         //dispatch(setFilter(countOfPages))
-//         dispatch(getPacksTC());
-//     }catch (e){
-//
-//     }
-//
-// };
+
 
 export const getPacksTC = (): AppThunk => (dispatch, getState) => {
     dispatch(setAppStatusAC('loading'))
@@ -114,3 +86,15 @@ export const getPacksTC = (): AppThunk => (dispatch, getState) => {
             dispatch(setAppStatusAC('succeeded'))
         })
 };
+
+export const deletePackTC = (idPack: string ): AppThunk => (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
+    PacksApi.delPack(idPack)
+        .then(() => {
+            dispatch(getPacksTC())
+            dispatch(setAppStatusAC('succeeded'))
+        })
+        .catch(e => {
+            handleServerAppError(e,dispatch)
+        })
+}

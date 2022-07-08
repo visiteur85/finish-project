@@ -10,28 +10,15 @@ export const instance = axios.create({
     withCredentials: true,
 })
 
-// export const PacksApi = {
-//     getPack() {
-//         return instance.get<AnswerGetPackType>(`cards/pack`)
-//     },
-//     getPackWithCardsContity(arrOfCards:number[]) {
-//         return instance.get<AnswerGetPackType>(`cards/pack?min=${arrOfCards[0]}&max=${arrOfCards[1]}`)
-//     },
-//     changeCountOfpages(countOfPages:number) {
-//         return instance.get<AnswerGetPackType>(`cards/pack?pageCount=${countOfPages}`)
-//     },
-// }
 
 export const PacksApi = {
     getPack(value:FilterForPacksType) {
         return instance.get<AnswerGetPackType>(`cards/pack?min=${value.minCardsCount}&max=${value.maxCardsCount}&pageCount=${value.pageCount}&page=${value.page}`)
     },
-    // getPackWithCardsContity(arrOfCards:number[]) {
-    //     return instance.get<AnswerGetPackType>(`cards/pack?min=${arrOfCards[0]}&max=${arrOfCards[1]}`)
-    // },
-    // changeCountOfpages(countOfPages:number) {
-    //     return instance.get<AnswerGetPackType>(`cards/pack?pageCount=${countOfPages}`)
-    // },
+    delPack(idPack:string) {
+        return instance.delete(`/cards/pack?id=${idPack}`)
+    }
+
 }
 
 //types
