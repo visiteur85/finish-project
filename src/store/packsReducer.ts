@@ -1,5 +1,6 @@
 import {AppThunk, RootState} from "./store";
 import {setAppStatusAC} from "./app-reducer";
+
 import {handleServerAppError} from "../utils/error-utils";
 import {AnswerGetPackType, OnePackType, PacksApi} from "../components/api/packsApi";
 import {loginTC} from "./authReducer";
@@ -8,6 +9,7 @@ import {loginTC} from "./authReducer";
 const initialState = {
     cardPacks: [] as OnePackType[],
     cardPacksTotalCount: 0,
+
     filterForPacks: {
         minCardsCount: 0,
         maxCardsCount: 100,
@@ -115,14 +117,15 @@ export const getPacksTC = (): AppThunk => (dispatch, getState) => {
             handleServerAppError(e,dispatch)
         })
 };
-// export const deletePackTC = (idPack: string | null): AppThunk => (dispatch) => {
-//     dispatch(setPacksStatusAC('loading'))
-//     PacksApi.deletePack(idPack)
-//         .then(() => {
-//             dispatch(getPacksTC())
-//             dispatch(setAppStatusAC('succeeded'))
-//         })
-//         .catch(e => {
-//             handleServerAppError(e,dispatch)
-//         })
-// }
+
+export const deletePackTC = (idPack: string ): AppThunk => (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
+    PacksApi.delPack(idPack)
+        .then(() => {
+            dispatch(getPacksTC())
+            dispatch(setAppStatusAC('succeeded'))
+        })
+        .catch(e => {
+            handleServerAppError(e,dispatch)
+        })
+}

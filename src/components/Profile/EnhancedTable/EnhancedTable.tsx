@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../store/store";
-import {changeCountOfRawsAC, changeCurrentPageAC, getPacksTC} from "../../../store/packsReducer";
+import {changeCountOfRawsAC, changeCurrentPageAC, deletePackTC, getPacksTC} from "../../../store/packsReducer";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {Fab, Pagination, TablePagination} from "@mui/material";
@@ -36,6 +36,10 @@ export const EnhancedTable = () => {
         dispatch(changeCurrentPageAC(currentPage))
     }
 
+    const delRowHandler = (id:string) => {
+        dispatch(deletePackTC(id))
+    }
+
     return (
         <div style={{wordBreak:"break-all"}} className='container'>
             <Search searchName={searchName} setSearchName={setSearchName}/>
@@ -61,7 +65,7 @@ export const EnhancedTable = () => {
                         <td>{d.user_name}</td>
                         <td>
                             <IconButton aria-label="delete">
-                                <DeleteIcon/>
+                                <DeleteIcon onClick={()=>delRowHandler(d.user_id)}/>
                             </IconButton>
                         </td>
                     </tr>
