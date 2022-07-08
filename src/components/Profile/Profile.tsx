@@ -7,11 +7,24 @@ import {Slider} from "@mui/material";
 import {changeNameTC} from "../../store/profileReducer";
 import editPictureForInput from "../../style/images/pngwing.com.png"
 import {EnhancedTable} from "./EnhancedTable/EnhancedTable";
-import {getPacksTC, getPacksWithCardsContityTC} from "../../store/packsReducer";
+import {getPacksTC, setMinMaxAmountOfCardsAC} from "../../store/packsReducer";
 import {OnePackType} from "../api/packsApi";
 
+const useDebounce = (value1: number = 0,value2:number = 0, delay: number): number[] => {
+    let [state, setState] = useState<number[]>([value1,value2])
 
+    useEffect(() => {
+        const timeId = setTimeout(() => {
+            setState([value1,value2])
+        }, delay)
 
+        return () => {
+            clearTimeout(timeId)
+        }
+    }, [value1,value2])
+
+    return state
+}
 
 
 export const Profile = () => {
@@ -25,12 +38,12 @@ export const Profile = () => {
     const [name, SetNewName] = useState<string>(profile && profile.name ? profile.name : '')
 
     const [error, SetError] = useState<null | string>(null);
-    const [valueOfSlider, setValue] = useState<number[]>([20, 37]);
 
+    const minAmount = useAppSelector(state => state.packs.filterForPacks.minCardsCount);
 
+    const maxAmount = useAppSelector(state => state.packs.filterForPacks.maxCardsCount);
 
-
-
+    const minMAxAmount = [minAmount || 0, maxAmount || 100]
 
     const editPicture = {
         backgroundImage: `url(${editPictureForInput})`,
@@ -56,19 +69,22 @@ export const Profile = () => {
         SetNewName(newValue)
     }
 
+    let debouncedValue = useDebounce(minAmount,maxAmount, 1000);
+    console.log(debouncedValue)
+    const handleChange = (event: Event, newValue: number | number[]) => {
+        dispatch(setMinMaxAmountOfCardsAC(newValue as number[]));
+    };
+
+    useEffect(() => {
+        if (debouncedValue) {
+            dispatch(getPacksTC())
+        }
+    }, [debouncedValue])
+
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
     }
 
-
-
-    const handleChange = (event: Event, newValue: number | number[]) => {
-        setValue(newValue as number[]);
-
-        if(Array.isArray(newValue)) {
-            dispatch(getPacksWithCardsContityTC(newValue))
-        }
-    };
 
     return (
 
@@ -113,7 +129,7 @@ export const Profile = () => {
                                     />
                                     :
                                     <p data-tooltip={"Изменить имя"} className={style.nameOfProfile}>{profile.name}
-                                        <button  onClick={editModeHandler}
+                                        <button onClick={editModeHandler}
                                                 style={editPicture}></button>
                                     </p>
 
@@ -127,7 +143,8 @@ export const Profile = () => {
                             <div className={style.slider}>
                                 <Slider
                                     getAriaLabel={() => 'Temperature range'}
-                                    value={valueOfSlider}
+                                    value={minMAxAmount}
+                                    defaultValue={[0, 100]}
                                     onChange={handleChange}
                                     valueLabelDisplay="auto"
                                     // getAriaValueText={valuetext}

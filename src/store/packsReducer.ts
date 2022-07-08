@@ -1,5 +1,4 @@
-
-import {AppThunk} from "./store";
+import {AppThunk, RootState} from "./store";
 import {setAppStatusAC} from "./app-reducer";
 
 import {handleServerAppError} from "../utils/error-utils";
@@ -7,13 +6,16 @@ import {AnswerGetPackType, OnePackType, PacksApi} from "../components/api/packsA
 import {loginTC} from "./authReducer";
 
 
-const initialState  = {
+const initialState = {
     cardPacks: [] as OnePackType[],
     cardPacksTotalCount: 0,
-    maxCardsCount: 0,
-    minCardsCount: 0,
-    page: 0,
-    pageCount: 0
+
+    filterForPacks: {
+        minCardsCount: 0,
+        maxCardsCount: 100,
+        pageCount: 4,
+        page:1
+    }
 
 } as AnswerGetPackType
 //
@@ -21,43 +23,94 @@ export type PAckReducerType = typeof initialState
 
 export const packReducer = (state = initialState, action: PacksActionType): PAckReducerType => {
     switch (action.type) {
-        case "pack/GET-PACKS":
+        case "pack/GET-PACKS": {
 
-        return {...state, ...action.packs}
+            return {...state, ...action.packs}
+        }
+        case "pack/CHANGE-COUNT-ROWS": {
 
+            return {...state, filterForPacks: {...state.filterForPacks, pageCount: action.countOfRows}}
+        }
+        case "pack/SET-MIN-MAX-ROWS": {
+
+            return {...state,
+                filterForPacks: {
+                    ...state.filterForPacks,
+                    minCardsCount: action.minMaxValue[0],
+                    maxCardsCount: action.minMaxValue[1]
+                }
+            }
+        }
+        case "pack/CHANGE-CURRENT-PAGE": {
+            return {...state, filterForPacks: {...state.filterForPacks, page: action.currentPage}}
+        }
         default:
             return state
     }
 };
-
+//AC
 export const getPacksDataAC = (packs: AnswerGetPackType) => ({
     type: "pack/GET-PACKS",
     packs: packs
 } as const);
+
+export const changeCountOfRawsAC = (countOfRows: number) => ({
+    type: "pack/CHANGE-COUNT-ROWS",
+    countOfRows: countOfRows
+} as const);
+
+export const setMinMaxAmountOfCardsAC = (minMaxValue: number[]) => ({
+    type: "pack/SET-MIN-MAX-ROWS",
+    minMaxValue: minMaxValue
+} as const);
+
+export const changeCurrentPageAC = (currentPage: number) => ({
+    type: "pack/CHANGE-CURRENT-PAGE",
+    currentPage: currentPage
+} as const);
+
 //types for AC
 export type PacksActionType = ReturnType<typeof getPacksDataAC>
-
+    | ReturnType<typeof changeCountOfRawsAC> | ReturnType<typeof setMinMaxAmountOfCardsAC> | ReturnType<typeof changeCurrentPageAC>
 
 
 //thunks
-export const getPacksTC = (): AppThunk => (dispatch) => {
+// export const getPacksTC = (): AppThunk => (dispatch) => {
+//     dispatch(setAppStatusAC('loading'))
+//     PacksApi.getPack()
+//         .then((res) => {
+//             dispatch(getPacksDataAC(res.data))
+//             dispatch(setAppStatusAC('succeeded'))
+//         })
+//
+// };
+//
+// export const getPacksWithCardsContityTC = (arrOfCards:number[]): AppThunk => (dispatch) => {
+//     dispatch(setAppStatusAC('loading'))
+//     PacksApi.getPackWithCardsContity(arrOfCards)
+//         .then((res) => {
+//             dispatch(getPacksDataAC(res.data))
+//             dispatch(setAppStatusAC('succeeded'))
+//         })
+//
+// };
+//
+// export const changeCountOfRows = ({countOfPages:number}): AppThunk => (dispatch) => {
+//     try {
+//         //dispatch(setFilter(countOfPages))
+//         dispatch(getPacksTC());
+//     }catch (e){
+//
+//     }
+//
+// };
+
+export const getPacksTC = (): AppThunk => (dispatch, getState) => {
     dispatch(setAppStatusAC('loading'))
-    PacksApi.getPack()
+    let model = getState().packs.filterForPacks
+    PacksApi.getPack(model)
         .then((res) => {
-            console.log(res.data)
             dispatch(getPacksDataAC(res.data))
             dispatch(setAppStatusAC('succeeded'))
         })
-
-};
-
-export const getPacksWithCardsContityTC = (arrOfCards:number[]): AppThunk => (dispatch) => {
-    dispatch(setAppStatusAC('loading'))
-    PacksApi.getPackWithCardsContity(arrOfCards)
-        .then((res) => {
-            console.log(res.data)
-            dispatch(getPacksDataAC(res.data))
-            dispatch(setAppStatusAC('succeeded'))
-        })
-
 };
