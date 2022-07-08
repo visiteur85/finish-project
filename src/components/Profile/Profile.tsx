@@ -98,18 +98,14 @@ export const Profile = () => {
             {/*            <img src={packsListAvatar} alt="packsListAvatar"/>*/}
             {/*            </div>*/}
             {/*            <p>Packs list</p>*/}
-
             {/*        </div>*/}
             {/*        <div className={style.ProfileList}>*/}
             {/*            <div>*/}
             {/*            <img src={profileAvatar} alt="profileAvatar"/>*/}
             {/*            </div>*/}
             {/*            <p> Profile</p>*/}
-
             {/*        </div>*/}
             {/*    </div>*/}
-
-
             {/*</div>*/}
             <div className={style.mainProfile}>
                 <div className={style.profileWithTable}>
@@ -153,9 +149,7 @@ export const Profile = () => {
                         </div>
                     </div>
                     <div className={style.table}>
-
                         <EnhancedTable/>
-
                     </div>
                 </div>
             </div>

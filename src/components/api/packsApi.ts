@@ -24,7 +24,7 @@ export const instance = axios.create({
 
 export const PacksApi = {
     getPack(value:FilterForPacksType) {
-        return instance.get<AnswerGetPackType>(`cards/pack?min=${value.minCardsCount}&max=${value.maxCardsCount}&pageCount=${value.pageCount}&page=${value.page}`)
+        return instance.get<AnswerGetPackType>(`cards/pack?min=${value.minCardsCount}&max=${value.maxCardsCount}&pageCount=${value.pageCount}&page=${value.page}&packName=${value.packName}`)
     },
     // getPackWithCardsContity(arrOfCards:number[]) {
     //     return instance.get<AnswerGetPackType>(`cards/pack?min=${arrOfCards[0]}&max=${arrOfCards[1]}`)
@@ -42,8 +42,6 @@ export type AnswerGetPackType = {
     cardPacks: OnePackType[]
     cardPacksTotalCount: number
    filterForPacks: FilterForPacksType
-
-
 
 };
 
@@ -68,5 +66,6 @@ export type FilterForPacksType = {
     maxCardsCount?: number
     pageCount?: number
     page?: number
-
+    packName?:string
+    //поиск по имени
 }

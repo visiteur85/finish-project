@@ -7,15 +7,17 @@ import Button from '@mui/material/Button';
 import {useFormik} from "formik";
 import {useAppDispatch, useAppSelector} from "../../store/store";
 import log from './../Login/Login.module.css'
-import {Navigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 import {FormikErrorType} from "../Registartion/Registration";
 import styleContainer from "../../style/Container.module.css"
-import {sendEmailTC} from '../../store/forgotPasReducer';
+import {sendEmailTC, sendNewPasswordTC} from '../../store/forgotPasReducer';
 import { NavLink } from 'react-router-dom';
 
 
 export const ForgotPass = () => {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+
     const [disable, setDisable] = useState<boolean>(false)
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const formik = useFormik({
@@ -31,9 +33,11 @@ export const ForgotPass = () => {
             }
             return errors;
         },
-        onSubmit: values => {
-            dispatch(sendEmailTC(values))
-            setDisable(true)
+        onSubmit:   async (values) => {
+                await dispatch(sendEmailTC(values))
+                navigate('/checkEmail')
+                setDisable(true)
+                formik.resetForm()
         },
     })
     

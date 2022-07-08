@@ -19,6 +19,16 @@ import {ErrorSnackbar} from "./components/ErrorSnackbar/ErrorSnackbar";
 import { Navigate } from 'react-router-dom';
 import {Cards} from "./components/Cards/Cards";
 import {CheckEmail} from "./components/ForgotPass/checkEmail/CheckEmail";
+export const PATH = {
+    LOGIN: '/login',
+    REGISTER: '/register',
+    PROFILE: '/profile',
+    PACKS: '/packs',
+    CARDS: '/cards',
+    LEARN: '/learn',
+    TEST_MAP: '/test-map',
+    TEST: '/text',
+};
 
 
 
@@ -66,7 +76,8 @@ export const App = () => {
                 <Route path={"test"} element={<Test/>}/>
                 <Route path={"404"} element={<PageNotFound/>}/>
                 <Route path="*" element={<Navigate to={"404"}/>}/>
-
+                <Route path={"cards/:id"} element={<Cards/>}/>
+                <Route path={"checkEmail"} element={<CheckEmail/>}/>
             </Routes>
         </div>
     );

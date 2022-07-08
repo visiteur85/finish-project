@@ -1,28 +1,26 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../store/store";
 import {changeCountOfRawsAC, changeCurrentPageAC, getPacksTC} from "../../../store/packsReducer";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {Fab, Pagination, TablePagination} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
+import {Search} from "../Search/Search";
+import {NavLink} from "react-router-dom";
+import {PATH} from "../../../App";
 
 
 export const EnhancedTable = () => {
-
+    const [searchName, setSearchName] = useState<string>('')
     const packs = useAppSelector(state => state.packs.cardPacks);
-
     const currentPacksPage = useAppSelector(state => state.packs.filterForPacks.page) || 1 ;
     const packsAllPage = useAppSelector(state => state.packs.cardPacksTotalCount);
     const amountOfRows = useAppSelector(state => state.packs.filterForPacks.pageCount) as number
 
-
-
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-
         dispatch(getPacksTC())
-
     }, [amountOfRows, currentPacksPage ])
 
     // if (!packs) {
@@ -40,6 +38,8 @@ export const EnhancedTable = () => {
 
     return (
         <div style={{wordBreak:"break-all"}} className='container'>
+            <Search searchName={searchName} setSearchName={setSearchName}/>
+
             <table  className="table table-bordered">
                 <thead>
                 <th>Name</th>
@@ -49,21 +49,21 @@ export const EnhancedTable = () => {
                 <th>Created by</th>
                 <th>Actions</th>
                 </thead>
+
                 <tbody>
                 {packs.map((d) => (
                     <tr key={d._id}>
-                        <td>{d.name}</td>
+                        <NavLink to={PATH.CARDS + `/${d._id}`}>
+                            <td>{d.name}</td>
+                        </NavLink>
                         <td>{d.cardsCount}</td>
                         <td>{d.updated}</td>
                         <td>{d.user_name}</td>
                         <td>
-
                             <IconButton aria-label="delete">
                                 <DeleteIcon/>
                             </IconButton>
-
                         </td>
-
                     </tr>
                 ))}
                 </tbody>
