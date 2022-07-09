@@ -1,19 +1,31 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useAppDispatch, useAppSelector} from '../../store/store';
-import {useParams} from "react-router-dom";
-import {getCardsTC} from '../../store/cardsReducer';
+import {useNavigate, useParams} from "react-router-dom";
+import {addNewCardsTC, getCardsTC} from '../../store/cardsReducer';
+import {PATH} from "../../App";
 
-export const Cards = () => {
+export const Cards = React.memo(() => {
     const {id} = useParams<{ id: string }>()
     useEffect(() => {
         if (id) dispatch(getCardsTC(id));
-    }, [id])
-    const cards = useAppSelector(state => state.card.cards);
-    const dispatch = useAppDispatch()
+        },
+        [id])
 
+    const cards = useAppSelector(state => state.card.cards);
+    const packUserId = useAppSelector(state => state.card.packUserId);
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+
+
+    const redirect = () => navigate(PATH.CARDS + `/${packUserId}`)
+
+    const addHandler = () => {
+        dispatch(addNewCardsTC(packUserId))
+        redirect()
+    }
     if (!cards) {
         return <div
             style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
@@ -42,7 +54,7 @@ export const Cards = () => {
                             <IconButton aria-label="delete" size="small">
                                 <DeleteIcon fontSize="small"/>
                             </IconButton>
-                            <button></button>
+                            <button onClick={addHandler}>add</button>
                             <button></button>
                         </td>
                     </tr>
@@ -54,7 +66,7 @@ export const Cards = () => {
             {/*})}</div>*/}
         </div>
     )
-};
+});
 
 
 

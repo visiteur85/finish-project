@@ -36,7 +36,7 @@ export const EnhancedTable = () => {
         dispatch(changeCurrentPageAC(currentPage))
     }
 
-    const delRowHandler = (id:string) => {
+    const delRowHandler = (id:string | null) => {
         dispatch(deletePackTC(id))
     }
 

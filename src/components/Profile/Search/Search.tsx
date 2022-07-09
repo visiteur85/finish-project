@@ -32,10 +32,7 @@ export const Search: FC<SearchPropsType> = ({searchName, setSearchName}) => {
         <div className={s.searchBox}>
             <SuperInputText onKeyPress={onKeyPressHandler} onChange={onChangeInputHandler}
                             placeholder={'search packs'} inputClassName={s.search} value={searchName}/>
-
-            <SuperButton className={`${s.searchBtn}`} onClick={onSearchHandler}>
-                <img className={s.searchIcon} src={searchIcon}/>
-            </SuperButton>
+            <br/>
         </div>
     );
 };

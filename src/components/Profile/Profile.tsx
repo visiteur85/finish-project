@@ -10,18 +10,18 @@ import {EnhancedTable} from "./EnhancedTable/EnhancedTable";
 import {getPacksTC, setMinMaxAmountOfCardsAC} from "../../store/packsReducer";
 import {OnePackType} from "../api/packsApi";
 
-const useDebounce = (value1: number = 0,value2:number = 0, delay: number): number[] => {
-    let [state, setState] = useState<number[]>([value1,value2])
+const useDebounce = (value1: number = 0, value2: number = 0, delay: number): number[] => {
+    let [state, setState] = useState<number[]>([value1, value2])
 
     useEffect(() => {
         const timeId = setTimeout(() => {
-            setState([value1,value2])
+            setState([value1, value2])
         }, delay)
 
         return () => {
             clearTimeout(timeId)
         }
-    }, [value1,value2])
+    }, [value1, value2])
 
     return state
 }
@@ -47,12 +47,12 @@ export const Profile = () => {
 
     const editPicture = {
         backgroundImage: `url(${editPictureForInput})`,
-
     }
 
     const editModeHandler = () => {
         setEditMode(true)
     }
+
     const onBlurHandler = () => {
         if (name.trim() !== "") {
             dispatch(changeNameTC(name))
@@ -69,7 +69,7 @@ export const Profile = () => {
         SetNewName(newValue)
     }
 
-    let debouncedValue = useDebounce(minAmount,maxAmount, 1000);
+    let debouncedValue = useDebounce(minAmount, maxAmount, 1000);
     console.log(debouncedValue)
     const handleChange = (event: Event, newValue: number | number[]) => {
         dispatch(setMinMaxAmountOfCardsAC(newValue as number[]));
@@ -84,6 +84,8 @@ export const Profile = () => {
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
     }
+
+    const onKeyPressHandler = (e: any) => e.key === 'Enter' && onBlurHandler();
 
 
     return (
@@ -122,13 +124,13 @@ export const Profile = () => {
                                            onChange={onChangeHandler} value={name}
                                            onBlur={onBlurHandler} autoFocus
                                            maxLength={20}
+                                           onKeyPress={onKeyPressHandler}
                                     />
                                     :
                                     <p data-tooltip={"Изменить имя"} className={style.nameOfProfile}>{profile.name}
                                         <button onClick={editModeHandler}
                                                 style={editPicture}></button>
                                     </p>
-
                                 }
                             </div>
                             {error && <div className={style.error}>{error}</div>}

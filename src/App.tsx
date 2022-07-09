@@ -1,14 +1,10 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import {NavBar} from "./components/Header/NavBar/NavBar";
-import {Route, Routes, useNavigate, useParams} from "react-router-dom";
-import {ForgotPass} from "./components/ForgotPass/ForgotPass";
-import {SetPassword} from "./components/setPassword/SetPassword";
+import {Navigate, Route, Routes, useNavigate, useParams} from "react-router-dom";
 import {Profile} from "./components/Profile/Profile";
 import {Test} from "./components/Test/Test";
 import {PageNotFound} from "./components/Page404/PageNotFound";
-import {Login} from "./components/Login/Login";
-import {Registration} from "./components/Registartion/Registration";
 import {useAppDispatch, useAppSelector} from "./store/store";
 import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
 import {initializeAppTC} from "./store/app-reducer";
@@ -16,9 +12,13 @@ import Button from "@mui/material/Button";
 import {logoutTC} from "./store/authReducer";
 import LinearProgress from '@mui/material/LinearProgress';
 import {ErrorSnackbar} from "./components/ErrorSnackbar/ErrorSnackbar";
-import { Navigate } from 'react-router-dom';
 import {Cards} from "./components/Cards/Cards";
-import {CheckEmail} from "./components/ForgotPass/checkEmail/CheckEmail";
+import {Registration} from "./components/Auth/Registartion/Registration";
+import {SetPassword} from "./components/Auth/setPassword/SetPassword";
+import {ForgotPass} from "./components/Auth/ForgotPass/ForgotPass";
+import {CheckEmail} from "./components/Auth/ForgotPass/checkEmail/CheckEmail";
+import {Login} from "./components/Auth/Login/Login";
+
 export const PATH = {
     LOGIN: '/login',
     REGISTER: '/register',
@@ -29,8 +29,6 @@ export const PATH = {
     TEST_MAP: '/test-map',
     TEST: '/text',
 };
-
-
 
 export const App = () => {
     const dispatch = useAppDispatch()

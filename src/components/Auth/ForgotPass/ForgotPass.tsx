@@ -5,13 +5,13 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
-import {useAppDispatch, useAppSelector} from "../../store/store";
 import log from './../Login/Login.module.css'
 import {Navigate, useNavigate} from "react-router-dom";
 import {FormikErrorType} from "../Registartion/Registration";
-import styleContainer from "../../style/Container.module.css"
-import {sendEmailTC, sendNewPasswordTC} from '../../store/forgotPasReducer';
+import styleContainer from "../../../style/Container.module.css"
 import { NavLink } from 'react-router-dom';
+import {useAppDispatch, useAppSelector} from "../../../store/store";
+import {sendEmailTC} from "../../../store/forgotPasReducer";
 
 
 export const ForgotPass = () => {
@@ -72,7 +72,7 @@ export const ForgotPass = () => {
                         </form>
                         <FormLabel>
                             <p>Did you remember your password?</p>
-                            <NavLink to={'/login'}>Try logging in</NavLink>
+                            <NavLink to={'/login'}>Try  logging  in</NavLink>
                         </FormLabel>
                     </FormControl>
                 </div>

@@ -15,9 +15,10 @@ export const PacksApi = {
     getPack(value:FilterForPacksType) {
         return instance.get<AnswerGetPackType>(`cards/pack?min=${value.minCardsCount}&max=${value.maxCardsCount}&pageCount=${value.pageCount}&page=${value.page}&packName=${value.packName}`)
     },
-    delPack(idPack:string) {
+    delPack(idPack: string | null) {
         return instance.delete(`/cards/pack?id=${idPack}`)
-    }
+    },
+
 
 }
 
@@ -56,3 +57,4 @@ export type FilterForPacksType = {
     packName?:string
     //поиск по имени
 }
+

@@ -14,6 +14,9 @@ export const instance = axios.create({
 export const cardsApi = {
     getCards(cardsPack_id: string) {
         return instance.get<RequestCardType>(`/cards/card`, {params: {cardsPack_id}})
+    },
+    addCards (newCard: newCardType) {
+        return instance.post<CardsType>(`/cards/card`,{card: newCard})
     }
 }
 
@@ -36,7 +39,6 @@ export type AnswerGetPackType = {
     page: number// выбранная страница
     pageCount: number    // количество элементов на странице
     packName: string // name for search
-
     // packName:''//поиск по имени
     // &min=3 // не обязательно
     // &max=9 // не обязательно
@@ -45,7 +47,6 @@ export type AnswerGetPackType = {
     // &pageCount=4 // не обязательно
     // &user_id=5eb543f6bea3ad21480f1ee7 - май олл
     // чьи колоды не обязательно, или прийдут все
-
 };
 
 export type OnePackType = {
@@ -93,3 +94,9 @@ export type CardsType = {
     updated: string
     _id: string
 }
+export type newCardType = {
+    cardsPack_id: string,
+    question?: string,
+    answer?: string
+}
+// cardsPack_id: string, question?: string, answer?: string)
