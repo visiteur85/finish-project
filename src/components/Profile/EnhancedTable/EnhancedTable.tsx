@@ -5,16 +5,16 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {Fab, Pagination, TablePagination} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
+import SortIcon from '@mui/icons-material/Sort';
 
 
 export const EnhancedTable = () => {
 
     const packs = useAppSelector(state => state.packs.cardPacks);
 
-    const currentPacksPage = useAppSelector(state => state.packs.filterForPacks.page) || 1 ;
+    const currentPacksPage = useAppSelector(state => state.packs.filterForPacks.page) || 1;
     const packsAllPage = useAppSelector(state => state.packs.cardPacksTotalCount);
     const amountOfRows = useAppSelector(state => state.packs.filterForPacks.pageCount) as number
-
 
 
     const dispatch = useAppDispatch();
@@ -23,33 +23,34 @@ export const EnhancedTable = () => {
 
         dispatch(getPacksTC())
 
-    }, [amountOfRows, currentPacksPage ])
+    }, [amountOfRows, currentPacksPage])
 
     // if (!packs) {
     //     return <div><span>LOADING....</span></div>
     // }
-    const handleChangeRowsPerPage = (e:any) => {
+    const handleChangeRowsPerPage = (e: any) => {
         let value = e.target.value
         dispatch(changeCountOfRawsAC(value))
     }
 
-    const handleChangePage = (e:any, value:number) => {
-      let currentPage = value
+    const handleChangePage = (e: any, value: number) => {
+        let currentPage = value
         dispatch(changeCurrentPageAC(currentPage))
     }
 
-    const delRowHandler = (id:string) => {
+    const delRowHandler = (id: string) => {
         dispatch(deletePackTC(id))
     }
 
     return (
-        <div style={{wordBreak:"break-all"}} className='container'>
-            <table  className="table table-bordered">
+        <div style={{wordBreak: "break-all"}} className='container'>
+            <table className="table table-bordered">
                 <thead>
                 <th>Name</th>
                 <th>Cards
                 </th>
-                <th>Last Updated</th>
+                <th>Last Updated
+                    <SortIcon fontSize={"large"} onClick={() => alert("afd")}/></th>
                 <th>Created by</th>
                 <th>Actions</th>
                 </thead>
@@ -63,7 +64,7 @@ export const EnhancedTable = () => {
                         <td>
 
                             <IconButton aria-label="delete">
-                                <DeleteIcon onClick={()=>delRowHandler(d.user_id)}/>
+                                <DeleteIcon onClick={() => delRowHandler(d.user_id)}/>
                             </IconButton>
 
                         </td>

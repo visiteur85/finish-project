@@ -12,8 +12,16 @@ export const instance = axios.create({
 
 
 export const PacksApi = {
+
     getPack(value:FilterForPacksType) {
-        return instance.get<AnswerGetPackType>(`cards/pack?min=${value.minCardsCount}&max=${value.maxCardsCount}&pageCount=${value.pageCount}&page=${value.page}`)
+        return instance.get<AnswerGetPackType>(`cards/pack`, {
+            params: {
+                min:value.minCardsCount,
+                max:value.maxCardsCount,
+                pageCount:value.pageCount,
+                page:value.page
+            }
+        })
     },
     delPack(idPack:string) {
         return instance.delete(`/cards/pack?id=${idPack}`)
