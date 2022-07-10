@@ -79,7 +79,6 @@ export const EnhancedTable = () => {
                 onPageChange={handleChangePage}
                 rowsPerPage={amountOfRows}
                 onRowsPerPageChange={handleChangeRowsPerPage}
-
             />
         </div>
     );

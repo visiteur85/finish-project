@@ -16,7 +16,7 @@ export type ProfileInitialStateType = {
 const initialState: ProfileInitialStateType = {
     isLoggedIn: false,
     profile: {
-        _id: null,
+        _id: "" as string | null,
         email: null,
         name: null,
         avatar: null,
@@ -28,7 +28,7 @@ const initialState: ProfileInitialStateType = {
         rememberMe: null,
         error: null,
     },
-    myId: null,
+    myId: "" as string | null,
     registrationError: null,
     isRegistration: false
 }

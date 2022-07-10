@@ -16,6 +16,7 @@ const initialState = {
         pageCount: 4,
         page:1,
         packName: ''  as string,
+        user_id:'' as string,
     }
 
 } as AnswerGetPackType
@@ -40,6 +41,10 @@ export const packReducer = (state = initialState, action: PacksActionType): PAck
         case "pack/SET-SEARCH-PACKS-NAME":
             return {...state, filterForPacks: {
                     ...state.filterForPacks, packName: action.packName
+                }}
+        case "pack/SHOW-MY-PACKS":
+            return {...state, filterForPacks: {
+                    ...state.filterForPacks, user_id: action.user_id
                 }}
         default:
             return state
@@ -67,11 +72,12 @@ export const changeCurrentPageAC = (currentPage: number) => ({
     type: "pack/CHANGE-CURRENT-PAGE",
     currentPage: currentPage
 } as const);
+export const showPyPacksAC = (user_id: string | null) => ({type: "pack/SHOW-MY-PACKS", user_id} as const);
 
 //types for AC
 export type PacksActionType = ReturnType<typeof getPacksDataAC>
     | ReturnType<typeof changeCountOfRawsAC> | ReturnType<typeof setMinMaxAmountOfCardsAC>
-    | ReturnType<typeof changeCurrentPageAC> | ReturnType<typeof setSearchNamePacksAC>
+    | ReturnType<typeof changeCurrentPageAC> | ReturnType<typeof setSearchNamePacksAC>| ReturnType<typeof showPyPacksAC>
 
 export const getPacksTC = (): AppThunk => (dispatch, getState) => {
     dispatch(setAppStatusAC('loading'))
