@@ -9,57 +9,44 @@ import {loginTC} from "./authReducer";
 const initialState = {
     cardPacks: [] as OnePackType[],
     cardPacksTotalCount: 0,
-
     filterForPacks: {
         minCardsCount: 0,
         maxCardsCount: 100,
         pageCount: 4,
         page: 1,
         sortPacksUpdate: "0updated",
-
         packName: ''  as string,
         user_id:'' as string,
     }
-
 } as AnswerGetPackType
 //
 export type PAckReducerType = typeof initialState
 
 export const packReducer = (state = initialState, action: PacksActionType): PAckReducerType => {
     switch (action.type) {
-        case "pack/GET-PACKS": {
-
+        case "pack/GET-PACKS":
             return {...state, ...action.packs}
-        }
-        case "pack/CHANGE-COUNT-ROWS": {
-
+        case "pack/CHANGE-COUNT-ROWS":
             return {...state, filterForPacks: {...state.filterForPacks, pageCount: action.countOfRows}}
-        }
-        case "pack/SET-MIN-MAX-ROWS": {
-
-            return {
-                ...state,
-                filterForPacks: {
-                    ...state.filterForPacks,
+        case "pack/SET-MIN-MAX-ROWS":
+            return {...state, filterForPacks:
+                    {...state.filterForPacks,
                     minCardsCount: action.minMaxValue[0],
                     maxCardsCount: action.minMaxValue[1]
-                }
-            }
-        }
-        case "pack/CHANGE-CURRENT-PAGE": {
-            return {...state, filterForPacks: {...state.filterForPacks, page: action.currentPage}}}
-        case "pack/SET-SEARCH-PACKS-NAME":{
+                }}
+        case "pack/CHANGE-CURRENT-PAGE":
+            return {...state, filterForPacks: {...state.filterForPacks, page: action.currentPage}}
+        case "pack/SET-SEARCH-PACKS-NAME":
             return {...state, filterForPacks: {
                     ...state.filterForPacks, packName: action.packName
-                }}}
-        case "pack/SHOW-MY-PACKS":{
+                }}
+        case "pack/SHOW-MY-PACKS":
             return {...state, filterForPacks: {
                     ...state.filterForPacks, user_id: action.user_id
-                }}
+                }
         }
-        case "pack/SORT-PACKS": {
+        case "pack/SORT-PACKS":
             return {...state, filterForPacks: {...state.filterForPacks, sortPacksUpdate: action.sort}}
-        }
         default:
             return state
     }
@@ -86,6 +73,7 @@ export const changeCurrentPageAC = (currentPage: number) => ({
     type: "pack/CHANGE-CURRENT-PAGE",
     currentPage: currentPage
 } as const);
+
 export const showPyPacksAC = (user_id: string | null) => ({type: "pack/SHOW-MY-PACKS", user_id} as const);
 
 export const sortPacksAc = (sort: sortPacksUpdateType) => ({

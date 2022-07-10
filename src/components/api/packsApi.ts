@@ -15,11 +15,13 @@ export const PacksApi = {
     getPack(value:FilterForPacksType) {
         return instance.get<AnswerGetPackType>(`cards/pack`, {
             params: {
-                min:value.minCardsCount,
-                max:value.maxCardsCount,
-                pageCount:value.pageCount,
-                page:value.page,
-                sortPacks:value.sortPacksUpdate
+                min: value.minCardsCount,
+                max: value.maxCardsCount,
+                pageCount: value.pageCount,
+                page: value.page,
+                sortPacks: value.sortPacksUpdate,
+                packName: value.packName,
+                user_id: value.user_id === null ? '' : value.user_id
             }
         })
     },
@@ -36,9 +38,7 @@ export const PacksApi = {
 export type AnswerGetPackType = {
     cardPacks: OnePackType[]
     cardPacksTotalCount: number
-   filterForPacks: FilterForPacksType
-
-
+    filterForPacks: FilterForPacksType
 
 };
 
@@ -63,10 +63,9 @@ export type FilterForPacksType = {
     maxCardsCount?: number
     pageCount?: number
     page?: number
-    sortPacksUpdate?:sortPacksUpdateType
+    sortPacksUpdate:sortPacksUpdateType
     packName?:string
     user_id?: string | null
-
     //поиск по имени
 }
 
