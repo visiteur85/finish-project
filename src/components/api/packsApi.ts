@@ -12,40 +12,38 @@ export const instance = axios.create({
 
 
 export const PacksApi = {
-    getPack(value:FilterForPacksType) {
+    getPack(value: FilterForPacksType) {
         return instance.get<AnswerGetPackType>(`cards/pack`, {
             params: {
-                min:value.minCardsCount,
-                max:value.maxCardsCount,
-                pageCount:value.pageCount,
-                page:value.page,
-                sortPacks:value.sortPacksUpdate
+                min: value.minCardsCount,
+                max: value.maxCardsCount,
+                pageCount: value.pageCount,
+                page: value.page,
+                sortPacks: value.sortPacksUpdate,
+                packName: value.packName,
+                user_id: value.user_id === null ? '' : value.user_id
             }
         })
     },
-    delPack(idPack:string) {
+    delPack(idPack: string) {
         return instance.delete(`/cards/pack?id=${idPack}`)
     }
-
 }
 
 //types
 
 
-
 export type AnswerGetPackType = {
     cardPacks: OnePackType[]
     cardPacksTotalCount: number
-   filterForPacks: FilterForPacksType
-
-
+    filterForPacks: FilterForPacksType
 
 };
 
 export type OnePackType = {
     _id: string
     user_id: string
-    user_name:string
+    user_name: string
     name: string
     path: string
     cardsCount: number
@@ -63,10 +61,9 @@ export type FilterForPacksType = {
     maxCardsCount?: number
     pageCount?: number
     page?: number
-    sortPacksUpdate:sortPacksUpdateType
-    packName?:string
+    sortPacksUpdate: sortPacksUpdateType
+    packName?: string
     user_id?: string | null
-
     //поиск по имени
 }
 
