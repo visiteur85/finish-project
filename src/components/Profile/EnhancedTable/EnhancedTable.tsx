@@ -1,12 +1,22 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../store/store";
-import {changeCountOfRawsAC, changeCurrentPageAC, deletePackTC, getPacksTC} from "../../../store/packsReducer";
+import {
+    changeCountOfRawsAC,
+    changeCurrentPageAC,
+    deletePackTC,
+    getPacksTC,
+    sortPacksAc
+} from "../../../store/packsReducer";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {Fab, Pagination, TablePagination} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import SortIcon from '@mui/icons-material/Sort';
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import {sortPacksUpdateType} from "../../api/packsApi";
 
+type filtersNamesType = "name" | "updated" | "cardsCount"
 
 export const EnhancedTable = () => {
 
@@ -14,43 +24,55 @@ export const EnhancedTable = () => {
 
     const currentPacksPage = useAppSelector(state => state.packs.filterForPacks.page) || 1;
     const packsAllPage = useAppSelector(state => state.packs.cardPacksTotalCount);
-    const amountOfRows = useAppSelector(state => state.packs.filterForPacks.pageCount) as number
+    const amountOfRows = useAppSelector(state => state.packs.filterForPacks.pageCount) || 4
+    const sortPacks = useAppSelector(state => state.packs.filterForPacks.sortPacksUpdate);
+
+    const [filter,setFilter] = useState<Record<filtersNamesType,boolean>>({
+        name: false,
+        updated:false,
+        cardsCount: false
+    })
 
 
     const dispatch = useAppDispatch();
 
-    useEffect(() => {
-
-        dispatch(getPacksTC())
-
-    }, [amountOfRows, currentPacksPage])
-
-    // if (!packs) {
-    //     return <div><span>LOADING....</span></div>
-    // }
     const handleChangeRowsPerPage = (e: any) => {
         let value = e.target.value
         dispatch(changeCountOfRawsAC(value))
+        dispatch(getPacksTC())
     }
 
     const handleChangePage = (e: any, value: number) => {
         let currentPage = value
         dispatch(changeCurrentPageAC(currentPage))
+        dispatch(getPacksTC())
     }
 
-    const delRowHandler = (id: string) => {
-        dispatch(deletePackTC(id))
+    const onSortTable = (filterStatus : boolean,filteresNames:filtersNamesType) => {
+        filterStatus ? dispatch(sortPacksAc(`0${filteresNames}`)) : dispatch(sortPacksAc(`1${filteresNames}`))
+        setFilter({...filter,[filteresNames]:!filterStatus})
+        dispatch(getPacksTC())
     }
+
+    // const delRowHandler = (id: string) => {
+    //     dispatch(deletePackTC(id))
+    // }
 
     return (
         <div style={{wordBreak: "break-all"}} className='container'>
+            <input type="text"/>
+            <Button variant="outlined">P</Button>
             <table className="table table-bordered">
                 <thead>
-                <th>Name</th>
+                <th>Name
+                    <SortIcon fontSize={"large"} onClick={() => onSortTable(filter.name,"name")}/>
+                </th>
                 <th>Cards
+                    <SortIcon fontSize={"large"} onClick={() => onSortTable(filter.cardsCount,"cardsCount")}/>
                 </th>
                 <th>Last Updated
-                    <SortIcon fontSize={"large"} onClick={() => alert("afd")}/></th>
+                    <SortIcon fontSize={"large"} onClick={() => onSortTable(filter.updated,"updated")}/>
+                </th>
                 <th>Created by</th>
                 <th>Actions</th>
                 </thead>
@@ -64,7 +86,9 @@ export const EnhancedTable = () => {
                         <td>
 
                             <IconButton aria-label="delete">
-                                <DeleteIcon onClick={() => delRowHandler(d.user_id)}/>
+                                <DeleteIcon
+                                    // onClick={() => delRowHandler(d.user_id)}
+                                />
                             </IconButton>
 
                         </td>

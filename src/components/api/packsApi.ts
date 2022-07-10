@@ -19,7 +19,8 @@ export const PacksApi = {
                 min:value.minCardsCount,
                 max:value.maxCardsCount,
                 pageCount:value.pageCount,
-                page:value.page
+                page:value.page,
+                sortPacks:value.sortPacksUpdate
             }
         })
     },
@@ -63,5 +64,8 @@ export type FilterForPacksType = {
     maxCardsCount?: number
     pageCount?: number
     page?: number
+    sortPacksUpdate:sortPacksUpdateType
 
 }
+
+export type sortPacksUpdateType = "0updated" | "1updated" | "0name" | "1name" | "0cardsCount" | "1cardsCount"

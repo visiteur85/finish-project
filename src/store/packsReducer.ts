@@ -2,7 +2,7 @@ import {AppThunk, RootState} from "./store";
 import {setAppStatusAC} from "./app-reducer";
 
 import {handleServerAppError} from "../utils/error-utils";
-import {AnswerGetPackType, OnePackType, PacksApi} from "../components/api/packsApi";
+import {AnswerGetPackType, OnePackType, PacksApi, sortPacksUpdateType} from "../components/api/packsApi";
 import {loginTC} from "./authReducer";
 
 
@@ -14,8 +14,10 @@ const initialState = {
         minCardsCount: 0,
         maxCardsCount: 100,
         pageCount: 4,
-        page:1
+        page: 1,
+        sortPacksUpdate: "0updated"
     }
+
 
 } as AnswerGetPackType
 //
@@ -33,7 +35,8 @@ export const packReducer = (state = initialState, action: PacksActionType): PAck
         }
         case "pack/SET-MIN-MAX-ROWS": {
 
-            return {...state,
+            return {
+                ...state,
                 filterForPacks: {
                     ...state.filterForPacks,
                     minCardsCount: action.minMaxValue[0],
@@ -43,6 +46,9 @@ export const packReducer = (state = initialState, action: PacksActionType): PAck
         }
         case "pack/CHANGE-CURRENT-PAGE": {
             return {...state, filterForPacks: {...state.filterForPacks, page: action.currentPage}}
+        }
+        case "pack/SORT-PACKS": {
+            return {...state, filterForPacks: {...state.filterForPacks, sortPacksUpdate: action.sort}}
         }
         default:
             return state
@@ -69,9 +75,18 @@ export const changeCurrentPageAC = (currentPage: number) => ({
     currentPage: currentPage
 } as const);
 
+export const sortPacksAc = (sort: sortPacksUpdateType) => ({
+    type: "pack/SORT-PACKS",
+    sort: sort
+} as const);
+
+
 //types for AC
 export type PacksActionType = ReturnType<typeof getPacksDataAC>
-    | ReturnType<typeof changeCountOfRawsAC> | ReturnType<typeof setMinMaxAmountOfCardsAC> | ReturnType<typeof changeCurrentPageAC>
+    | ReturnType<typeof changeCountOfRawsAC> | ReturnType<typeof setMinMaxAmountOfCardsAC> |
+    ReturnType<typeof changeCurrentPageAC> |
+    ReturnType<typeof sortPacksAc>
+
 
 
 //thunks
@@ -87,7 +102,7 @@ export const getPacksTC = (): AppThunk => (dispatch, getState) => {
         })
 };
 
-export const deletePackTC = (idPack: string ): AppThunk => (dispatch) => {
+export const deletePackTC = (idPack: string): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     PacksApi.delPack(idPack)
         .then(() => {
@@ -95,6 +110,6 @@ export const deletePackTC = (idPack: string ): AppThunk => (dispatch) => {
             dispatch(setAppStatusAC('succeeded'))
         })
         .catch(e => {
-            handleServerAppError(e,dispatch)
+            handleServerAppError(e, dispatch)
         })
 }
