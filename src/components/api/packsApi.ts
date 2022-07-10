@@ -12,7 +12,6 @@ export const instance = axios.create({
 
 
 export const PacksApi = {
-
     getPack(value:FilterForPacksType) {
         return instance.get<AnswerGetPackType>(`cards/pack`, {
             params: {
@@ -65,7 +64,10 @@ export type FilterForPacksType = {
     pageCount?: number
     page?: number
     sortPacksUpdate:sortPacksUpdateType
+    packName?:string
+    user_id?: string | null
 
+    //поиск по имени
 }
 
 export type sortPacksUpdateType = "0updated" | "1updated" | "0name" | "1name" | "0cardsCount" | "1cardsCount"

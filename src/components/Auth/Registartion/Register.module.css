@@ -1,10 +1,7 @@
 .container {
-
-
     height: 720px;
     background: linear-gradient(180deg, #E6D4DE 0%, #9890C7 100%);
     padding-top: 60px;
-
 }
 .group {
 
@@ -26,14 +23,10 @@
 
 }
 .eay {
-
     width: 24px;
     height: 24px;
-
 }
 .share {
-
-
     background: #2D2E46;
 }
 .path {

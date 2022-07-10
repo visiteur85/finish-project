@@ -15,9 +15,11 @@ const initialState = {
         maxCardsCount: 100,
         pageCount: 4,
         page: 1,
-        sortPacksUpdate: "0updated"
-    }
+        sortPacksUpdate: "0updated",
 
+        packName: ''  as string,
+        user_id:'' as string,
+    }
 
 } as AnswerGetPackType
 //
@@ -46,6 +48,14 @@ export const packReducer = (state = initialState, action: PacksActionType): PAck
         }
         case "pack/CHANGE-CURRENT-PAGE": {
             return {...state, filterForPacks: {...state.filterForPacks, page: action.currentPage}}
+        case "pack/SET-SEARCH-PACKS-NAME":
+            return {...state, filterForPacks: {
+                    ...state.filterForPacks, packName: action.packName
+                }}
+        case "pack/SHOW-MY-PACKS":
+            return {...state, filterForPacks: {
+                    ...state.filterForPacks, user_id: action.user_id
+                }}
         }
         case "pack/SORT-PACKS": {
             return {...state, filterForPacks: {...state.filterForPacks, sortPacksUpdate: action.sort}}
@@ -55,6 +65,8 @@ export const packReducer = (state = initialState, action: PacksActionType): PAck
     }
 };
 //AC
+export const setSearchNamePacksAC = (packName: string) => ({type: "pack/SET-SEARCH-PACKS-NAME", packName} as const)
+
 export const getPacksDataAC = (packs: AnswerGetPackType) => ({
     type: "pack/GET-PACKS",
     packs: packs
@@ -74,6 +86,7 @@ export const changeCurrentPageAC = (currentPage: number) => ({
     type: "pack/CHANGE-CURRENT-PAGE",
     currentPage: currentPage
 } as const);
+export const showPyPacksAC = (user_id: string | null) => ({type: "pack/SHOW-MY-PACKS", user_id} as const);
 
 export const sortPacksAc = (sort: sortPacksUpdateType) => ({
     type: "pack/SORT-PACKS",
@@ -83,6 +96,8 @@ export const sortPacksAc = (sort: sortPacksUpdateType) => ({
 
 //types for AC
 export type PacksActionType = ReturnType<typeof getPacksDataAC>
+    | ReturnType<typeof changeCountOfRawsAC> | ReturnType<typeof setMinMaxAmountOfCardsAC>
+    | ReturnType<typeof changeCurrentPageAC> | ReturnType<typeof setSearchNamePacksAC>| ReturnType<typeof showPyPacksAC>
     | ReturnType<typeof changeCountOfRawsAC> | ReturnType<typeof setMinMaxAmountOfCardsAC> |
     ReturnType<typeof changeCurrentPageAC> |
     ReturnType<typeof sortPacksAc>
@@ -100,9 +115,13 @@ export const getPacksTC = (): AppThunk => (dispatch, getState) => {
             dispatch(getPacksDataAC(res.data))
             dispatch(setAppStatusAC('succeeded'))
         })
+        .catch(e => {
+            handleServerAppError(e,dispatch)
+        })
 };
 
 export const deletePackTC = (idPack: string): AppThunk => (dispatch) => {
+export const deletePackTC = (idPack: string | null): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     PacksApi.delPack(idPack)
         .then(() => {
@@ -110,6 +129,6 @@ export const deletePackTC = (idPack: string): AppThunk => (dispatch) => {
             dispatch(setAppStatusAC('succeeded'))
         })
         .catch(e => {
-            handleServerAppError(e, dispatch)
+            handleServerAppError(e,dispatch)
         })
 }

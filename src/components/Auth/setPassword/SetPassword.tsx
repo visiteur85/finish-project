@@ -4,9 +4,7 @@ import FormGroup from '@mui/material/FormGroup';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
-import {registerTC,} from "../../store/authReducer";
-import {useAppDispatch, useAppSelector} from "../../store/store";
-import reg from "./../Registartion/Register.module.css";
+import reg from "./../Registartion/Register.module.css"
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Visibility from "@mui/icons-material/Visibility";
 import IconButton from '@mui/material/IconButton';
@@ -14,10 +12,12 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormLabel from '@mui/material/FormLabel';
-import {Navigate, NavLink, useParams} from 'react-router-dom';
-import styleContainer from "../../style/Container.module.css"
+import {Navigate, useNavigate, useParams} from 'react-router-dom';
+import styleContainer from "../../../style/Container.module.css"
 import {FormikErrorType} from '../Registartion/Registration';
-import { sendNewPasswordTC } from '../../store/forgotPasReducer';
+import {useAppDispatch, useAppSelector} from "../../../store/store";
+import {sendNewPasswordTC} from "../../../store/forgotPasReducer";
+import {handleServerAppError} from "../../../utils/error-utils";
 
 export const SetPassword = () => {
     const [disable, setDisable] = useState<boolean>(false)
@@ -25,6 +25,8 @@ export const SetPassword = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const dispatch = useAppDispatch()
     const {token} = useParams<string>()
+    const navigate = useNavigate()
+
     const formik = useFormik({
         initialValues: {
             password: '',
@@ -42,10 +44,17 @@ export const SetPassword = () => {
             }
             return errors;
         },
-        onSubmit: values => {
-            dispatch(sendNewPasswordTC(values))
-            setDisable(true)
-            formik.resetForm()
+        onSubmit:  async (values) => {
+            try{
+                await dispatch(sendNewPasswordTC(values))
+                navigate('/login')
+                setDisable(true)
+                formik.resetForm()
+            }
+            catch (e:any) {
+             handleServerAppError(e,dispatch)
+                setDisable(false)
+            }
         },
     })
     const [values, setValues] = React.useState({
@@ -66,9 +75,9 @@ export const SetPassword = () => {
     if (isRegistration) {
         return <Navigate to={'/login'}/>
     }
-    if (isLoggedIn) {
-        return <Navigate to={'/profile'}/>
-    }
+    // if (isLoggedIn) {
+    //     return <Navigate to={'/profile'}/>
+    // }
     return (
         <div className={styleContainer.container}>
             <div className={reg.container}>

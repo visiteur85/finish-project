@@ -49,6 +49,19 @@ export const sendNewPasswordTC = (data: NewPasswordType): AppThunk => (dispatch)
             handleServerAppError(e,dispatch)
         })
 }
-
+// export const sendNewPasswordTC = (password?: string): AppThunk => (dispatch,getState) => {
+//     dispatch(setAppStatusAC('loading'))
+//
+//     const token = getState().forgotPas.token;
+//
+//     passwordRecoveryAPI.sendNewPassword(token,password)
+//         .then(res => {
+//             dispatch(setAppStatusAC('succeeded'))
+//             dispatch(setNewPasswordAC(res.data.info))
+//         })
+//         .catch(e => {
+//             handleServerAppError(e,dispatch)
+//         })
+// }
 
 export type ForgotPasswordActionsType = ReturnType<typeof setSuccessAC> |  ReturnType<typeof setNewPasswordAC>

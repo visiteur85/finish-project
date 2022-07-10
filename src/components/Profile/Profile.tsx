@@ -7,21 +7,22 @@ import {Slider} from "@mui/material";
 import {changeNameTC} from "../../store/profileReducer";
 import editPictureForInput from "../../style/images/pngwing.com.png"
 import {EnhancedTable} from "./EnhancedTable/EnhancedTable";
-import {getPacksTC, setMinMaxAmountOfCardsAC} from "../../store/packsReducer";
+import {getPacksTC, setMinMaxAmountOfCardsAC, showPyPacksAC} from "../../store/packsReducer";
 import {OnePackType} from "../api/packsApi";
+import {setIdProfileAC} from "../../store/authReducer";
 
-const useDebounce = (value1: number = 0,value2:number = 0, delay: number): number[] => {
-    let [state, setState] = useState<number[]>([value1,value2])
+const useDebounce = (value1: number = 0, value2: number = 0, delay: number): number[] => {
+    let [state, setState] = useState<number[]>([value1, value2])
 
     useEffect(() => {
         const timeId = setTimeout(() => {
-            setState([value1,value2])
+            setState([value1, value2])
         }, delay)
 
         return () => {
             clearTimeout(timeId)
         }
-    }, [value1,value2])
+    }, [value1, value2])
 
     return state
 }
@@ -44,15 +45,17 @@ export const Profile = () => {
     const maxAmount = useAppSelector(state => state.packs.filterForPacks.maxCardsCount);
 
     const minMAxAmount = [minAmount || 0, maxAmount || 100]
+    const user_id = useAppSelector(state => state.profile.profile._id)
+
 
     const editPicture = {
         backgroundImage: `url(${editPictureForInput})`,
-
     }
 
     const editModeHandler = () => {
         setEditMode(true)
     }
+
     const onBlurHandler = () => {
         if (name.trim() !== "") {
             dispatch(changeNameTC(name))
@@ -69,27 +72,37 @@ export const Profile = () => {
         SetNewName(newValue)
     }
 
-    let debouncedValue = useDebounce(minAmount,maxAmount, 1000);
-    console.log(debouncedValue)
+    let debouncedValue = useDebounce(minAmount, maxAmount, 1000);
+    // console.log(debouncedValue)
     const handleChange = (event: Event, newValue: number | number[]) => {
         dispatch(setMinMaxAmountOfCardsAC(newValue as number[]));
     };
 
-    useEffect(() => {
-        if (debouncedValue) {
-            dispatch(getPacksTC())
-        }
-    }, [debouncedValue])
+    // useEffect(() => {
+    //     if (debouncedValue) {
+    //         dispatch(getPacksTC())
+    //     }
+    // }, [debouncedValue,dispatch])
 
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
+    }
+
+    const onKeyPressHandler = (e: any) => e.key === 'Enter' && onBlurHandler();
+
+    const onClickForMypacksHandler = ()  => {
+        dispatch(showPyPacksAC(user_id))
+        dispatch(getPacksTC())
+    }
+    const onClickForAllHandler = ()  => {
+        dispatch(showPyPacksAC(null))
+        dispatch(getPacksTC())
     }
 
 
     return (
 
         <div className={styleContainer.container}>
-
             {/*<div className={style.profileHeader}>*/}
             {/*    <div className={style.headerProfileHeader}>It-incubator</div>*/}
             {/*    <div className={style.buttonsForNavigate}>*/}
@@ -98,18 +111,14 @@ export const Profile = () => {
             {/*            <img src={packsListAvatar} alt="packsListAvatar"/>*/}
             {/*            </div>*/}
             {/*            <p>Packs list</p>*/}
-
             {/*        </div>*/}
             {/*        <div className={style.ProfileList}>*/}
             {/*            <div>*/}
             {/*            <img src={profileAvatar} alt="profileAvatar"/>*/}
             {/*            </div>*/}
             {/*            <p> Profile</p>*/}
-
             {/*        </div>*/}
             {/*    </div>*/}
-
-
             {/*</div>*/}
             <div className={style.mainProfile}>
                 <div className={style.profileWithTable}>
@@ -126,13 +135,13 @@ export const Profile = () => {
                                            onChange={onChangeHandler} value={name}
                                            onBlur={onBlurHandler} autoFocus
                                            maxLength={20}
+                                           onKeyPress={onKeyPressHandler}
                                     />
                                     :
                                     <p data-tooltip={"Изменить имя"} className={style.nameOfProfile}>{profile.name}
                                         <button onClick={editModeHandler}
                                                 style={editPicture}></button>
                                     </p>
-
                                 }
                             </div>
                             {error && <div className={style.error}>{error}</div>}
@@ -153,9 +162,9 @@ export const Profile = () => {
                         </div>
                     </div>
                     <div className={style.table}>
-
                         <EnhancedTable/>
-
+                        <button onClick={onClickForMypacksHandler}>show</button>
+                        <button onClick={onClickForAllHandler}>back</button>
                     </div>
                 </div>
             </div>

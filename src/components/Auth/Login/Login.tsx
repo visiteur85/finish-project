@@ -7,8 +7,6 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
-import {loginTC} from "../../store/authReducer";
-import {useAppDispatch, useAppSelector} from "../../store/store";
 import log from './Login.module.css'
 import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -18,7 +16,9 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {Navigate, NavLink} from "react-router-dom";
 import {FormikErrorType} from "../Registartion/Registration";
-import styleContainer from "../../style/Container.module.css"
+import styleContainer from "../../../style/Container.module.css"
+import {useAppDispatch, useAppSelector} from "../../../store/store";
+import {loginTC} from "../../../store/authReducer";
 
 export const Login = () => {
     const dispatch = useAppDispatch()
@@ -125,6 +125,10 @@ export const Login = () => {
                         <FormLabel>
                             <p>don't have an an account?</p>
                             <NavLink to={'/registration'}>SIGN UP</NavLink>
+                            <div>
+                                <NavLink to={'/forgotPass'}>Forgot your password?</NavLink>
+
+                            </div>
                         </FormLabel>
                     </FormControl>
                 </div>

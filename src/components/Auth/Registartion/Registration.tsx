@@ -4,8 +4,6 @@ import FormGroup from '@mui/material/FormGroup';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
-import {registerTC,} from "../../store/authReducer";
-import {useAppDispatch, useAppSelector} from "../../store/store";
 import reg from "./Register.module.css";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Visibility from "@mui/icons-material/Visibility";
@@ -15,7 +13,9 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormLabel from '@mui/material/FormLabel';
 import {Navigate, NavLink} from 'react-router-dom';
-import styleContainer from "../../style/Container.module.css"
+import styleContainer from "../../../style/Container.module.css"
+import {useAppDispatch, useAppSelector} from "../../../store/store";
+import {registerTC} from "../../../store/authReducer";
 
 
 export type  FormikErrorType = {

@@ -1,8 +1,9 @@
 import React from 'react';
-import styleContainer from "../../../style/Container.module.css"
 import s from "./CheckEmail.module.css"
-import checkEmailAvatar from "../../../style/images/Web app/Group 281.png"
-import {useAppSelector} from "../../../store/store";
+import styleContainer from "../../../../style/Container.module.css"
+import checkEmailAvatar from "../../../../style/images/Web app/Group 281.png"
+import {NavLink} from "react-router-dom";
+import {useAppSelector} from "../../../../store/store";
 
 export const CheckEmail = () => {
 
@@ -14,7 +15,7 @@ export const CheckEmail = () => {
                 <img src={checkEmailAvatar} alt=""/>
                 <p className={s.textCheckEmail}>Check Email</p>
                 <p className={s.exampleMail}>We’ve sent an Email with instructions to {email}</p>
-
+                <NavLink to={'/setPass'}>Enter data</NavLink>
             </div>
         </div>
     );
