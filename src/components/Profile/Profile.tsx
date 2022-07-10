@@ -10,6 +10,8 @@ import {EnhancedTable} from "./EnhancedTable/EnhancedTable";
 import {getPacksTC, setMinMaxAmountOfCardsAC, showPyPacksAC} from "../../store/packsReducer";
 import {OnePackType} from "../api/packsApi";
 import {setIdProfileAC} from "../../store/authReducer";
+import packsListAvatar from "../../style/images/Union (Stroke).png"
+import profileAvatar from "../../style/images/Group 608.png"
 
 const useDebounce = (value1: number = 0, value2: number = 0, delay: number): number[] => {
     let [state, setState] = useState<number[]>([value1, value2])
@@ -103,23 +105,23 @@ export const Profile = () => {
     return (
 
         <div className={styleContainer.container}>
-            {/*<div className={style.profileHeader}>*/}
-            {/*    <div className={style.headerProfileHeader}>It-incubator</div>*/}
-            {/*    <div className={style.buttonsForNavigate}>*/}
-            {/*        <div className={style.PacksList}>*/}
-            {/*            <div>*/}
-            {/*            <img src={packsListAvatar} alt="packsListAvatar"/>*/}
-            {/*            </div>*/}
-            {/*            <p>Packs list</p>*/}
-            {/*        </div>*/}
-            {/*        <div className={style.ProfileList}>*/}
-            {/*            <div>*/}
-            {/*            <img src={profileAvatar} alt="profileAvatar"/>*/}
-            {/*            </div>*/}
-            {/*            <p> Profile</p>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
+            <div className={style.profileHeader}>
+                <div className={style.headerProfileHeader}>It-incubator</div>
+                <div className={style.buttonsForNavigate}>
+                    <div className={style.PacksList}>
+                        <div>
+                        <img src={packsListAvatar} alt="packsListAvatar"/>
+                        </div>
+                        <p>Packs list</p>
+                    </div>
+                    <div className={style.ProfileList}>
+                        <div>
+                        <img src={profileAvatar} alt="profileAvatar"/>
+                        </div>
+                        <p> Profile</p>
+                    </div>
+                </div>
+            </div>
             <div className={style.mainProfile}>
                 <div className={style.profileWithTable}>
                     <div className={style.profile}>

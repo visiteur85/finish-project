@@ -43,6 +43,7 @@
 .table {
     background-color: white;
     width: 100%;
+    padding-top: 10px;
 
 }
 
@@ -165,4 +166,10 @@ background-color: cadetblue;
     opacity: 1;
     top: 2.5em;
 }
+.profileHeader {
+    display: flex;
+}
 
+.buttonsForNavigate {
+    display: flex;
+}

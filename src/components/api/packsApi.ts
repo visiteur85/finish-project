@@ -63,7 +63,7 @@ export type FilterForPacksType = {
     maxCardsCount?: number
     pageCount?: number
     page?: number
-    sortPacksUpdate:sortPacksUpdateType
+    sortPacksUpdate?:sortPacksUpdateType
     packName?:string
     user_id?: string | null
 
