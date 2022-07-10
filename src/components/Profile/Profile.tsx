@@ -78,11 +78,11 @@ export const Profile = () => {
         dispatch(setMinMaxAmountOfCardsAC(newValue as number[]));
     };
 
-    // useEffect(() => {
-    //     if (debouncedValue) {
-    //         dispatch(getPacksTC())
-    //     }
-    // }, [debouncedValue,dispatch])
+    useEffect(() => {
+        if (debouncedValue) {
+            dispatch(getPacksTC())
+        }
+    }, [debouncedValue,dispatch])
 
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>

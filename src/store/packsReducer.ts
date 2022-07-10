@@ -47,12 +47,12 @@ export const packReducer = (state = initialState, action: PacksActionType): PAck
             }
         }
         case "pack/CHANGE-CURRENT-PAGE": {
-            return {...state, filterForPacks: {...state.filterForPacks, page: action.currentPage}}
-        case "pack/SET-SEARCH-PACKS-NAME":
+            return {...state, filterForPacks: {...state.filterForPacks, page: action.currentPage}}}
+        case "pack/SET-SEARCH-PACKS-NAME":{
             return {...state, filterForPacks: {
                     ...state.filterForPacks, packName: action.packName
-                }}
-        case "pack/SHOW-MY-PACKS":
+                }}}
+        case "pack/SHOW-MY-PACKS":{
             return {...state, filterForPacks: {
                     ...state.filterForPacks, user_id: action.user_id
                 }}
@@ -120,15 +120,15 @@ export const getPacksTC = (): AppThunk => (dispatch, getState) => {
         })
 };
 
-export const deletePackTC = (idPack: string): AppThunk => (dispatch) => {
-export const deletePackTC = (idPack: string | null): AppThunk => (dispatch) => {
-    dispatch(setAppStatusAC('loading'))
-    PacksApi.delPack(idPack)
-        .then(() => {
-            dispatch(getPacksTC())
-            dispatch(setAppStatusAC('succeeded'))
-        })
-        .catch(e => {
-            handleServerAppError(e,dispatch)
-        })
-}
+//
+// export const deletePackTC = (idPack: string | null): AppThunk => (dispatch) => {
+//     dispatch(setAppStatusAC('loading'))
+//     PacksApi.delPack(idPack)
+//         .then(() => {
+//             dispatch(getPacksTC())
+//             dispatch(setAppStatusAC('succeeded'))
+//         })
+//         .catch(e => {
+//             handleServerAppError(e,dispatch)
+//         })
+// }

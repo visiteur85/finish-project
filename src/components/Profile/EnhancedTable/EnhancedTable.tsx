@@ -3,37 +3,35 @@ import {useAppDispatch, useAppSelector} from "../../../store/store";
 import {
     changeCountOfRawsAC,
     changeCurrentPageAC,
-    deletePackTC,
     getPacksTC,
     sortPacksAc
 } from "../../../store/packsReducer";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from '@mui/icons-material/Delete';
-import {Fab, Pagination, TablePagination} from "@mui/material";
+import {TablePagination} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import {Search} from "../Search/Search";
 import {NavLink} from "react-router-dom";
 import {PATH} from "../../../App";
 import SortIcon from '@mui/icons-material/Sort';
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import {sortPacksUpdateType} from "../../api/packsApi";
+
 
 type filtersNamesType = "name" | "updated" | "cardsCount"
 
 export const EnhancedTable = () => {
     const [searchName, setSearchName] = useState<string>('')
     const packs = useAppSelector(state => state.packs.cardPacks);
-    const currentPacksPage = useAppSelector(state => state.packs.filterForPacks.page) || 1 ;
+
 
     const currentPacksPage = useAppSelector(state => state.packs.filterForPacks.page) || 1;
     const packsAllPage = useAppSelector(state => state.packs.cardPacksTotalCount);
     const amountOfRows = useAppSelector(state => state.packs.filterForPacks.pageCount) || 4
-    const sortPacks = useAppSelector(state => state.packs.filterForPacks.sortPacksUpdate);
 
-    const [filter,setFilter] = useState<Record<filtersNamesType,boolean>>({
+
+    const [filter, setFilter] = useState<Record<filtersNamesType, boolean>>({
         name: false,
-        updated:false,
+        updated: false,
         cardsCount: false
     })
 
@@ -52,9 +50,9 @@ export const EnhancedTable = () => {
         dispatch(getPacksTC())
     }
 
-    const onSortTable = (filterStatus : boolean,filteresNames:filtersNamesType) => {
+    const onSortTable = (filterStatus: boolean, filteresNames: filtersNamesType) => {
         filterStatus ? dispatch(sortPacksAc(`0${filteresNames}`)) : dispatch(sortPacksAc(`1${filteresNames}`))
-        setFilter({...filter,[filteresNames]:!filterStatus})
+        setFilter({...filter, [filteresNames]: !filterStatus})
         dispatch(getPacksTC())
     }
 
@@ -63,62 +61,59 @@ export const EnhancedTable = () => {
     // }
 
     return (
-        <div style={{wordBreak:"break-all"}} className='container'>
-            <Search searchName={searchName} setSearchName={setSearchName}/>
-
-            <table  className="table table-bordered">
         <div style={{wordBreak: "break-all"}} className='container'>
-            <input type="text"/>
-            <Button variant="outlined">P</Button>
-            <table className="table table-bordered">
-                <thead>
-                <th>Name
-                    <SortIcon fontSize={"large"} onClick={() => onSortTable(filter.name,"name")}/>
-                </th>
-                <th>Cards
-                    <SortIcon fontSize={"large"} onClick={() => onSortTable(filter.cardsCount,"cardsCount")}/>
-                </th>
-                <th>Last Updated
-                    <SortIcon fontSize={"large"} onClick={() => onSortTable(filter.updated,"updated")}/>
-                </th>
-                <th>Created by</th>
-                <th>Actions</th>
-                </thead>
-                <tbody>
-                {packs.map((d) => (
-                    <tr key={d._id}>
-                        <NavLink to={PATH.CARDS + `/${d._id}`}>
-                            <td>{d.name}</td>
-                        </NavLink>
-                        <td>{d.cardsCount}</td>
-                        <td>{d.updated}</td>
-                        <td>{d.user_name}</td>
-                        <td>
+            <Search searchName={searchName} setSearchName={setSearchName}/>
+                    <input type="text"/>
+                    <Button variant="outlined">P</Button>
+                    <table className="table table-bordered">
+                        <thead>
+                        <th>Name
+                            <SortIcon fontSize={"large"} onClick={() => onSortTable(filter.name, "name")}/>
+                        </th>
+                        <th>Cards
+                            <SortIcon fontSize={"large"} onClick={() => onSortTable(filter.cardsCount, "cardsCount")}/>
+                        </th>
+                        <th>Last Updated
+                            <SortIcon fontSize={"large"} onClick={() => onSortTable(filter.updated, "updated")}/>
+                        </th>
+                        <th>Created by</th>
+                        <th>Actions</th>
+                        </thead>
+                        <tbody>
+                        {packs.map((d) => (
+                            <tr key={d._id}>
+                                <NavLink to={PATH.CARDS + `/${d._id}`}>
+                                    <td>{d.name}</td>
+                                </NavLink>
+                                <td>{d.cardsCount}</td>
+                                <td>{d.updated}</td>
+                                <td>{d.user_name}</td>
+                                <td>
 
-                            <IconButton aria-label="delete">
-                                <DeleteIcon
-                                    // onClick={() => delRowHandler(d.user_id)}
-                                />
-                            </IconButton>
+                                    <IconButton aria-label="delete">
+                                        <DeleteIcon
+                                            // onClick={() => delRowHandler(d.user_id)}
+                                        />
+                                    </IconButton>
 
-                        </td>
+                                </td>
 
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-            <TablePagination
-                component="div"
-                count={packsAllPage}
-                page={currentPacksPage}
-                onPageChange={handleChangePage}
-                rowsPerPage={amountOfRows}
-                onRowsPerPageChange={handleChangeRowsPerPage}
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                    <TablePagination
+                        component="div"
+                        count={packsAllPage}
+                        page={currentPacksPage}
+                        onPageChange={handleChangePage}
+                        rowsPerPage={amountOfRows}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
 
-            />
-        </div>
-    );
-};
+                    />
+                </div>
+                );}
+
 
 
 
