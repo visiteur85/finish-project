@@ -6,26 +6,28 @@ import {useAppDispatch, useAppSelector} from '../../store/store';
 import {useNavigate, useParams} from "react-router-dom";
 import {addNewCardsTC, getCardsTC} from '../../store/cardsReducer';
 import {PATH} from "../../App";
+import {showPyPacksAC} from "../../store/packsReducer";
 
 export const Cards = React.memo(() => {
     const {id} = useParams<{ id: string }>()
     useEffect(() => {
-        if (id) dispatch(getCardsTC(id));
-        },
-        [id])
+        if (id) dispatch(getCardsTC(id));}, [id])
 
     const cards = useAppSelector(state => state.card.cards);
     const packUserId = useAppSelector(state => state.card.packUserId);
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+    const user_id = useAppSelector(state => state.profile.profile._id)
 
 
     const redirect = () => navigate(PATH.CARDS + `/${packUserId}`)
 
     const addHandler = () => {
+        dispatch(showPyPacksAC(user_id))
         dispatch(addNewCardsTC(packUserId))
-        redirect()
+        // redirect()
     }
+
     if (!cards) {
         return <div
             style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
@@ -61,9 +63,6 @@ export const Cards = React.memo(() => {
                 ))}
                 </tbody>
             </table>
-            {/*<div>{cardPacks.map(m => {*/}
-            {/*    return (<div key={m._id}>{m.name}</div>)*/}
-            {/*})}</div>*/}
         </div>
     )
 });
