@@ -122,3 +122,23 @@ export const getPacksTC = (): AppThunk => (dispatch, getState) => {
 //             handleServerAppError(e,dispatch)
 //         })
 // }
+
+export const addNewPackTS = (newName:string): AppThunk => (dispatch, getState) => {
+    dispatch(setAppStatusAC('loading'))
+  let model  = getState().packs.filterForPacks
+    PacksApi.addNewPack(newName).then((res) => {
+        if(res.status === 201){
+            PacksApi.getPack(model)
+                .then((res) => {
+                    dispatch(getPacksDataAC(res.data))
+                    dispatch(setAppStatusAC('succeeded'))
+                })
+
+                .catch(e => {
+                    handleServerAppError(e,dispatch)
+                })
+        }
+
+    })
+
+};
