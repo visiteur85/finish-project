@@ -2,7 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
-import {FC, ReactNode} from "react";
+import {FC, ReactNode, useState} from "react";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -24,6 +24,8 @@ export const BasicModal: FC<PropsType> = ({children}) => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+
 
     return (
         <div>

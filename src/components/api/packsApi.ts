@@ -24,7 +24,7 @@ export const PacksApi = {
         })
     },
     addNewPack(newName:string) {
-        const cardPack = {name:"test"}
+        const cardPack = {name:newName}
         return instance.post(`cards/pack`, {cardsPack:cardPack})}
     ,
     delPack(idPack:string) {

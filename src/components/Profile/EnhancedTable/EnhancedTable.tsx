@@ -29,7 +29,14 @@ export const EnhancedTable = () => {
 
     const currentPacksPage = useAppSelector(state => state.packs.filterForPacks.page) || 1;
     const packsAllPage = useAppSelector(state => state.packs.cardPacksTotalCount);
-    const amountOfRows = useAppSelector(state => state.packs.filterForPacks.pageCount) || 4
+    const amountOfRows = useAppSelector(state => state.packs.filterForPacks.pageCount) || 4;
+
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+
+
 
 //type filtersNamesType = "name" | "updated" | "cardsCount"
     const [filter, setFilter] = useState<Record<filtersNamesType, boolean>>({
@@ -41,9 +48,7 @@ export const EnhancedTable = () => {
     const dispatch = useAppDispatch();
 
     const addNewPack = (newName:string) => {
-
     dispatch(addNewPackTS(newName))
-
     }
 
     const handleChangeRowsPerPage = (e: any) => {
@@ -72,7 +77,8 @@ export const EnhancedTable = () => {
         <div style={{wordBreak: "break-all"}} className='container'>
             <div className={style.headerForTableWithModale}>
             <Search searchName={searchName} setSearchName={setSearchName}/>
-            <ModalAddPack addNewPack={addNewPack}/>
+                <ModalAddPack addNewPack={addNewPack}/>
+
         </div>
 
                     <table className="table table-bordered">

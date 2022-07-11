@@ -84,7 +84,7 @@ export const Profile = () => {
         if (debouncedValue) {
             dispatch(getPacksTC())
         }
-    }, [debouncedValue,dispatch])
+    }, [debouncedValue, dispatch])
 
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
@@ -92,11 +92,11 @@ export const Profile = () => {
 
     const onKeyPressHandler = (e: any) => e.key === 'Enter' && onBlurHandler();
 
-    const onClickForMypacksHandler = ()  => {
+    const onClickForMypacksHandler = () => {
         dispatch(showPyPacksAC(user_id))
         dispatch(getPacksTC())
     }
-    const onClickForAllHandler = ()  => {
+    const onClickForAllHandler = () => {
         dispatch(showPyPacksAC(null))
         dispatch(getPacksTC())
     }
@@ -110,13 +110,13 @@ export const Profile = () => {
                 <div className={style.buttonsForNavigate}>
                     <div className={style.PacksList}>
                         <div>
-                        <img src={packsListAvatar} alt="packsListAvatar"/>
+                            <img src={packsListAvatar} alt="packsListAvatar"/>
                         </div>
                         <p>Packs list</p>
                     </div>
                     <div className={style.ProfileList}>
                         <div>
-                        <img src={profileAvatar} alt="profileAvatar"/>
+                            <img src={profileAvatar} alt="profileAvatar"/>
                         </div>
                         <p> Profile</p>
                     </div>

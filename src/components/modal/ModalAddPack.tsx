@@ -4,6 +4,7 @@ import {BasicModal} from "./BasicModal";
 import TextField from "@mui/material/TextField";
 import {ButtonGroup} from "@mui/material";
 import {useState} from "react";
+import style from "../Profile/Profile.module.css";
 
 
 type ModalAddPackPropsType = {
@@ -15,15 +16,23 @@ export const ModalAddPack: React.FC<ModalAddPackPropsType> = props => {
         addNewPack
     } = props;
 
-    let [newName, SetNewName] = useState("")
+    let [newName, SetNewName] = useState("");
+    const [error, SetError] = useState<null | string>(null);
 //
 
     const addNewPackHandler = () => {
-        addNewPack(newName)
-        SetNewName("")
+        if (newName.trim() !== "") {
+            addNewPack(newName)
+            SetNewName("")
+        } else {
+            SetError("Введите текст")
+        }
+
     }
+    const onKeyPressHandler = (e: any) => e.key === 'Enter' && addNewPackHandler();
 
     const onChangeHandler = (e: any) => {
+        SetError(null)
         SetNewName(e.currentTarget.value)
     }
 
@@ -42,7 +51,9 @@ export const ModalAddPack: React.FC<ModalAddPackPropsType> = props => {
                 variant="standard"
                 value={newName}
                 onChange={onChangeHandler}
+                onKeyPress={onKeyPressHandler}
             />
+            {error && <div className={style.error}>{error}</div>}
             <ButtonGroup variant="contained" aria-label="outlined primary button group">
                 <Button style={{width: "124px"}}>Cancel</Button>
                 <Button onClick={addNewPackHandler} style={{width: "124px"}}>Send</Button>
