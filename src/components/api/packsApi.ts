@@ -23,6 +23,10 @@ export const PacksApi = {
             }
         })
     },
+    addNewPack(newName:string) {
+        const cardPack = {name:"test"}
+        return instance.post(`cards/pack`, {cardsPack:cardPack})}
+    ,
     delPack(idPack:string) {
         return instance.delete(`/cards/pack?id=${idPack}`)
     }

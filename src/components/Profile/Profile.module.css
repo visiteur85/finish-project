@@ -173,3 +173,7 @@ background-color: cadetblue;
 .buttonsForNavigate {
     display: flex;
 }
+
+.PacksList, .ProfileList {
+    display: flex;
+}

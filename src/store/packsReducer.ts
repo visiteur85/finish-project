@@ -60,6 +60,12 @@ export const packReducer = (state = initialState, action: PacksActionType): PAck
         case "pack/SORT-PACKS": {
             return {...state, filterForPacks: {...state.filterForPacks, sortPacksUpdate: action.sort}}
         }
+
+        // case "pack/ADD-NEW-PACK": {
+        //     return {...state, cardPacks: state.cardPacks.map(m=> )}
+        // }
+
+
         default:
             return state
     }
@@ -93,6 +99,11 @@ export const sortPacksAc = (sort: sortPacksUpdateType) => ({
     sort: sort
 } as const);
 
+// export const addNewPack = (newName:string) => ({
+//     type: "pack/ADD-NEW-PACK",
+//     newName: newName
+// } as const);
+
 
 //types for AC
 export type PacksActionType = ReturnType<typeof getPacksDataAC>
@@ -101,6 +112,7 @@ export type PacksActionType = ReturnType<typeof getPacksDataAC>
     | ReturnType<typeof changeCountOfRawsAC> | ReturnType<typeof setMinMaxAmountOfCardsAC> |
     ReturnType<typeof changeCurrentPageAC> |
     ReturnType<typeof sortPacksAc>
+    // ReturnType<typeof addNewPack>
 
 
 
@@ -132,3 +144,23 @@ export const getPacksTC = (): AppThunk => (dispatch, getState) => {
 //             handleServerAppError(e,dispatch)
 //         })
 // }
+
+export const addNewPackTS = (newName:string): AppThunk => (dispatch, getState) => {
+    dispatch(setAppStatusAC('loading'))
+  let model  = getState().packs.filterForPacks
+    PacksApi.addNewPack(newName).then((res) => {
+        if(res.status === 201){
+            PacksApi.getPack(model)
+                .then((res) => {
+                    dispatch(getPacksDataAC(res.data))
+                    dispatch(setAppStatusAC('succeeded'))
+                })
+
+                .catch(e => {
+                    handleServerAppError(e,dispatch)
+                })
+        }
+
+    })
+
+};

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../store/store";
 import {
+    addNewPackTS,
     changeCountOfRawsAC,
     changeCurrentPageAC,
     getPacksTC,
@@ -15,6 +16,9 @@ import {NavLink} from "react-router-dom";
 import {PATH} from "../../../App";
 import SortIcon from '@mui/icons-material/Sort';
 import Button from "@mui/material/Button";
+import {BasicModal} from "../../modal/BasicModal";
+import style from "../EnhancedTable/EnhancedTable.module.css"
+import {ModalAddPack} from "../../modal/ModalAddPack";
 
 
 type filtersNamesType = "name" | "updated" | "cardsCount"
@@ -23,20 +27,24 @@ export const EnhancedTable = () => {
     const [searchName, setSearchName] = useState<string>('')
     const packs = useAppSelector(state => state.packs.cardPacks);
 
-
     const currentPacksPage = useAppSelector(state => state.packs.filterForPacks.page) || 1;
     const packsAllPage = useAppSelector(state => state.packs.cardPacksTotalCount);
     const amountOfRows = useAppSelector(state => state.packs.filterForPacks.pageCount) || 4
 
-
+//type filtersNamesType = "name" | "updated" | "cardsCount"
     const [filter, setFilter] = useState<Record<filtersNamesType, boolean>>({
         name: false,
         updated: false,
         cardsCount: false
     })
 
-
     const dispatch = useAppDispatch();
+
+    const addNewPack = (newName:string) => {
+
+    dispatch(addNewPackTS(newName))
+
+    }
 
     const handleChangeRowsPerPage = (e: any) => {
         let value = e.target.value
@@ -54,7 +62,7 @@ export const EnhancedTable = () => {
         filterStatus ? dispatch(sortPacksAc(`0${filteresNames}`)) : dispatch(sortPacksAc(`1${filteresNames}`))
         setFilter({...filter, [filteresNames]: !filterStatus})
         dispatch(getPacksTC())
-    }
+    };
 
     // const delRowHandler = (id: string) => {
     //     dispatch(deletePackTC(id))
@@ -62,9 +70,11 @@ export const EnhancedTable = () => {
 
     return (
         <div style={{wordBreak: "break-all"}} className='container'>
+            <div className={style.headerForTableWithModale}>
             <Search searchName={searchName} setSearchName={setSearchName}/>
-                    <input type="text"/>
-                    <Button variant="outlined">P</Button>
+            <ModalAddPack addNewPack={addNewPack}/>
+        </div>
+
                     <table className="table table-bordered">
                         <thead>
                         <th>Name
