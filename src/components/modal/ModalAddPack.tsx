@@ -16,7 +16,7 @@ export const ModalAddPack: React.FC<ModalAddPackPropsType> = props => {
     } = props;
 
     let [newName, SetNewName] = useState("")
-
+//
 
     const addNewPackHandler = () => {
         addNewPack(newName)
