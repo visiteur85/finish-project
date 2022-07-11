@@ -17,7 +17,8 @@ const initialState = {
         sortPacksUpdate: "0updated",
         packName: ''  as string,
         user_id:'' as string,
-    }
+        packUserId:'' as string,
+    },
 } as AnswerGetPackType
 //
 export type PAckReducerType = typeof initialState
@@ -43,10 +44,13 @@ export const packReducer = (state = initialState, action: PacksActionType): PAck
         case "pack/SHOW-MY-PACKS":
             return {...state, filterForPacks: {
                     ...state.filterForPacks, user_id: action.user_id
-                }
-        }
+                }}
         case "pack/SORT-PACKS":
             return {...state, filterForPacks: {...state.filterForPacks, sortPacksUpdate: action.sort}}
+        case "pack/SET-PACK-USER-ID":
+            return {...state, filterForPacks: {
+                    ...state.filterForPacks, packUserId: action.packUserId
+                }}
         default:
             return state
     }
@@ -75,11 +79,9 @@ export const changeCurrentPageAC = (currentPage: number) => ({
 } as const);
 
 export const showPyPacksAC = (user_id: string | null) => ({type: "pack/SHOW-MY-PACKS", user_id} as const);
+export const sortPacksAc = (sort: sortPacksUpdateType) => ({type: "pack/SORT-PACKS", sort} as const);
+export const setPackUserIdAC = (packUserId: string) => ({type: 'pack/SET-PACK-USER-ID', packUserId} as const)
 
-export const sortPacksAc = (sort: sortPacksUpdateType) => ({
-    type: "pack/SORT-PACKS",
-    sort: sort
-} as const);
 
 
 //types for AC
@@ -87,8 +89,8 @@ export type PacksActionType = ReturnType<typeof getPacksDataAC>
     | ReturnType<typeof changeCountOfRawsAC> | ReturnType<typeof setMinMaxAmountOfCardsAC>
     | ReturnType<typeof changeCurrentPageAC> | ReturnType<typeof setSearchNamePacksAC>| ReturnType<typeof showPyPacksAC>
     | ReturnType<typeof changeCountOfRawsAC> | ReturnType<typeof setMinMaxAmountOfCardsAC> |
-    ReturnType<typeof changeCurrentPageAC> |
-    ReturnType<typeof sortPacksAc>
+    ReturnType<typeof changeCurrentPageAC> |     ReturnType<typeof sortPacksAc> | ReturnType<typeof setPackUserIdAC>
+
 
 
 

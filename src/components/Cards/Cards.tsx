@@ -23,7 +23,7 @@ export const Cards = React.memo(() => {
     const redirect = () => navigate(PATH.CARDS + `/${packUserId}`)
 
     const addHandler = () => {
-        dispatch(showPyPacksAC(user_id))
+        // dispatch(showPyPacksAC(user_id))
         dispatch(addNewCardsTC(packUserId))
         // redirect()
     }

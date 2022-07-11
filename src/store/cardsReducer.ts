@@ -2,7 +2,7 @@ import {AppThunk} from "./store";
 import {setAppStatusAC} from "./app-reducer";
 import {handleServerAppError} from "../utils/error-utils";
 import {cardsApi, newCardType, RequestCardType} from "../components/api/cardsApi";
-import {showPyPacksAC} from "./packsReducer";
+import {setPackUserIdAC, showPyPacksAC} from "./packsReducer";
 
 const initialState = {} as RequestCardType;
 
@@ -32,7 +32,8 @@ export const getCardsTC = (cardsPack_id: string): AppThunk => async (dispatch) =
     try {
         dispatch(setAppStatusAC('loading'))
         let res = await cardsApi.getCards(cardsPack_id)
-        // dispatch(showPyPacksAC(res.data.data._id))
+        dispatch(setPackUserIdAC(res.data.packUserId))
+        dispatch(showPyPacksAC(cardsPack_id))
         dispatch(getCardsDataAC(res.data))
         dispatch(setAppStatusAC('succeeded'))
     } catch (e: any) {

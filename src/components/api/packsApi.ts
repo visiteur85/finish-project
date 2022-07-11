@@ -39,7 +39,6 @@ export type AnswerGetPackType = {
     cardPacks: OnePackType[]
     cardPacksTotalCount: number
     filterForPacks: FilterForPacksType
-
 };
 
 export type OnePackType = {
@@ -66,6 +65,7 @@ export type FilterForPacksType = {
     sortPacksUpdate:sortPacksUpdateType
     packName?:string
     user_id?: string | null
+    packUserId?:string
     //поиск по имени
 }
 
