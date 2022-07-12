@@ -61,7 +61,13 @@ export const App = () => {
             <ErrorSnackbar/>
             <NavBar/>
             {status === 'loading' && <LinearProgress color="success" />}
-            {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Logout</Button>}
+
+            {isLoggedIn && <div style={{marginBottom:"5px"}}>
+                <Button style={{width:"150px"}} onClick={logoutHandler} variant="outlined" color="error">
+                Logout
+                </Button>
+            </div>
+            }
             <Routes>
                 <Route path={"login"} element={<Login/>}/>
                 <Route path={"/"} element={<Profile/>}/>
