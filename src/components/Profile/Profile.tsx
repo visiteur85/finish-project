@@ -12,6 +12,7 @@ import {OnePackType} from "../api/packsApi";
 import {setIdProfileAC} from "../../store/authReducer";
 import packsListAvatar from "../../style/images/Union (Stroke).png"
 import profileAvatar from "../../style/images/Group 608.png"
+import Button from "@mui/material/Button";
 
 const useDebounce = (value1: number = 0, value2: number = 0, delay: number): number[] => {
     let [state, setState] = useState<number[]>([value1, value2])
@@ -156,8 +157,8 @@ export const Profile = () => {
                     </div>
                     <div className={style.table}>
                         <EnhancedTable/>
-                        <button onClick={onClickForMypacksHandler}>show</button>
-                        <button onClick={onClickForAllHandler}>back</button>
+                        <Button style={{width: "124px"}} onClick={onClickForMypacksHandler}>My Packs</Button>
+                        <Button style={{width: "124px"}} onClick={onClickForAllHandler}>All Packs</Button>
                     </div>
                 </div>
             </div>

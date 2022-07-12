@@ -26,7 +26,7 @@ export const PacksApi = {
         })
     },
     addNewPack(newName:string) {
-        const cardPack = {name:"test"}
+        const cardPack = {name: newName}
         return instance.post(`cards/pack`, {cardsPack:cardPack})}
     ,
     delPack(idPack:string) {
@@ -69,7 +69,7 @@ export type FilterForPacksType = {
     sortPacksUpdate:sortPacksUpdateType
     packName?:string
     user_id?: string | null
-    packUserId?:string
+    packUserId?: string | null
     //поиск по имени
 }
 

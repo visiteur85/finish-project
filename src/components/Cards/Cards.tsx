@@ -1,31 +1,32 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useAppDispatch, useAppSelector} from '../../store/store';
 import {useNavigate, useParams} from "react-router-dom";
-import {addNewCardsTC, getCardsTC} from '../../store/cardsReducer';
-import {PATH} from "../../App";
-import {showPyPacksAC} from "../../store/packsReducer";
+import {deleteCardsTC, getCardsTC} from '../../store/cardsReducer';
+import {ModalForNewCards} from "./ModalForNewCards";
 
 export const Cards = React.memo(() => {
+
     const {id} = useParams<{ id: string }>()
     useEffect(() => {
-        if (id) dispatch(getCardsTC(id));}, [id])
+            if (id) dispatch(getCardsTC(id));
+        },
+        [id])
 
-    const cards = useAppSelector(state => state.card.cards);
-    const packUserId = useAppSelector(state => state.card.packUserId);
     const dispatch = useAppDispatch()
+    const cards = useAppSelector(state => state.card.cards);
     const navigate = useNavigate()
+    const packUserId = useAppSelector(state => state.card.packUserId);
     const user_id = useAppSelector(state => state.profile.profile._id)
 
 
-    const redirect = () => navigate(PATH.CARDS + `/${packUserId}`)
-
-    const addHandler = () => {
-        // dispatch(showPyPacksAC(user_id))
-        dispatch(addNewCardsTC(packUserId))
-        // redirect()
+    // const redirect = () => navigate(PATH.CARDS + `/${packUserId}`)
+    const deleteCardsHandler = (packId: string,) => {
+        if (id) {
+            dispatch(deleteCardsTC(id,packId))
+        }
     }
 
     if (!cards) {
@@ -37,6 +38,7 @@ export const Cards = React.memo(() => {
 
     return (
         <div>
+            <ModalForNewCards/>
             <table>
                 <thead>
                 <th>Question</th>
@@ -54,9 +56,8 @@ export const Cards = React.memo(() => {
                         <td>{d.grade}</td>
                         <td>
                             <IconButton aria-label="delete" size="small">
-                                <DeleteIcon fontSize="small"/>
+                                <DeleteIcon fontSize="small" onClick={()=>deleteCardsHandler(d._id)}/>
                             </IconButton>
-                            <button onClick={addHandler}>add</button>
                             <button></button>
                         </td>
                     </tr>

@@ -23,7 +23,7 @@ export const Search: FC<SearchPropsType> = ({searchName, setSearchName}) => {
 
     const onSearchHandler = () => {
         dispatch(getPacksTC())
-        // setSearchName('')
+        setSearchName('')
     }
 
     const onKeyPressHandler = (e: any) => e.key === 'Enter' && onSearchHandler();

@@ -16,7 +16,6 @@ const style = {
     p: 4,
 };
 
-
 type PropsType = {
     children: any
 }

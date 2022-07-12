@@ -3,8 +3,8 @@ import {useAppDispatch, useAppSelector} from "../../../store/store";
 import {
     addNewPackTS,
     changeCountOfRawsAC,
-    changeCurrentPageAC,
-    getPacksTC,
+    changeCurrentPageAC, deletePackTC,
+    getPacksTC, showPyPacksAC,
     sortPacksAc
 } from "../../../store/packsReducer";
 import IconButton from "@mui/material/IconButton";
@@ -26,6 +26,7 @@ type filtersNamesType = "name" | "updated" | "cardsCount"
 export const EnhancedTable = () => {
     const [searchName, setSearchName] = useState<string>('')
     const packs = useAppSelector(state => state.packs.cardPacks);
+    const packUserId = useAppSelector(state => state.card.packUserId);
 
     const currentPacksPage = useAppSelector(state => state.packs.filterForPacks.page) || 1;
     const packsAllPage = useAppSelector(state => state.packs.cardPacksTotalCount);
@@ -37,13 +38,12 @@ export const EnhancedTable = () => {
         updated: false,
         cardsCount: false
     })
+    const user_id = useAppSelector(state => state.profile.profile._id)
 
     const dispatch = useAppDispatch();
 
     const addNewPack = (newName:string) => {
-
     dispatch(addNewPackTS(newName))
-
     }
 
     const handleChangeRowsPerPage = (e: any) => {
@@ -64,9 +64,9 @@ export const EnhancedTable = () => {
         dispatch(getPacksTC())
     };
 
-    // const delRowHandler = (id: string) => {
-    //     dispatch(deletePackTC(id))
-    // }
+    const delRowHandler = (id: string) => {
+        dispatch(deletePackTC(id))
+    }
 
     return (
         <div style={{wordBreak: "break-all"}} className='container'>
@@ -99,15 +99,12 @@ export const EnhancedTable = () => {
                                 <td>{d.updated}</td>
                                 <td>{d.user_name}</td>
                                 <td>
-
                                     <IconButton aria-label="delete">
                                         <DeleteIcon
-                                            // onClick={() => delRowHandler(d.user_id)}
+                                            onClick={() => delRowHandler(d._id)}
                                         />
                                     </IconButton>
-
                                 </td>
-
                             </tr>
                         ))}
                         </tbody>
@@ -119,10 +116,10 @@ export const EnhancedTable = () => {
                         onPageChange={handleChangePage}
                         rowsPerPage={amountOfRows}
                         onRowsPerPageChange={handleChangeRowsPerPage}
-
                     />
                 </div>
-                );}
+                );
+}
 
 
 

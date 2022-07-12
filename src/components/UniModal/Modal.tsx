@@ -20,12 +20,10 @@ const style = {
 
 export const Modal1 = () => {
 
-
     return (
         <BasicModal>
             <h1>you</h1>
             <h2>oasdasdasd</h2>
-
         </BasicModal>
     );
 }

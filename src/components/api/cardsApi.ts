@@ -15,8 +15,11 @@ export const cardsApi = {
     getCards(cardsPack_id: string) {
         return instance.get<RequestCardType>(`/cards/card`, {params: {cardsPack_id}})
     },
-    addCards (newCard: newCardType) {
-        return instance.post<CardsType>(`/cards/card`,{card: newCard})
+    addCards (cards: newCardType) {
+        return instance.post<CardsType>(`/cards/card`,{card:{...cards}})
+    },
+    deleteCards(cardsPack_id:string) {
+        return instance.delete(`/cards/card?id=${cardsPack_id}`)
     }
 }
 
@@ -25,7 +28,6 @@ export type ChangeProfileType = {
     name: string
     avatar?: string
 }
-
 export type AnswerChangeProfileType = {
     updatedUser: ProfileType
     error?: string
@@ -99,4 +101,3 @@ export type newCardType = {
     question?: string,
     answer?: string
 }
-// cardsPack_id: string, question?: string, answer?: string)

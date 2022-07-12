@@ -1,7 +1,7 @@
 import {AppThunk} from "./store";
 import {setAppStatusAC} from "./app-reducer";
 import {handleServerAppError} from "../utils/error-utils";
-import {cardsApi, newCardType, RequestCardType} from "../components/api/cardsApi";
+import {cardsApi, RequestCardType} from "../components/api/cardsApi";
 import {setPackUserIdAC, showPyPacksAC} from "./packsReducer";
 
 const initialState = {} as RequestCardType;
@@ -12,21 +12,14 @@ export const cardsReducer = (state = initialState, action: CardssActionType): Ca
     switch (action.type) {
         case "cards/GET-CARDS":
             return {...state, ...action.cards}
-        case "cards/ADD-CARDS":
         default:
             return state
     }
 };
 
-export const getCardsDataAC = (cards: RequestCardType) => ({
-    type: "cards/GET-CARDS", cards
-} as const);
-export const addNewCardsAC = (newCards: newCardType) => ({
-    type: "cards/ADD-CARDS", newCards
-} as const);
+export const getCardsDataAC = (cards: RequestCardType) => ({type: "cards/GET-CARDS", cards} as const);
 
 export type CardssActionType = ReturnType<typeof getCardsDataAC>
-    | ReturnType<typeof addNewCardsAC>
 
 export const getCardsTC = (cardsPack_id: string): AppThunk => async (dispatch) => {
     try {
@@ -42,20 +35,31 @@ export const getCardsTC = (cardsPack_id: string): AppThunk => async (dispatch) =
         dispatch(setAppStatusAC('idle'))
     }
 }
-export const addNewCardsTC = (cardsPack_id: string, question?: string, answer?: string): AppThunk => (dispatch, getState) => {
-    dispatch(setAppStatusAC('loading'))
-    const newCard = {
-        cardsPack_id: cardsPack_id,
-        question: question,
-        answer: answer
+export const addNewCardsTC = (cardsPack_id: string, question?: string, answer?: string): AppThunk => async (dispatch, ) => {
+
+    const newCard = {cardsPack_id, question, answer}
+
+    try {
+        dispatch(setAppStatusAC('loading'))
+        await cardsApi.addCards(newCard)
+        dispatch(getCardsTC(cardsPack_id))
+        dispatch(setAppStatusAC('succeeded'))
+    } catch (e: any) {
+        handleServerAppError(e, dispatch)
+    } finally {
+        dispatch(setAppStatusAC('idle'))
     }
-    cardsApi.addCards(newCard)
-        .then((res) => {
-            dispatch(getCardsTC(cardsPack_id))
-            dispatch(setAppStatusAC('succeeded'))
-        })
-        .catch(e => {
-            handleServerAppError(e, dispatch)
-        })
+}
+export const deleteCardsTC = (packId: string, cardsPack_id: string): AppThunk => async (dispatch, ) => {
+    try {
+        dispatch(setAppStatusAC('loading'))
+        await cardsApi.deleteCards(cardsPack_id)
+        dispatch(getCardsTC(packId))
+        dispatch(setAppStatusAC('succeeded'))
+    } catch (e: any) {
+        handleServerAppError(e, dispatch)
+    } finally {
+        dispatch(setAppStatusAC('idle'))
+    }
 }
 
