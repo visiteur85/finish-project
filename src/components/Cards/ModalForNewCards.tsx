@@ -11,6 +11,7 @@ import {useParams} from "react-router-dom";
 
 
 export const ModalForNewCards = () => {
+    const [open, setOpen] = React.useState(false);
 
     const dispatch = useAppDispatch()
     const [addValue, setAddValue] = useState<string>('')
@@ -31,8 +32,9 @@ export const ModalForNewCards = () => {
         setAddValue2(e.currentTarget.value)
     }
 
+
     return (
-        <BasicModal>
+        <BasicModal button={"justButton"} open={open} setOpen={setOpen}>
             <div>
                 <p>Add new card</p>
                 <Button variant="text">X</Button>
