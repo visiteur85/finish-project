@@ -6,12 +6,15 @@
 }
 
 
-
 .mainProfile {
     /*height: 720px;*/
     /*background: linear-gradient(180deg, #E6D4DE 0%, #9890C7 100%);*/
     padding-top: 24px;
 
+}
+
+.profileHeader {
+    background-color: #EBE0E9;;
 }
 
 .profileWithTable {
@@ -65,7 +68,6 @@
     margin-bottom: 4px;
 
 
-
 }
 
 .description {
@@ -79,7 +81,6 @@
     margin-top: 0px;
 
 
-
 }
 
 .nameOfDescription {
@@ -90,7 +91,6 @@
     line-height: 19px;
     letter-spacing: 0em;
     margin-bottom: 24px;
-
 
 
 }
@@ -117,7 +117,7 @@
 
 .numberOfCards {
 
- height: 100%;
+    height: 100%;
 
 }
 
@@ -149,7 +149,7 @@ button {
     width: 65px; /* Ширина подсказки */
     left: 35%;
     top: 70%;
-background-color: cadetblue;
+    background-color: cadetblue;
     color: #fff; /* Цвет текста */
     padding: 0.1em; /* Поля вокруг текста */
     /*box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); !* Параметры тени *!*/
@@ -166,6 +166,7 @@ background-color: cadetblue;
     opacity: 1;
     top: 2.5em;
 }
+
 .profileHeader {
     display: flex;
 }
@@ -176,4 +177,24 @@ background-color: cadetblue;
 
 .PacksList, .ProfileList {
     display: flex;
+    width: 173px;
+
+    padding-left: 51px;
+    padding-top: 17px;
+}
+
+.headerProfileHeader {
+    width: 163px;
+    margin-left: 136px;
+    margin-right: 168px;
+    margin-top: 10px;
+    margin-bottom: 11px;
+    font-family: Poppins;
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 39px;
+    letter-spacing: 0em;
+    text-align: left;
+
+
 }
