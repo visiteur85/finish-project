@@ -18,7 +18,7 @@ const initialState = {
         sortPacksUpdate: "0updated",
 
         packName: ''  as string,
-        user_id:'' as string,
+        user_id:''  as string
     }
 
 } as AnswerGetPackType
@@ -99,10 +99,7 @@ export const sortPacksAc = (sort: sortPacksUpdateType) => ({
     sort: sort
 } as const);
 
-// export const addNewPack = (newName:string) => ({
-//     type: "pack/ADD-NEW-PACK",
-//     newName: newName
-// } as const);
+
 
 
 //types for AC
@@ -132,23 +129,45 @@ export const getPacksTC = (): AppThunk => (dispatch, getState) => {
         })
 };
 
-//
-// export const deletePackTC = (idPack: string | null): AppThunk => (dispatch) => {
-//     dispatch(setAppStatusAC('loading'))
-//     PacksApi.delPack(idPack)
-//         .then(() => {
-//             dispatch(getPacksTC())
-//             dispatch(setAppStatusAC('succeeded'))
-//         })
-//         .catch(e => {
-//             handleServerAppError(e,dispatch)
-//         })
-// }
+
+export const deletePackTC = (idPack: string  ): AppThunk => (dispatch, getState) => {
+    dispatch(setAppStatusAC('loading'))
+    let model  = getState().packs.filterForPacks
+    PacksApi.delPack(idPack)
+        .then((res)=> {
+            PacksApi.getPack(model)
+                .then((res) => {
+                    dispatch(getPacksDataAC(res.data))
+                    dispatch(setAppStatusAC('succeeded'))
+                })
+
+                .catch(e => {
+                    handleServerAppError(e,dispatch)
+                })
+        })}
+
+export const changePackTC = (idPack: string  ): AppThunk => (dispatch, getState) => {
+    dispatch(setAppStatusAC('loading'))
+    let model  = getState().packs.filterForPacks
+    PacksApi.changePack(idPack)
+        .then((res)=> {
+            PacksApi.getPack(model)
+                .then((res) => {
+                    dispatch(getPacksDataAC(res.data))
+                    dispatch(setAppStatusAC('succeeded'))
+                })
+
+                .catch(e => {
+                    handleServerAppError(e,dispatch)
+                })
+        })}
+
 
 export const addNewPackTS = (newName:string): AppThunk => (dispatch, getState) => {
     dispatch(setAppStatusAC('loading'))
   let model  = getState().packs.filterForPacks
-    PacksApi.addNewPack(newName).then((res) => {
+    PacksApi.addNewPack(newName)
+        .then((res) => {
         if(res.status === 201){
             PacksApi.getPack(model)
                 .then((res) => {

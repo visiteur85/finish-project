@@ -12,18 +12,22 @@ type ModalAddPackPropsType = {
 }
 
 export const ModalAddPack: React.FC<ModalAddPackPropsType> = props => {
+
+
     const {
         addNewPack
     } = props;
 
     let [newName, SetNewName] = useState("");
     const [error, SetError] = useState<null | string>(null);
+    const [open, setOpen] = React.useState(false);
 //
 
     const addNewPackHandler = () => {
         if (newName.trim() !== "") {
             addNewPack(newName)
             SetNewName("")
+            setOpen(false)
         } else {
             SetError("Введите текст")
         }
@@ -35,13 +39,15 @@ export const ModalAddPack: React.FC<ModalAddPackPropsType> = props => {
         SetError(null)
         SetNewName(e.currentTarget.value)
     }
-
+    const cancelHandler = () => {
+        setOpen(false)
+    }
 
     return (
-        <BasicModal>
+        <BasicModal button={"justButton"} open={open} setOpen={setOpen}>
             <div>
                 <p>Add new pack</p>
-                <Button variant="text">X</Button>
+                <Button onClick={cancelHandler} variant="text">X</Button>
             </div>
             <TextField
                 id="standard-textarea"
@@ -55,7 +61,7 @@ export const ModalAddPack: React.FC<ModalAddPackPropsType> = props => {
             />
             {error && <div className={style.error}>{error}</div>}
             <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button style={{width: "124px"}}>Cancel</Button>
+                <Button onClick={cancelHandler} style={{width: "124px"}}>Cancel</Button>
                 <Button onClick={addNewPackHandler} style={{width: "124px"}}>Send</Button>
 
             </ButtonGroup>

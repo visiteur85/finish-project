@@ -3,7 +3,7 @@ import {useAppDispatch, useAppSelector} from "../../../store/store";
 import {
     addNewPackTS,
     changeCountOfRawsAC,
-    changeCurrentPageAC,
+    changeCurrentPageAC, changePackTC, deletePackTC,
     getPacksTC,
     sortPacksAc
 } from "../../../store/packsReducer";
@@ -16,9 +16,11 @@ import {NavLink} from "react-router-dom";
 import {PATH} from "../../../App";
 import SortIcon from '@mui/icons-material/Sort';
 import Button from "@mui/material/Button";
-import {BasicModal} from "../../modal/BasicModal";
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
+
 import style from "../EnhancedTable/EnhancedTable.module.css"
 import {ModalAddPack} from "../../modal/ModalAddPack";
+import {ModalDelPack} from "../../modal/ModalDelPack";
 
 
 type filtersNamesType = "name" | "updated" | "cardsCount"
@@ -27,13 +29,12 @@ export const EnhancedTable = () => {
     const [searchName, setSearchName] = useState<string>('')
     const packs = useAppSelector(state => state.packs.cardPacks);
 
-    const currentPacksPage = useAppSelector(state => state.packs.filterForPacks.page) || 1;
+    const currentPacksPage = useAppSelector(state => state.packs.filterForPacks.page);
     const packsAllPage = useAppSelector(state => state.packs.cardPacksTotalCount);
     const amountOfRows = useAppSelector(state => state.packs.filterForPacks.pageCount) || 4;
+    const userID = useAppSelector(state => state.profile.profile._id);
 
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+
 
 
 
@@ -69,10 +70,14 @@ export const EnhancedTable = () => {
         dispatch(getPacksTC())
     };
 
-    // const delRowHandler = (id: string) => {
-    //     dispatch(deletePackTC(id))
-    // }
+    const delPack = (id: string) => {
+        dispatch(deletePackTC(id));
+    }
+    const changePack = (id: string) => {
+        dispatch(changePackTC(id));
+    }
 
+    console.log('userID: ', userID)
     return (
         <div style={{wordBreak: "break-all"}} className='container'>
             <div className={style.headerForTableWithModale}>
@@ -100,17 +105,20 @@ export const EnhancedTable = () => {
                             <tr key={d._id}>
                                 <NavLink to={PATH.CARDS + `/${d._id}`}>
                                     <td>{d.name}</td>
+
                                 </NavLink>
                                 <td>{d.cardsCount}</td>
                                 <td>{d.updated}</td>
                                 <td>{d.user_name}</td>
                                 <td>
 
-                                    <IconButton aria-label="delete">
-                                        <DeleteIcon
-                                            // onClick={() => delRowHandler(d.user_id)}
-                                        />
-                                    </IconButton>
+                                    {userID === d.user_id &&
+                                        <div>
+                                            <ModalDelPack delPack={delPack} id={d._id} name={d.name}/>
+                                            <DriveFileRenameOutlineIcon onClick={() => changePack(d._id)}/>
+                                        </div>
+                                      }
+                                    {/*{userID === d.user_id && <ModalDelPack delPack={delPack} id={d._id}/>}*/}
 
                                 </td>
 

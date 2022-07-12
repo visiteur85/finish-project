@@ -29,7 +29,7 @@ export type RegisterType<D = {}> = {
 }
 
 export type ProfileType = {
-    _id: string | null
+    _id: string
     email: string | null
     name: string | null
     avatar: string | null
