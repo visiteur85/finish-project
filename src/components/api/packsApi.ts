@@ -31,6 +31,10 @@ export const PacksApi = {
     ,
     delPack(idPack:string) {
         return instance.delete(`/cards/pack?id=${idPack}`)
+    },
+    changePack(idPack:string) {
+        const cardPack = {_id:idPack, name:"Packname"}
+        return instance.put(`/cards/pack?id=${idPack}`,{cardsPack:cardPack})
     }
 
 }
@@ -65,8 +69,8 @@ export type FilterForPacksType = {
     minCardsCount?: number
     maxCardsCount?: number
     pageCount?: number
-    page?: number
-    sortPacksUpdate:sortPacksUpdateType
+    page: number
+    sortPacksUpdate?:sortPacksUpdateType
     packName?:string
     user_id?: string | null
     packUserId?: string | null
