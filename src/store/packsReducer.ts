@@ -146,10 +146,10 @@ export const deletePackTC = (idPack: string  ): AppThunk => (dispatch, getState)
                 })
         })}
 
-export const changePackTC = (idPack: string  ): AppThunk => (dispatch, getState) => {
+export const changePackTC = (idPack: string, name:string  ): AppThunk => (dispatch, getState) => {
     dispatch(setAppStatusAC('loading'))
     let model  = getState().packs.filterForPacks
-    PacksApi.changePack(idPack)
+    PacksApi.changePack(idPack, name)
         .then((res)=> {
             PacksApi.getPack(model)
                 .then((res) => {

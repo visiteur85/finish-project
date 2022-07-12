@@ -5,13 +5,11 @@ import styleContainer from "../../style/Container.module.css"
 import style from "../Profile/Profile.module.css"
 import {Slider} from "@mui/material";
 import {changeNameTC} from "../../store/profileReducer";
-import editPictureForInput from "../../style/images/pngwing.com.png"
 import {EnhancedTable} from "./EnhancedTable/EnhancedTable";
 import {getPacksTC, setMinMaxAmountOfCardsAC, showPyPacksAC} from "../../store/packsReducer";
-import {OnePackType} from "../api/packsApi";
-import {setIdProfileAC} from "../../store/authReducer";
 import packsListAvatar from "../../style/images/Union (Stroke).png"
 import profileAvatar from "../../style/images/Group 608.png"
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 
 const useDebounce = (value1: number = 0, value2: number = 0, delay: number): number[] => {
     let [state, setState] = useState<number[]>([value1, value2])
@@ -48,11 +46,6 @@ export const Profile = () => {
 
     const minMAxAmount = [minAmount || 0, maxAmount || 100]
     const user_id = useAppSelector(state => state.profile.profile._id)
-
-
-    const editPicture = {
-        backgroundImage: `url(${editPictureForInput})`,
-    }
 
     const editModeHandler = () => {
         setEditMode(true)
@@ -141,8 +134,8 @@ export const Profile = () => {
                                     />
                                     :
                                     <p data-tooltip={"Изменить имя"} className={style.nameOfProfile}>{profile.name}
-                                        <button onClick={editModeHandler}
-                                                style={editPicture}></button>
+                                        <DriveFileRenameOutlineIcon onClick={editModeHandler}/>
+
                                     </p>
                                 }
                             </div>
