@@ -7,6 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 
+export type ButtonsForModalType = "justButton" | "delButton" | "changeNamePack"
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -20,7 +21,7 @@ const style = {
 };
 
 type PropsType = {
-    button: string
+    button: ButtonsForModalType
     open: boolean
     setOpen: (value: boolean) => void
 
@@ -34,21 +35,21 @@ export const BasicModal: FC<PropsWithChildren<PropsType>> = (props) => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-
+    let changeButton;
+    if (button === "justButton") {
+        changeButton = <Button variant="contained" style={{width: "200px"}} onClick={handleOpen}>New Pack</Button>
+    }
+    else if (button === "delButton") {
+        changeButton = <IconButton onClick={handleOpen} aria-label="delete">
+            <DeleteIcon/>
+        </IconButton>
+    }
+    else if (button === "changeNamePack") {
+        changeButton = <DriveFileRenameOutlineIcon onClick={handleOpen}/>
+    }
     return (
         <div>
-            {
-
-            button === "justButton" ?
-                <Button variant="contained" style={{width: "200px"}} onClick={handleOpen}>New Pack</Button>
-                :
-                <IconButton onClick={handleOpen} aria-label="delete">
-                    <DeleteIcon/>
-
-                </IconButton>}
-
-            {/*<Button variant="contained" style={{width: "200px"}} onClick={handleOpen}>New Pack</Button>*/}
-
+            {changeButton}
             <Modal
                 open={open}
                 onClose={handleClose}

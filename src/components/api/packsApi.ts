@@ -32,8 +32,8 @@ export const PacksApi = {
     delPack(idPack:string) {
         return instance.delete(`/cards/pack?id=${idPack}`)
     },
-    changePack(idPack:string) {
-        const cardPack = {_id:idPack, name:"Packname"}
+    changePack(idPack:string, name:string) {
+        const cardPack = {_id:idPack, name:name}
         return instance.put(`/cards/pack?id=${idPack}`,{cardsPack:cardPack})
     }
 
