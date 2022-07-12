@@ -30,6 +30,7 @@ export type ProfileReducerType = typeof initialState
 export const profileReducer = (state = initialState, action: ProfileActionType): ProfileReducerType => {
     switch (action.type) {
         case "profile/GET-PROFILE":
+
             return {...state, profile: action.ProfileData}
         case "profile/CHANGE-NAME":
             return {...state, profile: {...state.profile, name: action.newName}}
@@ -48,7 +49,7 @@ export type ProfileActionType = ReturnType<typeof getProfileDataAC> | ReturnType
 
 //thunks
 export const changeNameTC = (newName: string): AppThunk => (dispatch) => {
-    console.log(newName)
+
     dispatch(setAppStatusAC('loading'))
     profileApi.changeName({name: newName})
         .then(() => {

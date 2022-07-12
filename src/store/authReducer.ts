@@ -16,7 +16,7 @@ export type ProfileInitialStateType = {
 const initialState: ProfileInitialStateType = {
     isLoggedIn: false,
     profile: {
-        _id: "" as string | null,
+        _id: "" as string,
         email: null,
         name: null,
         avatar: null,
@@ -58,6 +58,7 @@ export const loginTC = (data: LoginParamsType): AppThunk => (dispatch: Dispatch)
     dispatch(setAppStatusAC('loading'))
     authAPI.login(data)
         .then(res => {
+            debugger
             dispatch(setIsLoggedInAC(true))
             dispatch(getProfileDataAC(res.data))
             dispatch(setAppStatusAC('succeeded'))

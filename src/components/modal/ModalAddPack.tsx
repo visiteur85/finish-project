@@ -4,6 +4,7 @@ import {BasicModal} from "./BasicModal";
 import TextField from "@mui/material/TextField";
 import {ButtonGroup} from "@mui/material";
 import {useState} from "react";
+import style from "../Profile/Profile.module.css";
 
 
 type ModalAddPackPropsType = {
@@ -11,28 +12,42 @@ type ModalAddPackPropsType = {
 }
 
 export const ModalAddPack: React.FC<ModalAddPackPropsType> = props => {
+
+
     const {
         addNewPack
     } = props;
 
-    let [newName, SetNewName] = useState("")
+    let [newName, SetNewName] = useState("");
+    const [error, SetError] = useState<null | string>(null);
+    const [open, setOpen] = React.useState(false);
 //
 
     const addNewPackHandler = () => {
-        addNewPack(newName)
-        SetNewName("")
+        if (newName.trim() !== "") {
+            addNewPack(newName)
+            SetNewName("")
+            setOpen(false)
+        } else {
+            SetError("Введите текст")
+        }
+
     }
+    const onKeyPressHandler = (e: any) => e.key === 'Enter' && addNewPackHandler();
 
     const onChangeHandler = (e: any) => {
+        SetError(null)
         SetNewName(e.currentTarget.value)
     }
-
+    const cancelHandler = () => {
+        setOpen(false)
+    }
 
     return (
-        <BasicModal>
+        <BasicModal button={"justButton"} open={open} setOpen={setOpen}>
             <div>
                 <p>Add new pack</p>
-                <Button variant="text">X</Button>
+                <Button onClick={cancelHandler} variant="text">X</Button>
             </div>
             <TextField
                 id="standard-textarea"
@@ -42,9 +57,11 @@ export const ModalAddPack: React.FC<ModalAddPackPropsType> = props => {
                 variant="standard"
                 value={newName}
                 onChange={onChangeHandler}
+                onKeyPress={onKeyPressHandler}
             />
+            {error && <div className={style.error}>{error}</div>}
             <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button style={{width: "124px"}}>Cancel</Button>
+                <Button onClick={cancelHandler} style={{width: "124px"}}>Cancel</Button>
                 <Button onClick={addNewPackHandler} style={{width: "124px"}}>Send</Button>
 
             </ButtonGroup>
