@@ -127,7 +127,7 @@ export const Registration = () => {
                                 <div style={{color: "red"}}>{formik.errors.password}</div>
                                 }
 
-                                <FormControl variant="outlined" className={reg.confirmPass}>
+                                <FormControl style={{marginTop:"5px", marginBottom:"5px"}} variant="outlined" className={reg.confirmPass}>
                                     <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
                                     <OutlinedInput label="Confirm Password"
                                                    type={values.showPassword ? 'text' : 'confirmPassword'}
@@ -148,7 +148,7 @@ export const Registration = () => {
                                 </FormControl>
                                 {formik.errors.confirmPassword && formik.touched.confirmPassword &&
                                 <div style={{color: "red"}}>{formik.errors.confirmPassword}</div>}
-                                <Button disabled={disable} type={'submit'} variant={'contained'} color={'primary'}>
+                                <Button style={{width:"150px"}} disabled={disable} type={'submit'} variant={'contained'} color={'primary'}>
                                     Register
                                 </Button>
                             </FormGroup>

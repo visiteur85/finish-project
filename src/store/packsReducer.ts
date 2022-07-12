@@ -135,15 +135,7 @@ export const deletePackTC = (idPack: string  ): AppThunk => (dispatch, getState)
     let model  = getState().packs.filterForPacks
     PacksApi.delPack(idPack)
         .then((res)=> {
-            PacksApi.getPack(model)
-                .then((res) => {
-                    dispatch(getPacksDataAC(res.data))
-                    dispatch(setAppStatusAC('succeeded'))
-                })
-
-                .catch(e => {
-                    handleServerAppError(e,dispatch)
-                })
+            dispatch(getPacksTC())
         })}
 
 export const changePackTC = (idPack: string, name:string  ): AppThunk => (dispatch, getState) => {
@@ -151,15 +143,7 @@ export const changePackTC = (idPack: string, name:string  ): AppThunk => (dispat
     let model  = getState().packs.filterForPacks
     PacksApi.changePack(idPack, name)
         .then((res)=> {
-            PacksApi.getPack(model)
-                .then((res) => {
-                    dispatch(getPacksDataAC(res.data))
-                    dispatch(setAppStatusAC('succeeded'))
-                })
-
-                .catch(e => {
-                    handleServerAppError(e,dispatch)
-                })
+            dispatch(getPacksTC())
         })}
 
 
@@ -169,15 +153,7 @@ export const addNewPackTS = (newName:string): AppThunk => (dispatch, getState) =
     PacksApi.addNewPack(newName)
         .then((res) => {
         if(res.status === 201){
-            PacksApi.getPack(model)
-                .then((res) => {
-                    dispatch(getPacksDataAC(res.data))
-                    dispatch(setAppStatusAC('succeeded'))
-                })
-
-                .catch(e => {
-                    handleServerAppError(e,dispatch)
-                })
+            dispatch(getPacksTC())
         }
 
     })
