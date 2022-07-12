@@ -87,7 +87,6 @@ export const changeCurrentPageAC = (currentPage: number) => ({
     type: "pack/CHANGE-CURRENT-PAGE",
     currentPage: currentPage
 } as const);
-
 export const showPyPacksAC = (user_id: string | null) => ({type: "pack/SHOW-MY-PACKS", user_id} as const);
 export const sortPacksAc = (sort: sortPacksUpdateType) => ({type: "pack/SORT-PACKS", sort} as const);
 export const setPackUserIdAC = (packUserId: string) => ({type: 'pack/SET-PACK-USER-ID', packUserId} as const)
@@ -130,16 +129,8 @@ export const deletePackTC = (idPack: string  ): AppThunk => (dispatch, getState)
     dispatch(setAppStatusAC('loading'))
     let model  = getState().packs.filterForPacks
     PacksApi.delPack(idPack)
-        .then(()=> {
-            PacksApi.getPack(model)
-                .then((res) => {
-                    dispatch(getPacksDataAC(res.data))
-                    dispatch(setAppStatusAC('succeeded'))
-                })
-
-                .catch(e => {
-                    handleServerAppError(e,dispatch)
-                })
+        .then((res)=> {
+            dispatch(getPacksTC())
         })}
 
 export const changePackTC = (idPack: string, name:string  ): AppThunk => (dispatch, getState) => {
@@ -147,32 +138,17 @@ export const changePackTC = (idPack: string, name:string  ): AppThunk => (dispat
     let model  = getState().packs.filterForPacks
     PacksApi.changePack(idPack, name)
         .then((res)=> {
-            PacksApi.getPack(model)
-                .then((res) => {
-                    dispatch(getPacksDataAC(res.data))
-                    dispatch(setAppStatusAC('succeeded'))
-                })
-
-                .catch(e => {
-                    handleServerAppError(e,dispatch)
-                })
+            dispatch(getPacksTC())
         })}
 
 
-export const addNewPackTS = (newName: string): AppThunk => (dispatch, getState) => {
+export const addNewPackTS = (newName:string): AppThunk => (dispatch, getState) => {
     dispatch(setAppStatusAC('loading'))
   let model  = getState().packs.filterForPacks
     PacksApi.addNewPack(newName)
         .then((res) => {
         if(res.status === 201){
-            PacksApi.getPack(model)
-                .then((res) => {
-                    dispatch(getPacksDataAC(res.data))
-                    dispatch(setAppStatusAC('succeeded'))
-                })
-                .catch(e => {
-                    handleServerAppError(e, dispatch)
-                })
+            dispatch(getPacksTC())
         }
 
     })

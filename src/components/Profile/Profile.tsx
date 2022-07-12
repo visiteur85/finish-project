@@ -10,6 +10,7 @@ import {getPacksTC, setMinMaxAmountOfCardsAC, showPyPacksAC} from "../../store/p
 import packsListAvatar from "../../style/images/Union (Stroke).png"
 import profileAvatar from "../../style/images/Group 608.png"
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
+import Button from "@mui/material/Button";
 
 const useDebounce = (value1: number = 0, value2: number = 0, delay: number): number[] => {
     let [state, setState] = useState<number[]>([value1, value2])
@@ -158,8 +159,10 @@ export const Profile = () => {
                     </div>
                     <div className={style.table}>
                         <EnhancedTable/>
-                        <button onClick={onClickForMypacksHandler}>show</button>
-                        <button onClick={onClickForAllHandler}>back</button>
+                        {/*<button onClick={onClickForMypacksHandler}>show</button>*/}
+                        {/*<button onClick={onClickForAllHandler}>back</button>*/}
+                        <Button style={{width:"150px"}} onClick={onClickForMypacksHandler} variant="outlined">my Packs</Button>
+                        <Button style={{width:"150px"}} onClick={onClickForAllHandler} variant="outlined">All Packs</Button>
                     </div>
                 </div>
             </div>
