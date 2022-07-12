@@ -26,11 +26,16 @@ export const PacksApi = {
         })
     },
     addNewPack(newName:string) {
-        const cardPack = {name:"test"}
+        const cardPack = {name:newName}
         return instance.post(`cards/pack`, {cardsPack:cardPack})}
     ,
     delPack(idPack:string) {
+
         return instance.delete(`/cards/pack?id=${idPack}`)
+    },
+    changePack(idPack:string) {
+        const cardPack = {_id:idPack, name:"Packname"}
+        return instance.put(`/cards/pack?id=${idPack}`,{cardsPack:cardPack})
     }
 
 }
@@ -42,7 +47,9 @@ export const PacksApi = {
 export type AnswerGetPackType = {
     cardPacks: OnePackType[]
     cardPacksTotalCount: number
-    filterForPacks: FilterForPacksType
+   filterForPacks: FilterForPacksType
+
+
 
 };
 
@@ -66,10 +73,11 @@ export type FilterForPacksType = {
     minCardsCount?: number
     maxCardsCount?: number
     pageCount?: number
-    page?: number
-    sortPacksUpdate:sortPacksUpdateType
+    page: number
+    sortPacksUpdate?:sortPacksUpdateType
     packName?:string
     user_id?: string | null
+
     //поиск по имени
 }
 
