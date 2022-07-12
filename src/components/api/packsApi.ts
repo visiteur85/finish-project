@@ -34,7 +34,7 @@ export const PacksApi = {
     changePack(idPack:string) {
         const cardPack = {_id:idPack, name:"Packname"}
         return instance.put(`/cards/pack?id=${idPack}`,{cardsPack:cardPack})
-    },
+    }
 
 }
 
