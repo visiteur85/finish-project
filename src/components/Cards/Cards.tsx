@@ -39,7 +39,9 @@ export const Cards = React.memo(() => {
     return (
         <div>
             <ModalForNewCards/>
-            <table>
+
+        <div style={{wordBreak: "break-all"}} className='container' >
+            <table className="table table-bordered">
                 <thead>
                 <th>Question</th>
                 <th>Answer</th>
@@ -67,6 +69,7 @@ export const Cards = React.memo(() => {
                 ))}
                 </tbody>
             </table>
+        </div>
         </div>
     )
 });

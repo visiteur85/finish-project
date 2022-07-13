@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../store/store";
 import {
     addNewPackTS,
@@ -7,7 +7,9 @@ import {
     getPacksTC,
     sortPacksAc
 } from "../../../store/packsReducer";
-import {TablePagination} from "@mui/material";
+
+import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow} from "@mui/material";
+
 import {Search} from "../Search/Search";
 import {NavLink} from "react-router-dom";
 import {PATH} from "../../../App";
@@ -73,41 +75,49 @@ export const EnhancedTable = () => {
 
             </div>
 
-            <table className="table table-bordered">
-                <thead>
-                <th>Name
-                    <SortIcon fontSize={"large"} onClick={() => onSortTable(filter.name, "name")}/>
-                </th>
-                <th>Cards
-                    <SortIcon fontSize={"large"} onClick={() => onSortTable(filter.cardsCount, "cardsCount")}/>
-                </th>
-                <th>Last Updated
-                    <SortIcon fontSize={"large"} onClick={() => onSortTable(filter.updated, "updated")}/>
-                </th>
-                <th>Created by</th>
-                <th>Actions</th>
-                </thead>
-                <tbody>
-                {packs.map((d) => (
-                    <tr key={d._id}>
-                        <NavLink to={PATH.CARDS + `/${d._id}`}>
-                            <td>{d.name}</td>
-                        </NavLink>
-                        <td>{d.cardsCount}</td>
-                        <td>{d.updated}</td>
-                        <td>{d.user_name}</td>
-                        <td>
-                            {userID === d.user_id &&
-                                <div style={{display: "flex"}}>
-                                    <ModalDelPack delPack={delPack} id={d._id} name={d.name}/>
-                                    <ModalChangeNamePack changeNamePack={changePack} id={d._id} nameOfPack={d.name}/>
-                                </div>
-                            }
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
+            <TableContainer component={Paper}>
+                <Table sx={{minWidth: 650}} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Name
+                                <SortIcon fontSize={"large"} onClick={() => onSortTable(filter.name, "name")}/>
+                            </TableCell>
+                            <TableCell align="right">Cards
+                                <SortIcon fontSize={"large"}
+                                          onClick={() => onSortTable(filter.cardsCount, "cardsCount")}/>
+                            </TableCell>
+                            <TableCell align="center">Last Updated
+                                <SortIcon fontSize={"large"} onClick={() => onSortTable(filter.updated, "updated")}/>
+                            </TableCell>
+                            <TableCell align="right">Created by</TableCell>
+                            <TableCell align="right">Actions</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {packs.map((row) => (
+                            <TableRow
+                                key={row._id}
+                                sx={{'&:last-child td, &:last-child th': {border: 0}}}>
+                                <NavLink to={PATH.CARDS + `/${row._id}`}>
+                                    <TableCell align="left">{row.name}</TableCell>
+                                </NavLink>
+                                <TableCell align="right">{row.cardsCount}</TableCell>
+                                <TableCell align="right">{row.updated}</TableCell>
+                                <TableCell align="right">{row.user_name}</TableCell>
+                                <TableCell align="right">
+                                    {userID === row.user_id &&
+                                        <div style={{display: "flex"}}>
+                                            <ModalDelPack delPack={delPack} id={row._id} name={row.name}/>
+                                            <ModalChangeNamePack changeNamePack={changePack} id={row._id}
+                                                                 nameOfPack={row.name}/>
+                                        </div>}
+                                </TableCell>
+
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
             <TablePagination
                 onClick={() => {window.scrollTo({top: 0, behavior: 'smooth'})}}
                 component="div"
