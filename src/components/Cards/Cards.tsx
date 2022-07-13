@@ -36,8 +36,8 @@ export const Cards = React.memo(() => {
     }
 
     return (
-        <div>
-            <table>
+        <div style={{wordBreak: "break-all"}} className='container' >
+            <table className="table table-bordered">
                 <thead>
                 <th>Question</th>
                 <th>Answer</th>

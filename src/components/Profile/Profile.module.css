@@ -146,7 +146,7 @@ button {
     transition: 1s;
     /*pointer-events: none;*/
     position: absolute;
-    width: 65px; /* Ширина подсказки */
+    width: 135px; /* Ширина подсказки */
     left: 35%;
     top: 70%;
     background-color: cadetblue;
@@ -185,16 +185,14 @@ button {
 
 .headerProfileHeader {
     width: 163px;
-    margin-left: 136px;
-    margin-right: 168px;
-    margin-top: 10px;
-    margin-bottom: 11px;
     font-family: Poppins;
     font-size: 26px;
     font-weight: 600;
     line-height: 39px;
     letter-spacing: 0em;
     text-align: left;
+    margin: 10px 168px 11px 136px
+
 
 
 }
