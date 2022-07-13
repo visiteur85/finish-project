@@ -1,25 +1,24 @@
 import React, {useEffect} from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
-import IconButton from "@mui/material/IconButton";
-import DeleteIcon from '@mui/icons-material/Delete';
 import {useAppDispatch, useAppSelector} from '../../store/store';
 import {useNavigate, useParams} from "react-router-dom";
 import {deleteCardsTC, getCardsTC} from '../../store/cardsReducer';
 import {ModalForNewCards} from "./ModalForNewCards";
+import {ModalDelCards} from "./ModalDelCards";
+import {ModalChangeCards} from "./ModalChangeNameCards";
 
 export const Cards = React.memo(() => {
 
+    const dispatch = useAppDispatch()
+
     const {id} = useParams<{ id: string }>()
     useEffect(() => {
-            if (id) dispatch(getCardsTC(id));
-        },
-        [id])
+            if (id) dispatch(getCardsTC(id));},
+        [dispatch, id])
 
-    const dispatch = useAppDispatch()
     const cards = useAppSelector(state => state.card.cards);
-    const navigate = useNavigate()
-    const packUserId = useAppSelector(state => state.card.packUserId);
-    const user_id = useAppSelector(state => state.profile.profile._id)
+    // const navigate = useNavigate()
+    const userID = useAppSelector(state => state.profile.profile._id);
 
 
     // const redirect = () => navigate(PATH.CARDS + `/${packUserId}`)
@@ -28,6 +27,7 @@ export const Cards = React.memo(() => {
             dispatch(deleteCardsTC(id,packId))
         }
     }
+
 
     if (!cards) {
         return <div
@@ -55,10 +55,13 @@ export const Cards = React.memo(() => {
                         <td>{d.updated}</td>
                         <td>{d.grade}</td>
                         <td>
-                            <IconButton aria-label="delete" size="small">
-                                <DeleteIcon fontSize="small" onClick={()=>deleteCardsHandler(d._id)}/>
-                            </IconButton>
-                            <button></button>
+                            {userID === d.user_id &&
+                                <div style={{display: "flex"}}>
+                                    <ModalDelCards deleteCardsHandler={deleteCardsHandler} id={d._id} />
+                                    <ModalChangeCards _id={d._id}/>
+                                </div>
+                            }
+
                         </td>
                     </tr>
                 ))}

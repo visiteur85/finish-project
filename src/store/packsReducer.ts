@@ -1,9 +1,7 @@
-import {AppThunk, RootState} from "./store";
+import {AppThunk} from "./store";
 import {setAppStatusAC} from "./app-reducer";
-
 import {handleServerAppError} from "../utils/error-utils";
 import {AnswerGetPackType, OnePackType, PacksApi, sortPacksUpdateType} from "../components/api/packsApi";
-import {loginTC} from "./authReducer";
 
 
 const initialState = {
@@ -31,9 +29,7 @@ export const packReducer = (state = initialState, action: PacksActionType): PAck
         case "pack/CHANGE-COUNT-ROWS":
             return {...state, filterForPacks: {...state.filterForPacks, pageCount: action.countOfRows}}
         case "pack/SET-MIN-MAX-ROWS":
-            return {
-                ...state, filterForPacks:
-                    {
+            return {...state, filterForPacks: {
                         ...state.filterForPacks,
                         minCardsCount: action.minMaxValue[0],
                         maxCardsCount: action.minMaxValue[1]
@@ -42,14 +38,12 @@ export const packReducer = (state = initialState, action: PacksActionType): PAck
         case "pack/CHANGE-CURRENT-PAGE":
             return {...state, filterForPacks: {...state.filterForPacks, page: action.currentPage}}
         case "pack/SET-SEARCH-PACKS-NAME":
-            return {
-                ...state, filterForPacks: {
+            return {...state, filterForPacks: {
                     ...state.filterForPacks, packName: action.packName
                 }
             }
         case "pack/SHOW-MY-PACKS":
-            return {
-                ...state, filterForPacks: {
+            return {...state, filterForPacks: {
                     ...state.filterForPacks, user_id: action.user_id
                 }
             }
@@ -125,26 +119,23 @@ export const getPacksTC = (): AppThunk => (dispatch, getState) => {
 
 
 
-export const deletePackTC = (idPack: string  ): AppThunk => (dispatch, getState) => {
+export const deletePackTC = (idPack: string  ): AppThunk => (dispatch, ) => {
     dispatch(setAppStatusAC('loading'))
-    let model  = getState().packs.filterForPacks
     PacksApi.delPack(idPack)
-        .then((res)=> {
+        .then(()=> {
             dispatch(getPacksTC())
         })}
 
-export const changePackTC = (idPack: string, name:string  ): AppThunk => (dispatch, getState) => {
+export const changePackTC = (idPack: string, name:string  ): AppThunk => (dispatch, ) => {
     dispatch(setAppStatusAC('loading'))
-    let model  = getState().packs.filterForPacks
     PacksApi.changePack(idPack, name)
-        .then((res)=> {
+        .then(()=> {
             dispatch(getPacksTC())
         })}
 
 
-export const addNewPackTS = (newName:string): AppThunk => (dispatch, getState) => {
+export const addNewPackTS = (newName:string): AppThunk => (dispatch, ) => {
     dispatch(setAppStatusAC('loading'))
-  let model  = getState().packs.filterForPacks
     PacksApi.addNewPack(newName)
         .then((res) => {
         if(res.status === 201){

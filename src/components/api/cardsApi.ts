@@ -20,6 +20,9 @@ export const cardsApi = {
     },
     deleteCards(cardsPack_id:string) {
         return instance.delete(`/cards/card?id=${cardsPack_id}`)
+    },
+    changeCards(card: newCardType) {
+        return instance.put(`/cards/card`, {card})
     }
 }
 
@@ -97,7 +100,8 @@ export type CardsType = {
     _id: string
 }
 export type newCardType = {
-    cardsPack_id: string,
-    question?: string,
+    // cardsPack_id: string
+    _id?: string
+    question?: string
     answer?: string
 }

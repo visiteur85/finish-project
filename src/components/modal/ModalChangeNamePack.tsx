@@ -16,9 +16,7 @@ type ModalAddPackPropsType = {
 export const ModalChangeNamePack: React.FC<ModalAddPackPropsType> = props => {
 
 
-    const {
-        changeNamePack, id, nameOfPack
-    } = props;
+    const {changeNamePack, id, nameOfPack} = props;
 
     let [newName, SetNewName] = useState(nameOfPack);
     const [error, SetError] = useState<null | string>(null);
@@ -35,7 +33,7 @@ export const ModalChangeNamePack: React.FC<ModalAddPackPropsType> = props => {
         }
 
     }
-    const onKeyPressHandler = (e: any) => e.key === 'Enter' && addNewPackHandler();
+    const onKeyPressHandler = (e: React.KeyboardEvent<HTMLDivElement>)  => e.key === 'Enter' && addNewPackHandler();
 
     const onChangeHandler = (e: any) => {
         SetError(null)

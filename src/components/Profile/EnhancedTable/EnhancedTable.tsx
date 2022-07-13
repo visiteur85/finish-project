@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../store/store";
 import {
     addNewPackTS,
@@ -7,14 +7,11 @@ import {
     getPacksTC,
     sortPacksAc
 } from "../../../store/packsReducer";
-
 import {TablePagination} from "@mui/material";
-
 import {Search} from "../Search/Search";
 import {NavLink} from "react-router-dom";
 import {PATH} from "../../../App";
 import SortIcon from '@mui/icons-material/Sort';
-
 import style from "../EnhancedTable/EnhancedTable.module.css"
 import {ModalAddPack} from "../../modal/ModalAddPack";
 import {ModalDelPack} from "../../modal/ModalDelPack";
@@ -26,13 +23,10 @@ type filtersNamesType = "name" | "updated" | "cardsCount"
 export const EnhancedTable = () => {
     const [searchName, setSearchName] = useState<string>('')
     const packs = useAppSelector(state => state.packs.cardPacks);
-    const packUserId = useAppSelector(state => state.card.packUserId);
-
     const currentPacksPage = useAppSelector(state => state.packs.filterForPacks.page) || 1;
     const packsAllPage = useAppSelector(state => state.packs.cardPacksTotalCount);
     const amountOfRows = useAppSelector(state => state.packs.filterForPacks.pageCount) || 4;
     const userID = useAppSelector(state => state.profile.profile._id);
-
 
 
     const [filter, setFilter] = useState<Record<filtersNamesType, boolean>>({
@@ -54,8 +48,7 @@ export const EnhancedTable = () => {
     }
 
     const handleChangePage = (e: any, value: number) => {
-        let currentPage = value
-        dispatch(changeCurrentPageAC(currentPage))
+        dispatch(changeCurrentPageAC(value))
         dispatch(getPacksTC())
     }
 
@@ -75,7 +68,7 @@ export const EnhancedTable = () => {
     return (
         <div style={{wordBreak: "break-all"}} className='container'>
             <div className={style.headerForTableWithModale}>
-            <Search searchName={searchName} setSearchName={setSearchName}/>
+                <Search searchName={searchName} setSearchName={setSearchName}/>
                 <ModalAddPack addNewPack={addNewPack}/>
 
             </div>
@@ -99,36 +92,30 @@ export const EnhancedTable = () => {
                     <tr key={d._id}>
                         <NavLink to={PATH.CARDS + `/${d._id}`}>
                             <td>{d.name}</td>
-
                         </NavLink>
                         <td>{d.cardsCount}</td>
                         <td>{d.updated}</td>
                         <td>{d.user_name}</td>
                         <td>
-
                             {userID === d.user_id &&
                                 <div style={{display: "flex"}}>
                                     <ModalDelPack delPack={delPack} id={d._id} name={d.name}/>
                                     <ModalChangeNamePack changeNamePack={changePack} id={d._id} nameOfPack={d.name}/>
-
                                 </div>
                             }
-
                         </td>
-
                     </tr>
                 ))}
                 </tbody>
             </table>
             <TablePagination
-onClick={()=>{window.scrollTo({top: 0, behavior: 'smooth'})}}
+                onClick={() => {window.scrollTo({top: 0, behavior: 'smooth'})}}
                 component="div"
                 count={packsAllPage}
                 page={currentPacksPage}
                 onPageChange={handleChangePage}
                 rowsPerPage={amountOfRows}
                 onRowsPerPageChange={handleChangeRowsPerPage}
-
             />
         </div>
     );

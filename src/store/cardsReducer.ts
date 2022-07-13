@@ -50,6 +50,24 @@ export const addNewCardsTC = (cardsPack_id: string, question?: string, answer?: 
         dispatch(setAppStatusAC('idle'))
     }
 }
+export const updateCardsTC = (_id: string, question?: string, answer?: string, cardsPack_id?: string): AppThunk => async (dispatch, ) => {
+
+    const newCard = {_id, question, answer}
+
+    try {
+        dispatch(setAppStatusAC('loading'))
+        await cardsApi.changeCards(newCard)
+        if(cardsPack_id) {
+            dispatch(getCardsTC(cardsPack_id))
+        }
+        dispatch(setAppStatusAC('succeeded'))
+    } catch (e: any) {
+        handleServerAppError(e, dispatch)
+    } finally {
+        dispatch(setAppStatusAC('idle'))
+    }
+}
+
 export const deleteCardsTC = (packId: string, cardsPack_id: string): AppThunk => async (dispatch, ) => {
     try {
         dispatch(setAppStatusAC('loading'))
@@ -62,4 +80,3 @@ export const deleteCardsTC = (packId: string, cardsPack_id: string): AppThunk =>
         dispatch(setAppStatusAC('idle'))
     }
 }
-

@@ -26,7 +26,7 @@ export const Search: FC<SearchPropsType> = ({searchName, setSearchName}) => {
         setSearchName('')
     }
 
-    const onKeyPressHandler = (e: any) => e.key === 'Enter' && onSearchHandler();
+    const onKeyPressHandler = (e: React.KeyboardEvent<HTMLDivElement>) => e.key === 'Enter' && onSearchHandler();
 
     return (
         <div className={s.searchBox}>

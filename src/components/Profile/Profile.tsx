@@ -19,12 +19,10 @@ const useDebounce = (value1: number = 0, value2: number = 0, delay: number): num
         const timeId = setTimeout(() => {
             setState([value1, value2])
         }, delay)
-
         return () => {
             clearTimeout(timeId)
         }
-    }, [value1, value2])
-
+    }, [delay, value1, value2])
     return state
 }
 
@@ -69,7 +67,7 @@ export const Profile = () => {
     }
 
     let debouncedValue = useDebounce(minAmount, maxAmount, 1000);
-    // console.log(debouncedValue)
+    
     const handleChange = (event: Event, newValue: number | number[]) => {
         dispatch(setMinMaxAmountOfCardsAC(newValue as number[]));
     };
@@ -84,7 +82,7 @@ export const Profile = () => {
         return <Navigate to={'/login'}/>
     }
 
-    const onKeyPressHandler = (e: any) => e.key === 'Enter' && onBlurHandler();
+    const onKeyPressHandler = (e: React.KeyboardEvent<HTMLDivElement>)  => e.key === 'Enter' && onBlurHandler();
 
     const onClickForMypacksHandler = () => {
         dispatch(showPyPacksAC(user_id))
@@ -159,8 +157,6 @@ export const Profile = () => {
                     </div>
                     <div className={style.table}>
                         <EnhancedTable/>
-                        {/*<button onClick={onClickForMypacksHandler}>show</button>*/}
-                        {/*<button onClick={onClickForAllHandler}>back</button>*/}
                         <Button style={{width:"150px"}} onClick={onClickForMypacksHandler} variant="outlined">my Packs</Button>
                         <Button style={{width:"150px"}} onClick={onClickForAllHandler} variant="outlined">All Packs</Button>
                     </div>
