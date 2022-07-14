@@ -68,7 +68,7 @@ export const EnhancedTable = () => {
     }
 
     return (
-        <div style={{wordBreak: "break-all"}} className='container'>
+        <div >
             <div className={style.headerForTableWithModale}>
                 <Search searchName={searchName} setSearchName={setSearchName}/>
                 <ModalAddPack addNewPack={addNewPack}/>
