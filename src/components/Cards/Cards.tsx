@@ -1,11 +1,16 @@
 import React, {useEffect} from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import {useAppDispatch, useAppSelector} from '../../store/store';
-import {useNavigate, useParams} from "react-router-dom";
+import {NavLink, useNavigate, useParams} from "react-router-dom";
 import {deleteCardsTC, getCardsTC} from '../../store/cardsReducer';
 import {ModalForNewCards} from "./ModalForNewCards";
 import {ModalDelCards} from "./ModalDelCards";
 import {ModalChangeCards} from "./ModalChangeNameCards";
+import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import SortIcon from "@mui/icons-material/Sort";
+import {PATH} from "../../App";
+import {ModalDelPack} from "../modal/ModalDelPack";
+import {ModalChangeNamePack} from "../modal/ModalChangeNamePack";
 
 export const Cards = React.memo(() => {
 
@@ -40,35 +45,43 @@ export const Cards = React.memo(() => {
         <div>
             <ModalForNewCards/>
 
-        <div style={{wordBreak: "break-all"}} className='container' >
-            <table className="table table-bordered">
-                <thead>
-                <th>Question</th>
-                <th>Answer</th>
-                <th>Updated</th>
-                <th>Grade</th>
-                <th>Actions</th>
-                </thead>
-                <tbody>
-                {cards.map((d) => (
-                    <tr key={d._id}>
-                        <td>{d.question}</td>
-                        <td>{d.answer}</td>
-                        <td>{d.updated}</td>
-                        <td>{d.grade}</td>
-                        <td>
-                            {userID === d.user_id &&
-                                <div style={{display: "flex"}}>
-                                    <ModalDelCards deleteCardsHandler={deleteCardsHandler} id={d._id} />
-                                    <ModalChangeCards _id={d._id}/>
-                                </div>
-                            }
+        <div>
 
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
+            <TableContainer component={Paper}>
+                <Table sx={{minWidth: 650}} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Question</TableCell>
+                            <TableCell align="left">Answer</TableCell>
+                            <TableCell align="center"> Updated</TableCell>
+                            <TableCell align="right">Grade</TableCell>
+                            <TableCell align="right">Actions</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {cards.map((row) => (
+                            <TableRow
+                                key={row._id}
+                                sx={{'&:last-child td, &:last-child th': {border: 0}}}>
+
+                                <TableCell align="left">{row.question}</TableCell>
+                                <TableCell align="left">{row.answer}</TableCell>
+                                <TableCell align="right">{row.updated}</TableCell>
+                                <TableCell align="right">{row.grade}</TableCell>
+                                <TableCell align="right">
+                                    {userID === row.user_id &&
+                                        <div style={{display: "flex"}}>
+                                            <ModalDelCards deleteCardsHandler={deleteCardsHandler} id={row._id} />
+                                            <ModalChangeCards _id={row._id}/>
+                                        </div>
+                                    }
+                                </TableCell>
+
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </div>
         </div>
     )
