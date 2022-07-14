@@ -8,6 +8,7 @@ import {addNewCardsTC} from "../../store/cardsReducer";
 import {useAppDispatch} from "../../store/store";
 import {useParams} from "react-router-dom";
 import style from "../Profile/Profile.module.css";
+import m from "./ModalForNewCards.module.css";
 
 
 export const ModalForNewCards = () => {
@@ -43,41 +44,52 @@ export const ModalForNewCards = () => {
     }
     const onKeyPressHandler = (e: React.KeyboardEvent<HTMLDivElement>) => e.key === 'Enter' && addNewCards();
 
+    const cancelHandler = () => {
+        setOpen(false)
+    }
 
 
     return (
-        <BasicModal button={"justButton"} open={open} setOpen={setOpen}>
-            <div>
-                <p>Add new card</p>
-                <Button variant="text">X</Button>
+        <BasicModal button={"justButton"} open={open} setOpen={setOpen} >
+            <div className={m.container}>
+                <div className={m.x}>
+                    <Button onClick={cancelHandler} variant="text" >X</Button>
+                </div>
+                <div >
+                    <h4 className={m.title}> Add new card</h4>
+                    <div className={m.title}>
+                        <TextField
+                            id="standard-textarea"
+                            label="Question"
+                            placeholder="Add Name"
+                            multiline
+                            variant="standard"
+                            value={addValue}
+                            onChange={onChangeHandler}
+                            onKeyPress={onKeyPressHandler}
+                        />
+                    </div>
+                    <div className={m.title}>
+                    <TextField
+                        id="standard-textarea"
+                        label="Answer"
+                        placeholder="Add Name"
+                        multiline
+                        variant="standard"
+                        value={addValue2}
+                        onChange={onChangeHandler2}
+                        onKeyPress={onKeyPressHandler}
+                    />
+                    </div>
+                    <div className={m.title}>
+                        {error && <div className={style.error}>{error}</div>}
+                    </div>
+                </div>
+            <div  className={m.buttons}>
+                <Button variant="outlined" onClick={cancelHandler} style={{width: "124px"}}>Cancel</Button>
+                <Button  variant="outlined"  onClick={addNewCards} style={{width: "124px"}}>Send</Button>
             </div>
-            <TextField
-                id="standard-textarea"
-                label="Question"
-                placeholder="Add Name"
-                multiline
-                variant="standard"
-                value={addValue}
-                onChange={onChangeHandler}
-                onKeyPress={onKeyPressHandler}
-
-            />
-            <TextField
-                id="standard-textarea"
-                label="Answer"
-                placeholder="Add Name"
-                multiline
-                variant="standard"
-                value={addValue2}
-                onChange={onChangeHandler2}
-                onKeyPress={onKeyPressHandler}
-
-            />
-            {error && <div className={style.error}>{error}</div>}
-            <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button style={{width: "124px"}}>Cancel</Button>
-                <Button onClick={addNewCards} style={{width: "124px"}}>Send</Button>
-            </ButtonGroup>
+            </div>
         </BasicModal>
     );
 }

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Navigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../store/store";
 import styleContainer from "../../style/Container.module.css"
 import style from "../Profile/Profile.module.css"
@@ -11,6 +11,7 @@ import packsListAvatar from "../../style/images/Union (Stroke).png"
 import profileAvatar from "../../style/images/Group 608.png"
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import Button from "@mui/material/Button";
+import {PATH} from "../../App";
 
 const useDebounce = (value1: number = 0, value2: number = 0, delay: number): number[] => {
     let [state, setState] = useState<number[]>([value1, value2])
@@ -45,6 +46,7 @@ export const Profile = () => {
 
     const minMAxAmount = [minAmount || 0, maxAmount || 100]
     const user_id = useAppSelector(state => state.profile.profile._id)
+    const navigate = useNavigate()
 
     const editModeHandler = () => {
         setEditMode(true)
@@ -67,7 +69,7 @@ export const Profile = () => {
     }
 
     let debouncedValue = useDebounce(minAmount, maxAmount, 1000);
-    
+
     const handleChange = (event: Event, newValue: number | number[]) => {
         dispatch(setMinMaxAmountOfCardsAC(newValue as number[]));
     };
@@ -82,7 +84,7 @@ export const Profile = () => {
         return <Navigate to={'/login'}/>
     }
 
-    const onKeyPressHandler = (e: React.KeyboardEvent<HTMLDivElement>)  => e.key === 'Enter' && onBlurHandler();
+    const onKeyPressHandler = (e: React.KeyboardEvent<HTMLDivElement>) => e.key === 'Enter' && onBlurHandler();
 
     const onClickForMypacksHandler = () => {
         dispatch(showPyPacksAC(user_id))
@@ -93,6 +95,10 @@ export const Profile = () => {
         dispatch(getPacksTC())
     }
 
+    const toCards = () => {
+      return  navigate(PATH.PROFILE)
+    }
+
 
     return (
 
@@ -100,7 +106,7 @@ export const Profile = () => {
             <div className={style.profileHeader}>
                 <div className={style.headerProfileHeader}>It-incubator</div>
                 <div className={style.buttonsForNavigate}>
-                    <div className={style.PacksList}>
+                    <div className={style.PacksList} onClick={toCards} >
                         <div>
                             <img src={packsListAvatar} alt="packsListAvatar"/>
                         </div>
@@ -110,7 +116,7 @@ export const Profile = () => {
                         <div>
                             <img src={profileAvatar} alt="profileAvatar"/>
                         </div>
-                        <p> Profile</p>
+                        <p > Profile</p>
                     </div>
                 </div>
             </div>
@@ -157,8 +163,10 @@ export const Profile = () => {
                     </div>
                     <div className={style.table}>
                         <EnhancedTable/>
-                        <Button style={{width:"150px"}} onClick={onClickForMypacksHandler} variant="outlined">my Packs</Button>
-                        <Button style={{width:"150px"}} onClick={onClickForAllHandler} variant="outlined">All Packs</Button>
+                        <Button style={{width: "150px"}} onClick={onClickForMypacksHandler} variant="outlined">my
+                            Packs</Button>
+                        <Button style={{width: "150px"}} onClick={onClickForAllHandler} variant="outlined">All
+                            Packs</Button>
                     </div>
                 </div>
             </div>

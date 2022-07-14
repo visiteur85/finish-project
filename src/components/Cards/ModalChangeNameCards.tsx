@@ -16,12 +16,12 @@ type ModalAddPackPropsType = {
 
 export const ModalChangeCards: React.FC<ModalAddPackPropsType> = props => {
     const {_id} = props;
-    const [open, setOpen] = React.useState(false);
     const dispatch = useAppDispatch()
     const {id} = useParams()
     const [addValue, setAddValue] = useState<string>('')
     const [addValue2, setAddValue2] = useState<string>('')//
     const [error, SetError] = useState<null | string>(null);
+    const [open, setOpen] = React.useState(false);
 
     const changeCards = () => {
         if (_id && id) {

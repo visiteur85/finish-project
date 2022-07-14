@@ -72,9 +72,7 @@ export const EnhancedTable = () => {
             <div className={style.headerForTableWithModale}>
                 <Search searchName={searchName} setSearchName={setSearchName}/>
                 <ModalAddPack addNewPack={addNewPack}/>
-
             </div>
-
             <TableContainer component={Paper}>
                 <Table sx={{minWidth: 650}} aria-label="simple table">
                     <TableHead>

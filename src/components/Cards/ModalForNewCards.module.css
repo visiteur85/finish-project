@@ -1,0 +1,17 @@
+.container {
+    /*background-color: #ffffff;*/
+}
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.x {
+    display: flex;
+    justify-content: right
+}
+.buttons {
+    margin-top:20px ;
+    display: flex;
+    justify-content: space-evenly;
+}
