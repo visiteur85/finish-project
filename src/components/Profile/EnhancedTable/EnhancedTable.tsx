@@ -100,7 +100,7 @@ export const EnhancedTable = () => {
                                     <TableCell align="left">{row.name}</TableCell>
                                 </NavLink>
                                 <TableCell align="right">{row.cardsCount}</TableCell>
-                                <TableCell align="right">{row.updated}</TableCell>
+                                <TableCell align="right">{row.updated.toString().slice(2, 10)}</TableCell>
                                 <TableCell align="right">{row.user_name}</TableCell>
                                 <TableCell align="right">
                                     {userID === row.user_id &&
@@ -110,12 +110,14 @@ export const EnhancedTable = () => {
                                                                  nameOfPack={row.name}/>
                                         </div>}
                                 </TableCell>
-
                             </TableRow>
-                        ))}
+                            ))}
                     </TableBody>
                 </Table>
             </TableContainer>
+            <div>
+                {packs.length===0 && <span style={{color:"red"}}>nothing found</span>}
+            </div>
             <TablePagination
                 onClick={() => {window.scrollTo({top: 0, behavior: 'smooth'})}}
                 component="div"

@@ -10,6 +10,7 @@ export const handleServerAppError = (error: Error | AxiosError, dispatch: Dispat
     dispatch(setAppErrorAC(errorMessage))
     dispatch(setAppStatusAC('failed'))
 }
+// error.response?.data.error
 // export const handleServerNetworkError = (err:any,dispatch: Dispatch<AuthActionsType>) => {
 //     const error = err.response
 //         ? err.response.data.error
