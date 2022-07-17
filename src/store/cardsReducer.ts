@@ -35,6 +35,7 @@ export const getCardsTC = (cardsPack_id: string): AppThunk => async (dispatch) =
         dispatch(setAppStatusAC('idle'))
     }
 }
+
 export const addNewCardsTC = (cardsPack_id: string, question?: string, answer?: string): AppThunk => async (dispatch, ) => {
 
     const newCard = {cardsPack_id, question, answer}
@@ -50,6 +51,7 @@ export const addNewCardsTC = (cardsPack_id: string, question?: string, answer?: 
         dispatch(setAppStatusAC('idle'))
     }
 }
+
 export const updateCardsTC = (_id: string, question?: string, answer?: string, cardsPack_id?: string): AppThunk => async (dispatch, ) => {
 
     const newCard = {_id, question, answer}

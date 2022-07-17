@@ -21,16 +21,16 @@ export const ModalForNewCards = () => {
     const {id} = useParams()
 
     const addNewCards = () => {
-       if(id){
-           if (addValue.trim() && addValue2.trim() !== "") {
-               dispatch(addNewCardsTC(id,addValue,addValue2))
-               setAddValue("")
-               setAddValue2("")
-               setOpen(false)
-           } else {
-               SetError("Введите текст")
-           }
-       }
+        if (id) {
+            if (addValue.trim() && addValue2.trim() !== "") {
+                dispatch(addNewCardsTC(id, addValue, addValue2))
+                setAddValue("")
+                setAddValue2("")
+                setOpen(false)
+            } else {
+                SetError("Введите текст")
+            }
+        }
     }
 
     const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -49,12 +49,12 @@ export const ModalForNewCards = () => {
 
 
     return (
-        <BasicModal button={"justButton"} open={open} setOpen={setOpen} >
+        <BasicModal button={"justButton"} open={open} setOpen={setOpen}>
             <div className={m.container}>
                 <div className={m.x}>
-                    <Button onClick={cancelHandler} variant="text" >X</Button>
+                    <Button onClick={cancelHandler} variant="text">X</Button>
                 </div>
-                <div >
+                <div>
                     <h4 className={m.title}> Add new card</h4>
                     <div className={m.title}>
                         <TextField
@@ -69,25 +69,25 @@ export const ModalForNewCards = () => {
                         />
                     </div>
                     <div className={m.title}>
-                    <TextField
-                        id="standard-textarea"
-                        label="Answer"
-                        placeholder="Add Name"
-                        multiline
-                        variant="standard"
-                        value={addValue2}
-                        onChange={onChangeHandler2}
-                        onKeyPress={onKeyPressHandler}
-                    />
+                        <TextField
+                            id="standard-textarea"
+                            label="Answer"
+                            placeholder="Add Name"
+                            multiline
+                            variant="standard"
+                            value={addValue2}
+                            onChange={onChangeHandler2}
+                            onKeyPress={onKeyPressHandler}
+                        />
                     </div>
                     <div className={m.title}>
                         {error && <div className={style.error}>{error}</div>}
                     </div>
                 </div>
-            <div  className={m.buttons}>
-                <Button variant="outlined" onClick={cancelHandler} style={{width: "124px"}}>Cancel</Button>
-                <Button  variant="outlined"  onClick={addNewCards} style={{width: "124px"}}>Send</Button>
-            </div>
+                <div className={m.buttons}>
+                    <Button variant="outlined" onClick={cancelHandler} style={{width: "124px"}}>Cancel</Button>
+                    <Button variant="outlined" onClick={addNewCards} style={{width: "124px"}}>Send</Button>
+                </div>
             </div>
         </BasicModal>
     );
