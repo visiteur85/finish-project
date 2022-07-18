@@ -7,8 +7,6 @@ import {Slider} from "@mui/material";
 import {changeNameTC} from "../../store/profileReducer";
 import {EnhancedTable} from "./EnhancedTable/EnhancedTable";
 import {getPacksTC, setMinMaxAmountOfCardsAC, showPyPacksAC} from "../../store/packsReducer";
-import packsListAvatar from "../../style/images/Union (Stroke).png"
-import profileAvatar from "../../style/images/Group 608.png"
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import Button from "@mui/material/Button";
 import {PATH} from "../../App";
