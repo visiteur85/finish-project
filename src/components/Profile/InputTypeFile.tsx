@@ -3,7 +3,7 @@ import {IconButton} from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Vector from '../../style/images/Web app/Vector.png'
 import {useAppDispatch} from "../../store/store";
-import {changeNameTC} from "../../store/profileReducer";
+import {savePhoto} from "../../store/profileReducer";
 
 export const InputTypeFile = React.memo(() => {
 
@@ -16,8 +16,7 @@ export const InputTypeFile = React.memo(() => {
             const file = e.target.files[0]
             if (file.size < 4000000) {
                 convertFileToBase64(file, (file64: string) => {
-                    dispatch(changeNameTC(file64))
-                    // setAva('111')
+                    dispatch(savePhoto(file64))
                 })
             } else {
                 alert('Файл слишком большого размера')
@@ -61,6 +60,3 @@ export const InputTypeFile = React.memo(() => {
     )
 })
 
-function changeName(file64: string) {
-    throw new Error('Function not implemented.');
-}

@@ -1,7 +1,7 @@
 import {ProfileType} from "../components/api/api";
 import {AppThunk} from "./store";
 import {setAppStatusAC} from "./app-reducer";
-import {profileApi} from "../components/api/ApiProfile";
+import {profileApi} from "../components/api/profileApi";
 import {handleServerAppError} from "../utils/error-utils";
 
 
@@ -49,22 +49,30 @@ export const savePhotoSuccess = (avatar: any) => ({type: 'profile/SAVE-PHOTO-SUC
 
 
 export type ProfileActionType = ReturnType<typeof getProfileDataAC> | ReturnType<typeof changeNameAC>
- | ReturnType<typeof savePhotoSuccess>
+    | ReturnType<typeof savePhotoSuccess>
 
 //thunks
-export const changeNameTC = (newName: string,avatar?:string): AppThunk => (dispatch) => {
+export const changeNameTC = (newName: string): AppThunk => (dispatch) => {
 
     dispatch(setAppStatusAC('loading'))
-    profileApi.changeName({name: newName,avatar:avatar})
+    profileApi.changeName(newName)
         .then(() => {
             dispatch(changeNameAC(newName))
+            dispatch(setAppStatusAC('succeeded'))
+        })
+        .catch(e => {
+            handleServerAppError(e, dispatch)
+        })
+}
+export const savePhoto = (avatar: string): AppThunk => (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
+    profileApi.changeAvatar(avatar)
+        .then(() => {
             dispatch(savePhotoSuccess(avatar))
             dispatch(setAppStatusAC('succeeded'))
         })
         .catch(e => {
             handleServerAppError(e, dispatch)
         })
-    // .finally(() => {
-    //     dispatch(signUpStatusAC('succeeded'))
-    // })
+
 }

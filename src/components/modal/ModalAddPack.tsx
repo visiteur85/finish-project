@@ -1,27 +1,33 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {ChangeEvent, useState} from 'react';
 import Button from '@mui/material/Button';
 import {BasicModal} from "./BasicModal";
 import TextField from "@mui/material/TextField";
 import style from "../Profile/Profile.module.css";
 import m from "./../Cards/ModalForNewCards.module.css";
+import Checkbox from '@mui/material/Checkbox';
+import {addNewPackTS, getPacksTC, setPrivatePacksAC} from "../../store/packsReducer";
+import {useAppDispatch, useAppSelector} from "../../store/store";
 
 
 type ModalAddPackPropsType = {
-    addNewPack: (newName: string) => void
+    addNewPack: (newName: string,privatePacks:boolean) => void
 }
 
 export const ModalAddPack: React.FC<ModalAddPackPropsType> = props => {
 
     const {addNewPack} = props;
 
+    const privatePacks = useAppSelector(state => state.packs.filterForPacks.private);
+
     let [newName, SetNewName] = useState("");
     const [error, SetError] = useState<null | string>(null);
     const [open, setOpen] = React.useState(false);
+    const dispatch = useAppDispatch()
 
     const addNewPackHandler = () => {
         if (newName.trim() !== "") {
-            addNewPack(newName)
+            addNewPack(newName,!privatePacks)
             SetNewName("")
             setOpen(false)
         } else {
@@ -39,6 +45,15 @@ export const ModalAddPack: React.FC<ModalAddPackPropsType> = props => {
         setOpen(false)
     }
 
+    const onChangeHandlerStatus = (e: ChangeEvent<HTMLInputElement>) => {
+        let newIsDoneValue = e.currentTarget.checked
+
+        console.log(setPrivatePacksAC(newIsDoneValue))
+
+        dispatch(setPrivatePacksAC(newIsDoneValue))
+
+    }
+
     return (
         <BasicModal button={"justButton"} open={open} setOpen={setOpen}>
             <div className={m.container}>
@@ -48,22 +63,27 @@ export const ModalAddPack: React.FC<ModalAddPackPropsType> = props => {
                 <p className={m.title}>Add new pack</p>
             </div>
             <div className={m.title}>
-            <TextField
-                id="standard-textarea"
-                label="Name pack"
-                placeholder="Add Name"
-                multiline
-                variant="standard"
-                value={newName}
-                onChange={onChangeHandler}
-                onKeyPress={onKeyPressHandler}
-            />
+                <TextField
+                    id="standard-textarea"
+                    label="Name pack"
+                    placeholder="Add Name"
+                    multiline
+                    variant="standard"
+                    value={newName}
+                    onChange={onChangeHandler}
+                    onKeyPress={onKeyPressHandler}
+                />
             </div>
             <div className={m.title}>
                 {error && <div className={style.error}>{error}</div>}
             </div>
             {error && <div className={style.error}>{error}</div>}
-            <div  className={m.buttons}>
+            <Checkbox
+                checked={privatePacks}
+                color="primary"
+                onChange={onChangeHandlerStatus}
+            />
+            <div className={m.buttons}>
                 <Button onClick={cancelHandler} style={{width: "124px"}}>Cancel</Button>
                 <Button onClick={addNewPackHandler} style={{width: "124px"}}>Send</Button>
             </div>
