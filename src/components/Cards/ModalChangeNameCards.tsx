@@ -8,18 +8,21 @@ import {useAppDispatch} from "../../store/store";
 import {useParams} from "react-router-dom";
 import {BasicModal} from "../modal/BasicModal";
 import {updateCardsTC} from "../../store/cardsReducer";
+import m from "./ModalForNewCards.module.css";
 
 
 type ModalAddPackPropsType = {
     _id?: string
+    question: string
+    answer: string
 }
 
 export const ModalChangeCards: React.FC<ModalAddPackPropsType> = props => {
-    const {_id} = props;
+    const {_id, answer, question} = props;
     const dispatch = useAppDispatch()
     const {id} = useParams()
-    const [addValue, setAddValue] = useState<string>('')
-    const [addValue2, setAddValue2] = useState<string>('')//
+    const [addValue, setAddValue] = useState<string>(question)
+    const [addValue2, setAddValue2] = useState<string>(answer)
     const [error, SetError] = useState<null | string>(null);
     const [open, setOpen] = React.useState(false);
 
@@ -35,7 +38,7 @@ export const ModalChangeCards: React.FC<ModalAddPackPropsType> = props => {
             }
         }
     }
-    const onKeyPressHandler = (e: React.KeyboardEvent<HTMLDivElement> ) => e.key === 'Enter' && changeCards();
+    const onKeyPressHandler = (e: React.KeyboardEvent<HTMLDivElement>) => e.key === 'Enter' && changeCards();
 
     const cancelHandler = () => {
         setOpen(false)
@@ -50,35 +53,45 @@ export const ModalChangeCards: React.FC<ModalAddPackPropsType> = props => {
     }
     return (
         <BasicModal button={"changeNamePack"} open={open} setOpen={setOpen}>
-            <div>
-                <p>Change name of your cards</p>
-                <Button onClick={cancelHandler} variant="text">X</Button>
+            <div className={m.container}>
+                <div className={m.x}>
+                    <Button onClick={cancelHandler} variant="text">X</Button>
+                </div>
+                <div>
+                    <p className={m.title}>Change name of your cards</p>
+                    <div className={m.title}>
+                        <TextField
+                            id="standard-textarea"
+                            label="Question"
+                            placeholder="change Question"
+                            multiline
+                            variant="standard"
+                            value={addValue}
+                            onChange={onChangeHandler}
+                            onKeyPress={onKeyPressHandler}
+                        />
+                    </div>
+                    <div className={m.title}>
+                        <TextField
+                            id="standard-textarea"
+                            label="Answer"
+                            placeholder="change Answer"
+                            multiline
+                            variant="standard"
+                            value={addValue2}
+                            onChange={onChangeHandler2}
+                            onKeyPress={onKeyPressHandler}
+                        />
+                    </div>
+                    <div className={m.title}>
+                        {error && <div className={style.error}>{error}</div>}
+                    </div>
+                    <div className={m.buttons}>
+                        <Button onClick={cancelHandler} style={{width: "124px"}}>Cancel</Button>
+                        <Button onClick={changeCards} style={{width: "124px"}}>Send</Button>
+                    </div>
+                </div>
             </div>
-            <TextField
-                id="standard-textarea"
-                label="Question"
-                placeholder="change Question"
-                multiline
-                variant="standard"
-                value={addValue}
-                onChange={onChangeHandler}
-                onKeyPress={onKeyPressHandler}
-            />
-            <TextField
-                id="standard-textarea"
-                label="Answer"
-                placeholder="change Answer"
-                multiline
-                variant="standard"
-                value={addValue2}
-                onChange={onChangeHandler2}
-                onKeyPress={onKeyPressHandler}
-            />
-            {error && <div className={style.error}>{error}</div>}
-            <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button onClick={cancelHandler} style={{width: "124px"}}>Cancel</Button>
-                <Button onClick={changeCards} style={{width: "124px"}}>Send</Button>
-            </ButtonGroup>
         </BasicModal>
     );
 }
