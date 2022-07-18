@@ -86,7 +86,9 @@ export const ModalForNewCards = () => {
                     </div>
                 </div>
             <div  className={m.buttons}>
-                <Button variant="outlined" onClick={cancelHandler} style={{width: "124px"}}>Cancel</Button>
+                <Button   variant="outlined" onClick={cancelHandler}
+                         style={{width: "124px"}}
+                >Cancel</Button>
                 <Button  variant="outlined"  onClick={addNewCards} style={{width: "124px"}}>Send</Button>
             </div>
             </div>

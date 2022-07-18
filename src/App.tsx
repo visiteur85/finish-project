@@ -79,9 +79,9 @@ export const App = () => {
                 <Route path={"profile"} element={<Profile/>}/>
                 <Route path={"test"} element={<Test/>}/>
                 <Route path={"404"} element={<PageNotFound/>}/>
-                <Route path="*" element={<Navigate to={"404"}/>}/>
                 <Route path={"cards/:id"} element={<Cards/>}/>
                 <Route path={"checkEmail"} element={<CheckEmail/>}/>
+                <Route path="*" element={<Navigate to={"404"}/>}/>
             </Routes>
         </div>
     );

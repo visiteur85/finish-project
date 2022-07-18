@@ -18,6 +18,7 @@ const useDebounce = (value1: number = 0, value2: number = 0, delay: number): num
 
     useEffect(() => {
         const timeId = setTimeout(() => {
+            if(state[0] === value1 && state[1] === value2) return
             setState([value1, value2])
         }, delay)
         return () => {
@@ -43,10 +44,12 @@ export const Profile = () => {
     const minAmount = useAppSelector(state => state.packs.filterForPacks.minCardsCount);
 
     const maxAmount = useAppSelector(state => state.packs.filterForPacks.maxCardsCount);
+    console.log('render')
 
     const minMAxAmount = [minAmount || 0, maxAmount || 100]
     const user_id = useAppSelector(state => state.profile.profile._id)
     const navigate = useNavigate()
+
 
     const editModeHandler = () => {
         setEditMode(true)
@@ -99,27 +102,41 @@ export const Profile = () => {
       return  navigate(PATH.PROFILE)
     }
 
+    // const goPathToProfileOrCards = (path: string) => {
+    //     navigate(path)
+    // }
 
     return (
 
         <div className={styleContainer.container}>
-            <div className={style.profileHeader}>
-                <div className={style.headerProfileHeader}>It-incubator</div>
-                <div className={style.buttonsForNavigate}>
-                    <div className={style.PacksList} onClick={toCards} >
-                        <div>
-                            <img src={packsListAvatar} alt="packsListAvatar"/>
-                        </div>
-                        <p>Packs list</p>
-                    </div>
-                    <div className={style.ProfileList}>
-                        <div>
-                            <img src={profileAvatar} alt="profileAvatar"/>
-                        </div>
-                        <p > Profile</p>
-                    </div>
-                </div>
-            </div>
+            {/*<div className={style.profileHeader}>*/}
+            {/*    <div className={style.headerProfileHeader}>It-incubator</div>*/}
+            {/*    <div className={style.buttonsForNavigate}>*/}
+            {/*        <div*/}
+            {/*        //     onClick={() => {goPathToProfileOrCards(`/cards/${user_id}`)*/}
+            {/*        // }}*/}
+            {/*              className={style.PacksList}>*/}
+            {/*            /!*<NavLink to={`/cards/${user_id}`} className={({isActive})=> isActive ? style.active : ""}>*!/*/}
+            {/*        <div className={style.PacksList} onClick={toCards} >*/}
+            {/*            <div>*/}
+            {/*                <img src={packsListAvatar} alt="packsListAvatar"/>*/}
+            {/*            </div>*/}
+            {/*            <p>Packs list</p>*/}
+            {/*                /!*</NavLink>*!/*/}
+            {/*        </div>*/}
+            {/*        <div*/}
+            {/*            // onClick={() => {goPathToProfileOrCards("/profile")}}*/}
+            {/*            className={style.ProfileList}>*/}
+            {/*            /!*<NavLink to="/profile" className={({isActive})=> isActive ? style.active : ""}>*!/*/}
+            {/*            <div>*/}
+            {/*                <img src={profileAvatar} alt="profileAvatar"/>*/}
+            {/*            </div>*/}
+            {/*            <p > Profile</p>*/}
+            {/*            <p> Profile</p>*/}
+            {/*            /!*</NavLink>*!/*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
             <div className={style.mainProfile}>
                 <div className={style.profileWithTable}>
                     <div className={style.profile}>
@@ -171,5 +188,6 @@ export const Profile = () => {
                 </div>
             </div>
         </div>
+
     );
 };
