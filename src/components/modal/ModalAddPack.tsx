@@ -27,7 +27,7 @@ export const ModalAddPack: React.FC<ModalAddPackPropsType> = props => {
 
     const addNewPackHandler = () => {
         if (newName.trim() !== "") {
-            addNewPack(newName,!privatePacks)
+                addNewPack(newName, privatePacks!)
             SetNewName("")
             setOpen(false)
         } else {
@@ -47,11 +47,7 @@ export const ModalAddPack: React.FC<ModalAddPackPropsType> = props => {
 
     const onChangeHandlerStatus = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked
-
-        console.log(setPrivatePacksAC(newIsDoneValue))
-
         dispatch(setPrivatePacksAC(newIsDoneValue))
-
     }
 
     return (
@@ -77,12 +73,15 @@ export const ModalAddPack: React.FC<ModalAddPackPropsType> = props => {
             <div className={m.title}>
                 {error && <div className={style.error}>{error}</div>}
             </div>
-            {error && <div className={style.error}>{error}</div>}
-            <Checkbox
-                checked={privatePacks}
-                color="primary"
-                onChange={onChangeHandlerStatus}
-            />
+            <div className={m.title}>
+                <Checkbox
+                    checked={privatePacks}
+                    color="primary"
+                    onChange={onChangeHandlerStatus}
+                />
+                <span>private packs</span>
+            </div>
+
             <div className={m.buttons}>
                 <Button onClick={cancelHandler} style={{width: "124px"}}>Cancel</Button>
                 <Button onClick={addNewPackHandler} style={{width: "124px"}}>Send</Button>

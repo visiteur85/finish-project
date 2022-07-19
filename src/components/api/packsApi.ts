@@ -25,7 +25,7 @@ export const PacksApi = {
             }
         })
     },
-    addNewPack(newName:string,privatePacks:boolean) {
+    addNewPack(newName:string, privatePacks:boolean) {
         const cardPack = {name: newName,private:privatePacks}
         return instance.post(`cards/pack`, {cardsPack:cardPack})}
     ,

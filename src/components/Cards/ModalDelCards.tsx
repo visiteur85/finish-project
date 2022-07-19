@@ -37,6 +37,7 @@ export const ModalDelCards: React.FC<ModalAddPackPropsType> = props => {
             </div>
             <div className={m.title}>
                 <p>Do you really want to remove <b>cards</b>?
+                    <br/>
                     All cards will be excluded from this course.</p>
             </div>
             <div className={m.buttons}>

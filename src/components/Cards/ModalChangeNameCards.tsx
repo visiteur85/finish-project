@@ -1,14 +1,16 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {ChangeEvent, useState} from 'react';
 import Button from '@mui/material/Button';
 import TextField from "@mui/material/TextField";
 import {ButtonGroup} from "@mui/material";
 import style from "../Profile/Profile.module.css";
-import {useAppDispatch} from "../../store/store";
+import {useAppDispatch, useAppSelector} from "../../store/store";
 import {useParams} from "react-router-dom";
 import {BasicModal} from "../modal/BasicModal";
 import {updateCardsTC} from "../../store/cardsReducer";
 import m from "./ModalForNewCards.module.css";
+import Checkbox from "@mui/material/Checkbox";
+import {setPrivatePacksAC} from "../../store/packsReducer";
 
 
 type ModalAddPackPropsType = {
@@ -25,6 +27,8 @@ export const ModalChangeCards: React.FC<ModalAddPackPropsType> = props => {
     const [addValue2, setAddValue2] = useState<string>(answer)
     const [error, SetError] = useState<null | string>(null);
     const [open, setOpen] = React.useState(false);
+    const privatePacks = useAppSelector(state => state.packs.filterForPacks.private);
+
 
     const changeCards = () => {
         if (_id && id) {
@@ -50,6 +54,10 @@ export const ModalChangeCards: React.FC<ModalAddPackPropsType> = props => {
     const onChangeHandler2 = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         SetError(null)
         setAddValue2(e.currentTarget.value)
+    }
+    const onChangeHandlerStatus = (e: ChangeEvent<HTMLInputElement>) => {
+        let newIsDoneValue = e.currentTarget.checked
+        dispatch(setPrivatePacksAC(newIsDoneValue))
     }
     return (
         <BasicModal button={"changeNamePack"} open={open} setOpen={setOpen}>
@@ -85,6 +93,14 @@ export const ModalChangeCards: React.FC<ModalAddPackPropsType> = props => {
                     </div>
                     <div className={m.title}>
                         {error && <div className={style.error}>{error}</div>}
+                    </div>
+                    <div className={m.title}>
+                        <Checkbox
+                            checked={privatePacks}
+                            color="primary"
+                            onChange={onChangeHandlerStatus}
+                        />
+                        <span>private packs</span>
                     </div>
                     <div className={m.buttons}>
                         <Button onClick={cancelHandler} style={{width: "124px"}}>Cancel</Button>

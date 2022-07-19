@@ -53,8 +53,7 @@ export const packReducer = (state = initialState, action: PacksActionType): PAck
         case "pack/SORT-PACKS":
             return {...state, filterForPacks: {...state.filterForPacks, sortPacksUpdate: action.sort}}
         case "pack/SET-PACK-USER-ID":
-            return {
-                ...state, filterForPacks: {
+            return {...state, filterForPacks: {
                     ...state.filterForPacks, packUserId: action.packUserId
                 }
             }
@@ -70,12 +69,9 @@ export const setSearchNamePacksAC = (packName: string) => ({type: "pack/SET-SEAR
 
 export const getPacksDataAC = (packs: AnswerGetPackType) => ({type: "pack/GET-PACKS", packs} as const);
 export const setPrivatePacksAC = (privatePacks: boolean) => ({type: "pack/PRIVATE-PACKS", privatePacks} as const);
-
 export const changeCountOfRawsAC = (countOfRows: number) => ({type: "pack/CHANGE-COUNT-ROWS", countOfRows} as const);
-
 export const setMinMaxAmountOfCardsAC = (minMaxValue: number[]) => ({type: "pack/SET-MIN-MAX-ROWS", minMaxValue} as const);
-
-export const changeCurrentPageAC = (currentPage: number) => ({type: "pack/CHANGE-CURRENT-PAGE", currentPage: currentPage} as const);
+export const changeCurrentPageAC = (currentPage: number) => ({type: "pack/CHANGE-CURRENT-PAGE",currentPage} as const);
 export const showPyPacksAC = (user_id: string | null) => ({type: "pack/SHOW-MY-PACKS", user_id} as const);
 export const sortPacksAc = (sort: sortPacksUpdateType) => ({type: "pack/SORT-PACKS", sort} as const);
 export const setPackUserIdAC = (packUserId: string) => ({type: 'pack/SET-PACK-USER-ID', packUserId} as const)
@@ -96,10 +92,7 @@ export type PacksActionType =
     | ReturnType<typeof setPackUserIdAC>
     | ReturnType<typeof setPrivatePacksAC>
 
-
 //thunks
-
-
 export const getPacksTC = (): AppThunk => (dispatch, getState) => {
     dispatch(setAppStatusAC('loading'))
     let model = getState().packs.filterForPacks
@@ -119,6 +112,7 @@ export const deletePackTC = (idPack: string): AppThunk => (dispatch,) => {
     PacksApi.delPack(idPack)
         .then(() => {
             dispatch(getPacksTC())
+            dispatch(setAppStatusAC('succeeded'))
         })
         .catch(e => {
             handleServerAppError(e, dispatch)
@@ -130,20 +124,20 @@ export const changePackTC = (idPack: string, name: string): AppThunk => (dispatc
     PacksApi.changePack(idPack, name)
         .then(() => {
             dispatch(getPacksTC())
+            dispatch(setAppStatusAC('succeeded'))
         })
         .catch(e => {
             handleServerAppError(e, dispatch)
         })
 }
 
-export const addNewPackTS = (newName: string,privatePacks:boolean): AppThunk => (dispatch,) => {
+export const addNewPackTS = (newName: string, privatePacks:boolean): AppThunk => (dispatch,) => {
     dispatch(setAppStatusAC('loading'))
     PacksApi.addNewPack(newName,privatePacks)
         .then((res) => {
             if (res.status === 201) {
-                // dispatch(setPrivatePacksAC(true))
-                dispatch(getPacksTC()
-                )
+                dispatch(getPacksTC())
+                dispatch(setAppStatusAC('succeeded'))
             }
         })
         .catch(e => {

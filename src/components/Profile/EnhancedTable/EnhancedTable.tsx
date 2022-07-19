@@ -39,7 +39,7 @@ export const EnhancedTable = () => {
 
     const dispatch = useAppDispatch();
 
-    const addNewPack = (newName: string,privatePacks:boolean) => {
+    const addNewPack = (newName: string, privatePacks:boolean) => {
         dispatch(addNewPackTS(newName,privatePacks))
     }
 
