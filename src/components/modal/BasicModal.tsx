@@ -6,8 +6,9 @@ import {FC, ReactNode, useState, PropsWithChildren, useEffect} from "react";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
+import SchoolIcon from '@mui/icons-material/School';
 
-export type ButtonsForModalType = "justButton" | "delButton" | "changeNamePack"
+export type ButtonsForModalType = "justButton" | "delButton" | "changeNamePack" | "startLearn"
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -24,11 +25,12 @@ type PropsType = {
     button: ButtonsForModalType
     open: boolean
     setOpen: (value: boolean) => void
+    cardsCount?:number
 
 }
 export const BasicModal: FC<PropsWithChildren<PropsType>> = (props) => {
     const {
-        children, open, setOpen, button
+        children, open, setOpen, button, cardsCount
     } = props
 
     // const [open, setOpen] = React.useState(false);
@@ -46,6 +48,12 @@ export const BasicModal: FC<PropsWithChildren<PropsType>> = (props) => {
     }
     else if (button === "changeNamePack") {
         changeButton = <DriveFileRenameOutlineIcon onClick={handleOpen}/>
+    }
+    else if (button === "startLearn") {
+        changeButton = <button style={{border:"none", backgroundColor:"transparent"}}
+                               onClick={handleOpen}
+                               disabled={cardsCount === 0 ? true : false}
+        ><SchoolIcon /></button>
     }
     return (
         <div>

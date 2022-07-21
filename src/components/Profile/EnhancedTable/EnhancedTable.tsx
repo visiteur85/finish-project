@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../store/store";
 import {
     addNewPackTS,
@@ -18,6 +18,8 @@ import style from "../EnhancedTable/EnhancedTable.module.css"
 import {ModalAddPack} from "../../modal/ModalAddPack";
 import {ModalDelPack} from "../../modal/ModalDelPack";
 import {ModalChangeNamePack} from "../../modal/ModalChangeNamePack";
+
+import {ModalStartLearn} from "../../modal/ModalStartLearn";
 
 
 type filtersNamesType = "name" | "updated" | "cardsCount"
@@ -68,7 +70,7 @@ export const EnhancedTable = () => {
     }
 
     return (
-        <div >
+        <div>
             <div className={style.headerForTableWithModale}>
                 <Search searchName={searchName} setSearchName={setSearchName}/>
                 <ModalAddPack addNewPack={addNewPack}/>
@@ -97,29 +99,34 @@ export const EnhancedTable = () => {
                                 key={row._id}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}>
                                 <NavLink to={PATH.CARDS + `/${row._id}`}>
-                                    <TableCell align="left">{row.name}</TableCell>
+                                    <TableCell align="center">{row.name}</TableCell>
                                 </NavLink>
-                                <TableCell align="right">{row.cardsCount}</TableCell>
-                                <TableCell align="right">{row.updated.toString().slice(2, 10)}</TableCell>
-                                <TableCell align="right">{row.user_name}</TableCell>
-                                <TableCell align="right">
+                                <TableCell align="center">{row.cardsCount}</TableCell>
+                                <TableCell align="center">{row.updated.toString().slice(2, 10)}</TableCell>
+                                <TableCell align="center">{row.user_name}</TableCell>
+                                <TableCell style={{display: "flex"}} align="center">
                                     {userID === row.user_id &&
                                         <div style={{display: "flex"}}>
                                             <ModalDelPack delPack={delPack} id={row._id} name={row.name}/>
                                             <ModalChangeNamePack changeNamePack={changePack} id={row._id}
                                                                  nameOfPack={row.name}/>
                                         </div>}
+
+                                    <ModalStartLearn nameOfPack={row.name} cardsCount={row.cardsCount}/>
+
                                 </TableCell>
                             </TableRow>
-                            ))}
+                        ))}
                     </TableBody>
                 </Table>
             </TableContainer>
             <div>
-                {packs.length===0 && <span style={{color:"red"}}>nothing found</span>}
+                {packs.length === 0 && <span style={{color: "red"}}>nothing found</span>}
             </div>
             <TablePagination
-                onClick={() => {window.scrollTo({top: 0, behavior: 'smooth'})}}
+                onClick={() => {
+                    window.scrollTo({top: 0, behavior: 'smooth'})
+                }}
                 component="div"
                 count={packsAllPage}
                 page={currentPacksPage}
