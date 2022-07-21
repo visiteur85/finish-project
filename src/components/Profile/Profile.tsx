@@ -7,6 +7,7 @@ import {Slider} from "@mui/material";
 import {changeNameTC} from "../../store/profileReducer";
 import {EnhancedTable} from "./EnhancedTable/EnhancedTable";
 import {getPacksTC, setMinMaxAmountOfCardsAC, showPyPacksAC} from "../../store/packsReducer";
+import avatar from "../../style/images/avatar.png"
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import Button from "@mui/material/Button";
 import {PATH} from "../../App";
@@ -30,7 +31,9 @@ const useDebounce = (value1: number = 0, value2: number = 0, delay: number): num
 
 export const Profile = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
-
+    const minAmount = useAppSelector(state => state.packs.filterForPacks.minCardsCount);
+    const maxAmount = useAppSelector(state => state.packs.filterForPacks.maxCardsCount);
+    const user_id = useAppSelector(state => state.profile.profile._id)
     const profile = useAppSelector(state => state.profile.profile);
     const dispatch = useAppDispatch();
 
@@ -40,13 +43,10 @@ export const Profile = () => {
 
     const [error, SetError] = useState<null | string>(null);
 
-    const minAmount = useAppSelector(state => state.packs.filterForPacks.minCardsCount);
 
-    const maxAmount = useAppSelector(state => state.packs.filterForPacks.maxCardsCount);
-    console.log('render')
 
     const minMAxAmount = [minAmount || 0, maxAmount || 100]
-    const user_id = useAppSelector(state => state.profile.profile._id)
+
     const navigate = useNavigate()
 
 
@@ -92,6 +92,7 @@ export const Profile = () => {
         dispatch(showPyPacksAC(user_id))
         dispatch(getPacksTC())
     }
+
     const onClickForAllHandler = () => {
         dispatch(showPyPacksAC(null))
         dispatch(getPacksTC())
@@ -142,7 +143,7 @@ export const Profile = () => {
                         <div className={style.profileInfo}>
                             <div>
                                 <img className={style.imagForProfile}
-                                     src="https://im.kommersant.ru/Issues.photo/OGONIOK/2014/031/KMO_121006_03711_1_t218_105126.jpg"
+                                     src={profile.avatar || avatar}
                                      alt="avatar"/>
                                 <InputTypeFile/>
                             </div>

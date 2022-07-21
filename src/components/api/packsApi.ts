@@ -25,8 +25,8 @@ export const PacksApi = {
             }
         })
     },
-    addNewPack(newName:string) {
-        const cardPack = {name: newName}
+    addNewPack(newName:string, privatePacks:boolean) {
+        const cardPack = {name: newName,private:privatePacks}
         return instance.post(`cards/pack`, {cardsPack:cardPack})}
     ,
     delPack(idPack:string) {
@@ -74,6 +74,7 @@ export type FilterForPacksType = {
     packName?:string
     user_id?: string | null
     packUserId?: string | null
+    private?:boolean
     //поиск по имени
 }
 

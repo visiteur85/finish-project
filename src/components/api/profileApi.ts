@@ -1,6 +1,5 @@
 import axios from "axios";
 import {ProfileType} from "./api";
-// import {ParamsType} from "./api";
 
 // export const instance = axios.create({
 //     baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/',
@@ -12,8 +11,11 @@ export const instance = axios.create({
 })
 
 export const profileApi = {
-    changeName(data:ChangeProfileType) {
-        return instance.put<AnswerChangeProfileType>(`/auth/me`, data)
+    changeName(name: string) {
+        return instance.put<AnswerChangeProfileType>(`/auth/me`, { name})
+    } ,
+    changeAvatar( avatar: string) {
+        return instance.put<AnswerChangeProfileType>(`/auth/me`, { avatar})
     }
 }
 

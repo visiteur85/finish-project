@@ -8,6 +8,7 @@ import {ModalDelCards} from "./ModalDelCards";
 import {ModalChangeCards} from "./ModalChangeNameCards";
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 import {PATH} from "../../App";
+import { Grade } from './Grade/Grade';
 
 export const Cards = React.memo(() => {
 
@@ -42,7 +43,6 @@ export const Cards = React.memo(() => {
         <div>
             <ModalForNewCards/>
             <div>
-
                 <TableContainer component={Paper}>
                     <Table sx={{minWidth: 650}} aria-label="simple table">
                         <TableHead>
@@ -59,13 +59,13 @@ export const Cards = React.memo(() => {
                                 <TableRow
                                     key={row._id}
                                     sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-                                    <NavLink to={PATH.CARDS + `/${row._id}`}>
-                                        <TableCell align="left">{row.question}</TableCell>
-                                    </NavLink>
+                                    {/*<NavLink to={PATH.CARDS + `/${row._id}`}>*/}
+                                    {/*    <TableCell align="left">{row.question}</TableCell>*/}
+                                    {/*</NavLink>*/}
                                     <TableCell align="left">{row.question}</TableCell>
                                     <TableCell align="left">{row.answer}</TableCell>
                                     <TableCell align="right">{row.updated.toString().slice(2, 10)}</TableCell>
-                                    <TableCell align="right">{row.grade}</TableCell>
+                                    <TableCell align="right"><Grade value={row.grade}/></TableCell>
                                     <TableCell align="right">
                                         {userID === row.user_id &&
                                             <div style={{display: "flex"}}>
@@ -78,6 +78,9 @@ export const Cards = React.memo(() => {
                             ))}
                         </TableBody>
                     </Table>
+                    <div>
+                        {cards && !cards.length && <span style={{color:"purple"}}>cards not created</span>}
+                    </div>
                 </TableContainer>
             </div>
         </div>

@@ -41,8 +41,8 @@ export const EnhancedTable = () => {
 
     const dispatch = useAppDispatch();
 
-    const addNewPack = (newName: string) => {
-        dispatch(addNewPackTS(newName))
+    const addNewPack = (newName: string, privatePacks:boolean) => {
+        dispatch(addNewPackTS(newName,privatePacks))
     }
 
     const handleChangeRowsPerPage = (e: any) => {
