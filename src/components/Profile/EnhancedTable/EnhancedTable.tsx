@@ -19,7 +19,7 @@ import {ModalAddPack} from "../../modal/ModalAddPack";
 import {ModalDelPack} from "../../modal/ModalDelPack";
 import {ModalChangeNamePack} from "../../modal/ModalChangeNamePack";
 
-import {ModalStartLearn} from "../../modal/ModalStartLearn";
+import {ModalStartLearn} from "../../modal/Learn/ModalStartLearn";
 
 
 type filtersNamesType = "name" | "updated" | "cardsCount"
@@ -112,7 +112,7 @@ export const EnhancedTable = () => {
                                                                  nameOfPack={row.name}/>
                                         </div>}
 
-                                    <ModalStartLearn nameOfPack={row.name} cardsCount={row.cardsCount}/>
+                                    <ModalStartLearn packId={row._id} nameOfPack={row.name} cardsCount={row.cardsCount}/>
 
                                 </TableCell>
                             </TableRow>

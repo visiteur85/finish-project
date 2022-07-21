@@ -1,24 +1,26 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import {BasicModal} from "./BasicModal";
+import {BasicModal} from "../BasicModal";
 import TextField from "@mui/material/TextField";
 import {ButtonGroup} from "@mui/material";
 import {useState} from "react";
-import style from "../Profile/Profile.module.css";
-import m from "../Cards/ModalForNewCards.module.css";
+import style from "../../Profile/Profile.module.css";
+import m from "../../Cards/ModalForNewCards.module.css";
+import {Question} from "./Question";
 
 
 type ModalAddPackPropsType = {
     // id: string
     cardsCount:number
     nameOfPack:string
+    packId:string
 
     // name: string
 }
 
 export const ModalStartLearn: React.FC<ModalAddPackPropsType> = props => {
 
-    const {cardsCount, nameOfPack} = props;
+    const {cardsCount, nameOfPack, packId} = props;
 
     const [open, setOpen] = React.useState(false);
 
@@ -38,7 +40,7 @@ export const ModalStartLearn: React.FC<ModalAddPackPropsType> = props => {
                     <p>{nameOfPack}</p>
                 <div>
                     <span>Question:      </span>
-                    <span>Name of Question</span>
+                    <span><Question packId={packId}/></span>
                 </div>
 
                 {/*</div>*/}
