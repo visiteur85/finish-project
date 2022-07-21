@@ -1,10 +1,10 @@
 import * as React from 'react';
+import {useState} from 'react';
 import Button from '@mui/material/Button';
 import {BasicModal} from "./BasicModal";
 import TextField from "@mui/material/TextField";
-import {ButtonGroup} from "@mui/material";
-import {useState} from "react";
 import style from "../Profile/Profile.module.css";
+import m from "./../Cards/ModalForNewCards.module.css";
 
 
 type ModalAddPackPropsType = {
@@ -41,10 +41,13 @@ export const ModalAddPack: React.FC<ModalAddPackPropsType> = props => {
 
     return (
         <BasicModal button={"justButton"} open={open} setOpen={setOpen}>
-            <div>
-                <p>Add new pack</p>
-                <Button onClick={cancelHandler} variant="text">X</Button>
+            <div className={m.container}>
+                <div className={m.x}>
+                    <Button onClick={cancelHandler} variant="text">X</Button>
+                </div>
+                <p className={m.title}>Add new pack</p>
             </div>
+            <div className={m.title}>
             <TextField
                 id="standard-textarea"
                 label="Name pack"
@@ -55,12 +58,15 @@ export const ModalAddPack: React.FC<ModalAddPackPropsType> = props => {
                 onChange={onChangeHandler}
                 onKeyPress={onKeyPressHandler}
             />
+            </div>
+            <div className={m.title}>
+                {error && <div className={style.error}>{error}</div>}
+            </div>
             {error && <div className={style.error}>{error}</div>}
-            <ButtonGroup variant="contained" aria-label="outlined primary button group">
+            <div  className={m.buttons}>
                 <Button onClick={cancelHandler} style={{width: "124px"}}>Cancel</Button>
                 <Button onClick={addNewPackHandler} style={{width: "124px"}}>Send</Button>
-
-            </ButtonGroup>
+            </div>
         </BasicModal>
     );
 }

@@ -49,7 +49,7 @@ export const EnhancedTable = () => {
         dispatch(getPacksTC())
     }
 
-    const handleChangePage = (e: any, value: number) => {
+    const handleChangePage = (e: React.MouseEvent<HTMLButtonElement> | null, value: number) => {
         dispatch(changeCurrentPageAC(value))
         dispatch(getPacksTC())
     }

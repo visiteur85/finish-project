@@ -10,6 +10,7 @@ import {getPacksTC, setMinMaxAmountOfCardsAC, showPyPacksAC} from "../../store/p
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import Button from "@mui/material/Button";
 import {PATH} from "../../App";
+import {InputTypeFile} from "./InputTypeFile";
 
 const useDebounce = (value1: number = 0, value2: number = 0, delay: number): number[] => {
     let [state, setState] = useState<number[]>([value1, value2])
@@ -143,6 +144,7 @@ export const Profile = () => {
                                 <img className={style.imagForProfile}
                                      src="https://im.kommersant.ru/Issues.photo/OGONIOK/2014/031/KMO_121006_03711_1_t218_105126.jpg"
                                      alt="avatar"/>
+                                <InputTypeFile/>
                             </div>
                             <div className={style.changeInput}>
                                 {editMode ?
@@ -161,6 +163,7 @@ export const Profile = () => {
                             </div>
                             {error && <div className={style.error}>{error}</div>}
                             <p className={style.description}>Front-end developer</p>
+
                         </div>
                         <div className={style.numberOfCards}>
                             <p className={style.nameOfDescription}>Number of cards</p>

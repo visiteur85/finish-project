@@ -7,7 +7,6 @@ import {AnswerGetPackType, OnePackType, PacksApi, sortPacksUpdateType} from "../
 const initialState = {
     cardPacks: [] as OnePackType[],
     cardPacksTotalCount: 0,
-
     filterForPacks: {
         minCardsCount: 0,
         maxCardsCount: 100,
