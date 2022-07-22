@@ -1,9 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../store/store";
-import {getCardsTC} from "../../../store/cardsReducer";
+import {changeGradeTC, getCardsTC} from "../../../store/cardsReducer";
 import {CardsType} from "../../api/cardsApi";
 import Button from "@mui/material/Button";
 import m from "../../Cards/ModalForNewCards.module.css";
+import thunk from "redux-thunk";
+import {useNavigate} from "react-router-dom";
+import {ModalStartLearn} from "./ModalStartLearn";
 
 type QuestionPropsType = {
     packId: string
@@ -33,6 +36,7 @@ export const Question: React.FC<QuestionPropsType> = props => {
     const [open, setOpen] = React.useState(false);
 
 
+
     const [isChecked, setIsChecked] = useState<boolean>(false);
     const [random, setRandom] = useState<CardsType | null>(null);
 
@@ -57,15 +61,26 @@ export const Question: React.FC<QuestionPropsType> = props => {
         cancelHandler()
     }
 
-    const getAnswerNumber = (i:any)=> {
-        console.log(i)
+    const getAnswerNumber = (i:number)=> {
+        if (i === 0 && random) {
+            dispatch(changeGradeTC(1, random._id))
+
+
+        } if (i === 1 && random) {
+            dispatch(changeGradeTC(2, random._id))
+        } if (i === 2 && random) {
+            dispatch(changeGradeTC(3, random._id))
+        } if (i === 3 && random) {
+            dispatch(changeGradeTC(4, random._id))
+        } if (i === 4 && random) {
+            dispatch(changeGradeTC(5, random._id))
+        }
+        setIsChecked(false)
     }
     return (
         <div >
             {random && random.question}
-            {/*<div>*/}
-            {/*    <Button onClick={() => setIsChecked(true)}>check</Button>*/}
-            {/*</div>*/}
+
             {isChecked && (
                 <div style={{marginTop:"30px"}}>
                     <div style={{fontWeight:"normal"}}><span style={{fontWeight:"bold"}}>Answer:</span>{random && random.answer}</div>

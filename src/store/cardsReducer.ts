@@ -12,6 +12,9 @@ export const cardsReducer = (state = initialState, action: CardssActionType): Ca
     switch (action.type) {
         case "cards/GET-CARDS":
             return {...state, ...action.cards}
+        case "cards/change-GRADE":{
+            return {...state, cards: state.cards.map(card=> card._id === action.card_id ? {...card, grade:action.grade} : card)}
+        }
         default:
             return state
     }
@@ -19,12 +22,17 @@ export const cardsReducer = (state = initialState, action: CardssActionType): Ca
 
 export const getCardsDataAC = (cards: RequestCardType) => ({type: "cards/GET-CARDS", cards} as const);
 
-export type CardssActionType = ReturnType<typeof getCardsDataAC>
+export type CardssActionType = ReturnType<typeof getCardsDataAC> | ReturnType<typeof changeGradeAC>
+
+export const changeGradeAC = (grade:number, card_id:string) => ({type: "cards/change-GRADE", grade, card_id} as const);
+
+
 
 export const getCardsTC = (cardsPack_id: string): AppThunk => async (dispatch) => {
     try {
         dispatch(setAppStatusAC('loading'))
         let res = await cardsApi.getCards(cardsPack_id, Infinity )
+        console.log(res)
         dispatch(setPackUserIdAC(res.data.packUserId))
         dispatch(showPyPacksAC(cardsPack_id))
         dispatch(getCardsDataAC(res.data))
@@ -82,3 +90,18 @@ export const deleteCardsTC = (packId: string, cardsPack_id: string): AppThunk =>
         dispatch(setAppStatusAC('idle'))
     }
 }
+
+export const changeGradeTC = (grade:number, card_id:string): AppThunk => async (dispatch, ) => {
+    try {
+        dispatch(setAppStatusAC('loading'))
+        let res = await cardsApi.changeGrade(grade, card_id)
+        console.log(res)
+        dispatch(changeGradeAC(res.data.updatedGrade.grade, res.data.updatedGrade.card_id ))
+        dispatch(setAppStatusAC('succeeded'))
+    } catch (e: any) {
+        handleServerAppError(e, dispatch)
+    } finally {
+        dispatch(setAppStatusAC('idle'))
+    }
+}
+

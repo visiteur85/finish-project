@@ -18,6 +18,8 @@ import {SetPassword} from "./components/Auth/setPassword/SetPassword";
 import {ForgotPass} from "./components/Auth/ForgotPass/ForgotPass";
 import {CheckEmail} from "./components/Auth/ForgotPass/checkEmail/CheckEmail";
 import {Login} from "./components/Auth/Login/Login";
+import {Question} from "./components/modal/Learn/Question";
+import {ModalStartLearn} from "./components/modal/Learn/ModalStartLearn";
 
 export const PATH = {
     LOGIN: '/login',
@@ -28,6 +30,7 @@ export const PATH = {
     LEARN: '/learn',
     TEST_MAP: '/test-map',
     TEST: '/text',
+
 };
 
 export const App = () => {
@@ -81,6 +84,7 @@ export const App = () => {
                 <Route path={"404"} element={<PageNotFound/>}/>
                 <Route path={"cards/:id"} element={<Cards/>}/>
                 <Route path={"checkEmail"} element={<CheckEmail/>}/>
+
                 <Route path="*" element={<Navigate to={"404"}/>}/>
             </Routes>
         </div>
