@@ -24,7 +24,7 @@ export type CardssActionType = ReturnType<typeof getCardsDataAC>
 export const getCardsTC = (cardsPack_id: string): AppThunk => async (dispatch) => {
     try {
         dispatch(setAppStatusAC('loading'))
-        let res = await cardsApi.getCards(cardsPack_id)
+        let res = await cardsApi.getCards(cardsPack_id, Infinity )
         dispatch(setPackUserIdAC(res.data.packUserId))
         dispatch(showPyPacksAC(cardsPack_id))
         dispatch(getCardsDataAC(res.data))

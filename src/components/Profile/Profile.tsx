@@ -147,6 +147,7 @@ export const Profile = () => {
                                      alt="avatar"/>
                                 <InputTypeFile/>
                             </div>
+
                             <div className={style.changeInput}>
                                 {editMode ?
                                     <input className={error ? style.errorInput : ""}

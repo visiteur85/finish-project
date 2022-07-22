@@ -7,6 +7,8 @@ import m from "../../Cards/ModalForNewCards.module.css";
 
 type QuestionPropsType = {
     packId: string
+    cancelHandler:()=>void
+    cardsCount: number
 }
 
 const grades = ['не знал', 'забыл', 'долго думал', 'перепутал', 'знал'];
@@ -26,7 +28,7 @@ const getCard = (cards: CardsType[]): CardsType => {
 
 export const Question: React.FC<QuestionPropsType> = props => {
     const dispatch = useAppDispatch();
-    const {packId} = props;
+    const {packId, cancelHandler, cardsCount} = props;
     const cards = useAppSelector(state => state.card.cards);
     const [open, setOpen] = React.useState(false);
 
@@ -51,30 +53,31 @@ export const Question: React.FC<QuestionPropsType> = props => {
             setRandom(getCard(cards));
         }
     }
-    const cancelHandler = () => {
-        setOpen(false)
+    const cancelHandlerFrom = () => {
+        cancelHandler()
     }
     return (
-        <div>
+        <div >
             {random && random.question}
-            <div>
-                <Button onClick={() => setIsChecked(true)}>check</Button>
-            </div>
+            {/*<div>*/}
+            {/*    <Button onClick={() => setIsChecked(true)}>check</Button>*/}
+            {/*</div>*/}
             {isChecked && (
-                <>
-                    <div>Answer:{random && random.answer}</div>
+                <div style={{marginTop:"30px"}}>
+                    <div style={{fontWeight:"normal"}}><span style={{fontWeight:"bold"}}>Answer:</span>{random && random.answer}</div>
 
                     {grades.map((g, i) => (
-                        <Button key={'grade-' + i} onClick={() => {
-                        }}>{g}</Button>
+                        <div >
+                        <Button style={{width:"auto"}}  key={'grade-' + i} onClick={() => {
+                        }}>{g}</Button></div>
                     ))}
 
-                    <div><Button onClick={onNext}>next</Button></div>
-                </>
+                    <div><Button style={{border:"1px solid red"}} onClick={onNext}>next</Button></div>
+                </div>
             )}
             <div className={m.buttons}>
                 <Button onClick={cancelHandler} style={{width: "124px"}}>Cancel</Button>
-                <Button style={{width: "190px"}}>Show Answer</Button>
+                <Button onClick={() => setIsChecked(true)} style={{width: "190px"}}>Show Answer</Button>
             </div>
         </div>
     );

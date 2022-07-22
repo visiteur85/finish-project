@@ -37,10 +37,10 @@ export const ModalStartLearn: React.FC<ModalAddPackPropsType> = props => {
                 </div>
                 {/*<div className={m.title}>*/}
                     <h4 className={m.title}>Learn</h4>
-                    <p>{nameOfPack}</p>
-                <div>
-                    <span>Question:      </span>
-                    <span><Question packId={packId}/></span>
+                    <p>{nameOfPack}:</p>
+                <div style={{display:"flex"}}>
+                    <strong><span>Question:</span></strong>
+                    <span><Question cancelHandler={cancelHandler}  packId={packId} cardsCount = {cardsCount}/></span>
                 </div>
 
                 {/*</div>*/}

@@ -41,8 +41,8 @@ export const EnhancedTable = () => {
 
     const dispatch = useAppDispatch();
 
-    const addNewPack = (newName: string, privatePacks:boolean) => {
-        dispatch(addNewPackTS(newName,privatePacks))
+    const addNewPack = (newName: string, privatePacks: boolean) => {
+        dispatch(addNewPackTS(newName, privatePacks))
     }
 
     const handleChangeRowsPerPage = (e: any) => {
@@ -112,7 +112,8 @@ export const EnhancedTable = () => {
                                                                  nameOfPack={row.name}/>
                                         </div>}
 
-                                    <ModalStartLearn packId={row._id} nameOfPack={row.name} cardsCount={row.cardsCount}/>
+                                    <ModalStartLearn packId={row._id} nameOfPack={row.name}
+                                                     cardsCount={row.cardsCount}/>
 
                                 </TableCell>
                             </TableRow>

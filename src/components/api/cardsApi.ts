@@ -12,7 +12,7 @@ export const instance = axios.create({
 
 
 export const cardsApi = {
-    getCards(cardsPack_id: string, pageCount?:string) {
+    getCards(cardsPack_id: string, pageCount:number) {
         return instance.get<RequestCardType>(`/cards/card?`, {params: {cardsPack_id,pageCount}})
     },
     addCards (cards: newCardType) {
