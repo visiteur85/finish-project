@@ -44,10 +44,7 @@ export const ModalStartLearn: React.FC<ModalAddPackPropsType> = props => {
                 </div>
 
                 {/*</div>*/}
-                <div className={m.buttons}>
-                    <Button  onClick={cancelHandler} style={{width: "124px"}}>Cancel</Button>
-                    <Button style={{width: "190px"}} >Show Answer</Button>
-                </div>
+
             </div>
         </BasicModal>
     );
