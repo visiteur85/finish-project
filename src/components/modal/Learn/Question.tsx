@@ -56,6 +56,10 @@ export const Question: React.FC<QuestionPropsType> = props => {
     const cancelHandlerFrom = () => {
         cancelHandler()
     }
+
+    const getAnswerNumber = (i:any)=> {
+        console.log(i)
+    }
     return (
         <div >
             {random && random.question}
@@ -68,8 +72,7 @@ export const Question: React.FC<QuestionPropsType> = props => {
 
                     {grades.map((g, i) => (
                         <div >
-                        <Button style={{width:"auto"}}  key={'grade-' + i} onClick={() => {
-                        }}>{g}</Button></div>
+                        <Button style={{width:"auto"}}  key={'grade-' + i} onClick={()=>getAnswerNumber(i)}>{g}</Button></div>
                     ))}
 
                     <div><Button style={{border:"1px solid red"}} onClick={onNext}>next</Button></div>
