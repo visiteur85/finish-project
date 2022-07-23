@@ -25,9 +25,7 @@ export const cardsApi = {
         return instance.put(`/cards/card`, {card})
     },
     changeGrade(grade:number, card_id:string) {
-        // const data = { grade, card_id }
-        // return instance.put(`/cards/grade`, { grade, card_id })
-        return instance.put<GradeRuquestType, GradeAnswerType>(`/cards/grade`, { grade, card_id })
+        return instance.put<CardsType>(`/cards/grade`, { grade, card_id })
     }
 
 }
@@ -104,6 +102,8 @@ export type CardsType = {
     created: string
     updated: string
     _id: string
+    card_id: string
+
 }
 export type newCardType = {
     // cardsPack_id: string

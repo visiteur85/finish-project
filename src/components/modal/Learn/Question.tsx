@@ -30,13 +30,13 @@ const getCard = (cards: CardsType[]): CardsType => {
 }
 
 export const Question: React.FC<QuestionPropsType> = props => {
+
     const dispatch = useAppDispatch();
-    const {packId, cancelHandler, cardsCount} = props;
     const cards = useAppSelector(state => state.card.cards);
+
+    const {packId, cancelHandler, cardsCount} = props;
+
     const [open, setOpen] = React.useState(false);
-
-
-
     const [isChecked, setIsChecked] = useState<boolean>(false);
     const [random, setRandom] = useState<CardsType | null>(null);
 

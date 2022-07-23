@@ -32,7 +32,6 @@ export const getCardsTC = (cardsPack_id: string): AppThunk => async (dispatch) =
     try {
         dispatch(setAppStatusAC('loading'))
         let res = await cardsApi.getCards(cardsPack_id, Infinity )
-        console.log(res)
         dispatch(setPackUserIdAC(res.data.packUserId))
         dispatch(showPyPacksAC(cardsPack_id))
         dispatch(getCardsDataAC(res.data))
@@ -92,11 +91,11 @@ export const deleteCardsTC = (packId: string, cardsPack_id: string): AppThunk =>
 }
 
 export const changeGradeTC = (grade:number, card_id:string): AppThunk => async (dispatch, ) => {
+
     try {
         dispatch(setAppStatusAC('loading'))
         let res = await cardsApi.changeGrade(grade, card_id)
-        console.log(res)
-        dispatch(changeGradeAC(res.data.updatedGrade.grade, res.data.updatedGrade.card_id ))
+        dispatch(changeGradeAC(res.data.grade, res.data.card_id ))
         dispatch(setAppStatusAC('succeeded'))
     } catch (e: any) {
         handleServerAppError(e, dispatch)
