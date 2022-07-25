@@ -4,7 +4,10 @@ import {handleServerAppError} from "../utils/error-utils";
 import {cardsApi, RequestCardType} from "../components/api/cardsApi";
 import {setPackUserIdAC, showPyPacksAC} from "./packsReducer";
 
-const initialState = {} as RequestCardType;
+const initialState = {
+    // cardsTotalCount:0,
+
+} as RequestCardType;
 
 export type CardsReducerType = typeof initialState
 
@@ -15,6 +18,10 @@ export const cardsReducer = (state = initialState, action: CardssActionType): Ca
         case "cards/change-GRADE":{
             return {...state, cards: state.cards.map(card=> card._id === action.card_id ? {...card, grade:action.grade} : card)}
         }
+        case "cards/CHANGE-CURRENT-PAGE":
+            return {...state, page: action.currentPage}
+        case "cards/CHANGE-COUNT-ROWS":
+            return {...state, pageCount: action.countOfRows}
         default:
             return state
     }
@@ -22,13 +29,17 @@ export const cardsReducer = (state = initialState, action: CardssActionType): Ca
 
 export const getCardsDataAC = (cards: RequestCardType) => ({type: "cards/GET-CARDS", cards} as const);
 
-export type CardssActionType = ReturnType<typeof getCardsDataAC> | ReturnType<typeof changeGradeAC>
+export type CardssActionType = ReturnType<typeof getCardsDataAC> | ReturnType<typeof changeGradeAC> |
+ReturnType<typeof changeCurrentPageCardsAC> | ReturnType<typeof changeCountOfRawsCardsAC>
+
 
 export const changeGradeAC = (grade:number, card_id:string) => ({type: "cards/change-GRADE", grade, card_id} as const);
+export const changeCurrentPageCardsAC = (currentPage: number) => ({type: "cards/CHANGE-CURRENT-PAGE",currentPage} as const);
+export const changeCountOfRawsCardsAC = (countOfRows: number) => ({type: "cards/CHANGE-COUNT-ROWS", countOfRows} as const);
 
 
 
-export const getCardsTC = (cardsPack_id: string): AppThunk => async (dispatch) => {
+export const getCardsTC = (cardsPack_id: string,): AppThunk => async (dispatch) => {
     try {
         dispatch(setAppStatusAC('loading'))
         let res = await cardsApi.getCards(cardsPack_id, Infinity )

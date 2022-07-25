@@ -33,6 +33,7 @@ export const Question: React.FC<QuestionPropsType> = props => {
 
     const dispatch = useAppDispatch();
     const cards = useAppSelector(state => state.card.cards);
+    const amountOfRows = useAppSelector(state => state.card.pageCount) || 4;
 
     const {packId, cancelHandler, cardsCount} = props;
 
@@ -47,8 +48,7 @@ export const Question: React.FC<QuestionPropsType> = props => {
     }, [cards])
 
     useEffect(() => {
-        dispatch(getCardsTC(packId))
-
+        dispatch(getCardsTC(packId,))
     }, [])
 
     const onNext = () => {

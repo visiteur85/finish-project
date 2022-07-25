@@ -2,13 +2,14 @@ import React, {useEffect} from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import {useAppDispatch, useAppSelector} from '../../store/store';
 import {NavLink, useParams} from "react-router-dom";
-import {deleteCardsTC, getCardsTC} from '../../store/cardsReducer';
+import {changeCountOfRawsCardsAC, changeCurrentPageCardsAC, deleteCardsTC, getCardsTC} from '../../store/cardsReducer';
 import {ModalForNewCards} from "./ModalForNewCards";
 import {ModalDelCards} from "./ModalDelCards";
 import {ModalChangeCards} from "./ModalChangeNameCards";
-import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow} from "@mui/material";
 import {PATH} from "../../App";
 import { Grade } from './Grade/Grade';
+import {changeCountOfRawsAC, changeCurrentPageAC, getPacksTC} from "../../store/packsReducer";
 
 export const Cards = React.memo(() => {
 
@@ -23,6 +24,9 @@ export const Cards = React.memo(() => {
     const cards = useAppSelector(state => state.card.cards);
     // const navigate = useNavigate()
     const userID = useAppSelector(state => state.profile.profile._id);
+    const cardsAllPage = useAppSelector(state => state.card.cardsTotalCount);
+    const currentCardsPage = useAppSelector(state => state.card.page) || 1;
+    const amountOfRows = useAppSelector(state => state.card.pageCount) || 4;
 
 
     // const redirect = () => navigate(PATH.CARDS + `/${packUserId}`)
@@ -30,13 +34,24 @@ export const Cards = React.memo(() => {
         dispatch(deleteCardsTC(id!, packId))
     }
 
-
     if (!cards) {
         return <div
             style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
             <CircularProgress/>
         </div>
     }
+
+    const handleChangePage = (e: React.MouseEvent<HTMLButtonElement> | null, value: number) => {
+        dispatch(changeCurrentPageCardsAC(value))
+        dispatch(getCardsTC(id!))
+    }
+
+    const handleChangeRowsPerPage = (e: any) => {
+        let value = e.target.value
+        dispatch(changeCountOfRawsCardsAC(value))
+        dispatch(getCardsTC(id!))
+    }
+
 
     return (
 
@@ -59,9 +74,6 @@ export const Cards = React.memo(() => {
                                 <TableRow
                                     key={row._id}
                                     sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-                                    {/*<NavLink to={PATH.CARDS + `/${row._id}`}>*/}
-                                    {/*    <TableCell align="left">{row.question}</TableCell>*/}
-                                    {/*</NavLink>*/}
                                     <TableCell align="left">{row.question}</TableCell>
                                     <TableCell align="left">{row.answer}</TableCell>
                                     <TableCell align="right">{row.updated.toString().slice(2, 10)}</TableCell>
@@ -83,6 +95,17 @@ export const Cards = React.memo(() => {
                     </div>
                 </TableContainer>
             </div>
+            <TablePagination
+                onClick={() => {
+                    window.scrollTo({top: 0, behavior: 'smooth'})
+                }}
+                component="div"
+                count={cardsAllPage}
+                page={currentCardsPage}
+                onPageChange={handleChangePage}
+                rowsPerPage={amountOfRows}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
         </div>
     )
 });
