@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../store/store";
-import {changeGradeTC, getCardsTC} from "../../../store/cardsReducer";
+import {changeCountOfRawsCardsAC, changeGradeTC, getCardsTC} from "../../../store/cardsReducer";
 import {CardsType} from "../../api/cardsApi";
 import Button from "@mui/material/Button";
 import m from "../../Cards/ModalForNewCards.module.css";
@@ -48,6 +48,7 @@ export const Question: React.FC<QuestionPropsType> = props => {
     }, [cards])
 
     useEffect(() => {
+        dispatch(changeCountOfRawsCardsAC(Infinity))
         dispatch(getCardsTC(packId,))
     }, [])
 

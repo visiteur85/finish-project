@@ -39,10 +39,12 @@ export const changeCountOfRawsCardsAC = (countOfRows: number) => ({type: "cards/
 
 
 
-export const getCardsTC = (cardsPack_id: string,): AppThunk => async (dispatch) => {
+export const getCardsTC = (cardsPack_id: string,): AppThunk => async (dispatch, getState) => {
     try {
         dispatch(setAppStatusAC('loading'))
-        let res = await cardsApi.getCards(cardsPack_id, Infinity )
+        let aaa = getState().card.pageCount
+
+        let res = await cardsApi.getCards(cardsPack_id, aaa )
         dispatch(setPackUserIdAC(res.data.packUserId))
         dispatch(showPyPacksAC(cardsPack_id))
         dispatch(getCardsDataAC(res.data))
