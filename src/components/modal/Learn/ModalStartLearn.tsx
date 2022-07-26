@@ -7,6 +7,7 @@ import {useState} from "react";
 import style from "../../Profile/Profile.module.css";
 import m from "../../Cards/ModalForNewCards.module.css";
 import {Question} from "./Question";
+import {CardsType} from "../../api/cardsApi";
 
 
 type ModalAddPackPropsType = {
@@ -23,6 +24,7 @@ export const ModalStartLearn: React.FC<ModalAddPackPropsType> = props => {
     const {cardsCount, nameOfPack, packId} = props;
 
     const [open, setOpen] = React.useState(false);
+    const [random, setRandom] = useState<CardsType | null>(null);
 
 
     const cancelHandler = () => {
@@ -35,16 +37,10 @@ export const ModalStartLearn: React.FC<ModalAddPackPropsType> = props => {
                 <div className={m.x}>
                     <Button onClick={cancelHandler} variant="text">X</Button>
                 </div>
-                {/*<div className={m.title}>*/}
-                    <h4 className={m.title}>Learn</h4>
-                    <p>{nameOfPack}:</p>
-                <div style={{display:"flex"}}>
-                    <strong><span>Question:</span></strong>
-                    <span><Question cancelHandler={cancelHandler}  packId={packId} cardsCount = {cardsCount}/></span>
+                    <h4 className={m.title}>Learn "{nameOfPack}"</h4>
+                <div style={{display:"flex"}} className={m.title}>
+                    <span><Question cancelHandler={cancelHandler}  packId={packId} cardsCount={cardsCount}/></span>
                 </div>
-
-                {/*</div>*/}
-
             </div>
         </BasicModal>
     );

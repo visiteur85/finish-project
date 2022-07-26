@@ -7,6 +7,9 @@ import m from "../../Cards/ModalForNewCards.module.css";
 import thunk from "redux-thunk";
 import {useNavigate} from "react-router-dom";
 import {ModalStartLearn} from "./ModalStartLearn";
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
 
 type QuestionPropsType = {
     packId: string
@@ -14,7 +17,7 @@ type QuestionPropsType = {
     cardsCount: number
 }
 
-const grades = ['не знал', 'забыл', 'долго думал', 'перепутал', 'знал'];
+const grades = ['Did not know', 'Forgot', 'A lot of thought', 'Confused', 'Knew the answer'];
 
 const getCard = (cards: CardsType[]): CardsType => {
     const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);
@@ -33,18 +36,16 @@ export const Question: React.FC<QuestionPropsType> = props => {
 
     const dispatch = useAppDispatch();
     const cards = useAppSelector(state => state.card.cards);
-    const amountOfRows = useAppSelector(state => state.card.pageCount) || 4;
 
     const {packId, cancelHandler, cardsCount} = props;
 
     const [open, setOpen] = React.useState(false);
     const [isChecked, setIsChecked] = useState<boolean>(false);
     const [random, setRandom] = useState<CardsType | null>(null);
+    const [value, setValue] = React.useState('female');
 
     useEffect(() => {
-        if (cards) {
-            setRandom(getCard(cards))
-        }
+            setRandom(getCard(cards!))
     }, [cards])
 
     useEffect(() => {
@@ -52,20 +53,9 @@ export const Question: React.FC<QuestionPropsType> = props => {
         dispatch(getCardsTC(packId,))
     }, [])
 
-    const onNext = () => {
-        setIsChecked(false);
-        if (cards.length > 0) {
-            setRandom(getCard(cards));
-        }
-    }
-    const cancelHandlerFrom = () => {
-        cancelHandler()
-    }
-
     const getAnswerNumber = (i:number)=> {
         if (i === 0 && random) {
             dispatch(changeGradeTC(1, random._id))
-
 
         } if (i === 1 && random) {
             dispatch(changeGradeTC(2, random._id))
@@ -78,20 +68,49 @@ export const Question: React.FC<QuestionPropsType> = props => {
         }
         setIsChecked(false)
     }
+    const onNext = (i:number) => {
+        setIsChecked(false);
+        if (cards.length > 0) {
+            setRandom(getCard(cards));
+            getAnswerNumber(i)
+        }
+    }
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setValue((event.target as HTMLInputElement).value);
+    };
     return (
         <div >
-            {random && random.question}
-
+            <div style={{fontWeight:"normal"}} className={m.title}>
+                <span style={{fontWeight:"bold"}}>Question:</span>
+                "{random && random.question}"
+            </div>
             {isChecked && (
-                <div style={{marginTop:"30px"}}>
-                    <div style={{fontWeight:"normal"}}><span style={{fontWeight:"bold"}}>Answer:</span>{random && random.answer}</div>
-
+                <div >
+                    <div style={{fontWeight:"normal"}} className={m.title}>
+                        <span style={{fontWeight:"bold"}}>Answer: </span>
+                        "{random && random.answer}"
+                    </div>
+                    <div style={{fontWeight:"bold"}}>Rate yourself:</div>
                     {grades.map((g, i) => (
                         <div >
-                        <Button style={{width:"auto"}}  key={'grade-' + i} onClick={()=>getAnswerNumber(i)}>{g}</Button></div>
-                    ))}
+                            <RadioGroup
+                                aria-labelledby="demo-controlled-radio-buttons-group"
+                                name="controlled-radio-buttons-group"
+                                value={value}
+                                onChange={handleChange}
+                                key={'grade-' + i}
+                            >
+                            <FormControlLabel value={g} control={<Radio />} label={g} />
+                            </RadioGroup>
 
-                    <div><Button style={{border:"1px solid red"}} onClick={onNext}>next</Button></div>
+                            {/*<Button style={{width:"auto"}}  key={'grade-' + i} onClick={()=>getAnswerNumber(i)}>{g}</Button>*/}
+                            <div><Button style={{border:"1px solid red"}} onClick={()=>onNext(i)}>next</Button></div>
+                            </div>
+                    )
+                    )
+                    }
+
                 </div>
             )}
             <div className={m.buttons}>

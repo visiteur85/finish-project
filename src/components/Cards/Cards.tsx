@@ -14,8 +14,8 @@ import {changeCountOfRawsAC, changeCurrentPageAC, getPacksTC} from "../../store/
 export const Cards = React.memo(() => {
 
     const dispatch = useAppDispatch()
-
     const {id} = useParams<{ id: string }>()
+
     useEffect(() => {
             dispatch(getCardsTC(id!, ));
         },
@@ -46,9 +46,9 @@ export const Cards = React.memo(() => {
         dispatch(getCardsTC(id!))
     }
 
-    const handleChangeRowsPerPage = (e: any) => {
+    const handleChangeRowsPerPage = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         let value = e.target.value
-        dispatch(changeCountOfRawsCardsAC(value))
+        dispatch(changeCountOfRawsCardsAC(+value))
         dispatch(getCardsTC(id!))
     }
 
