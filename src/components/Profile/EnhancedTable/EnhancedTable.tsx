@@ -79,6 +79,8 @@ export const EnhancedTable = () => {
                 <Table sx={{minWidth: 650}} aria-label="simple table">
                     <TableHead>
                         <TableRow>
+                            <TableCell>Cover
+                            </TableCell>
                             <TableCell>Name
                                 <SortIcon fontSize={"large"} onClick={() => onSortTable(filter.name, "name")}/>
                             </TableCell>
@@ -98,6 +100,9 @@ export const EnhancedTable = () => {
                             <TableRow
                                 key={row._id}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}>
+                                <TableCell align="center">
+                                    <img src="https://chocoradio.ru/upload/resize_cache/iblock/46f/622_622_240cd750bba9870f18aada2478b24840a/46f23d2cb7d461530918c85c0bc67e5f.jpg"
+                                         alt="new cover" width="25px" height="25px"/></TableCell>
                                 <NavLink to={PATH.CARDS + `/${row._id}`}>
                                     <TableCell align="center">{row.name}</TableCell>
                                 </NavLink>
