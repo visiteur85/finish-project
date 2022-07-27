@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import style from "../Profile/Profile.module.css";
 import m from "./../Cards/ModalForNewCards.module.css";
 import Checkbox from '@mui/material/Checkbox';
-import {addNewPackTS, getPacksTC, setPrivatePacksAC} from "../../store/packsReducer";
+import {setPrivatePacksAC} from "../../store/packsReducer";
 import {useAppDispatch, useAppSelector} from "../../store/store";
 
 
@@ -20,7 +20,7 @@ export const ModalAddPack: React.FC<ModalAddPackPropsType> = props => {
 
     const privatePacks = useAppSelector(state => state.packs.filterForPacks.private);
 
-    let [newName, SetNewName] = useState("");
+    const [newName, SetNewName] = useState("");
     const [error, SetError] = useState<null | string>(null);
     const [open, setOpen] = React.useState(false);
     const dispatch = useAppDispatch()

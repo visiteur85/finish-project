@@ -39,10 +39,6 @@ export const PacksApi = {
 
 }
 
-//types
-
-
-
 export type AnswerGetPackType = {
     cardPacks: OnePackType[]
     cardPacksTotalCount: number
@@ -75,7 +71,6 @@ export type FilterForPacksType = {
     user_id?: string | null
     packUserId?: string | null
     private?:boolean
-    //поиск по имени
 }
 
 export type sortPacksUpdateType = "0updated" | "1updated" | "0name" | "1name" | "0cardsCount" | "1cardsCount"

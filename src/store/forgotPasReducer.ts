@@ -1,8 +1,7 @@
 import {NewPasswordType, passwordRecoveryAPI, SendMailType} from "../components/api/passwordApi";
-import {RequestStatusType, setAppStatusAC} from "./app-reducer";
+import {setAppStatusAC} from "./appReducer";
 import {AppThunk} from "./store";
 import {handleServerAppError} from "../utils/error-utils";
-
 
 const initialState = {
     recoverySuccess: '',
@@ -24,30 +23,33 @@ export const forgotPasswordReducer = (state = initialState, action: ForgotPasswo
 
 // actions
 export const setSuccessAC = (recoverySuccess: string) => ({type: 'PASSWORD/SET_SUCCESS', recoverySuccess} as const)
-export const setNewPasswordAC = (successMessage: string) => ({type: 'PASSWORD/SEND-NEW-PASSWORD', successMessage} as const)
+export const setNewPasswordAC = (successMessage: string) => ({type: 'PASSWORD/SEND-NEW-PASSWORD', successMessage
+} as const)
 
 //thunks
-export const sendEmailTC = (data: SendMailType): AppThunk => (dispatch) => {
-    dispatch(setAppStatusAC('loading'))
-     passwordRecoveryAPI.sendEmail(data)
-        .then(res => {
-            dispatch(setAppStatusAC('succeeded'))
-            dispatch(setSuccessAC(res.data.info))
-        })
-        .catch(e => {
-            handleServerAppError(e,dispatch)
-        })
+export const sendEmailTC = (data: SendMailType): AppThunk => async (dispatch) => {
+    try {
+        dispatch(setAppStatusAC('loading'))
+        let res = await passwordRecoveryAPI.sendEmail(data)
+        dispatch(setAppStatusAC('succeeded'))
+        dispatch(setSuccessAC(res.data.info))
+    } catch (e: any) {
+        handleServerAppError(e, dispatch)
+    } finally {
+        dispatch(setAppStatusAC('idle'))
+    }
 }
-export const sendNewPasswordTC = (data: NewPasswordType): AppThunk => (dispatch) => {
-    dispatch(setAppStatusAC('loading'))
-     passwordRecoveryAPI.sendNewPassword(data)
-        .then(res => {
-            dispatch(setAppStatusAC('succeeded'))
-            dispatch(setNewPasswordAC(res.data.info))
-        })
-        .catch(e => {
-            handleServerAppError(e,dispatch)
-        })
+export const sendNewPasswordTC = (data: NewPasswordType): AppThunk => async (dispatch) => {
+    try {
+        dispatch(setAppStatusAC('loading'))
+        let res = await passwordRecoveryAPI.sendNewPassword(data)
+        dispatch(setAppStatusAC('succeeded'))
+        dispatch(setNewPasswordAC(res.data.info))
+    } catch (e: any) {
+        handleServerAppError(e, dispatch)
+    } finally {
+        dispatch(setAppStatusAC('idle'))
+    }
 }
 // export const sendNewPasswordTC = (password?: string): AppThunk => (dispatch,getState) => {
 //     dispatch(setAppStatusAC('loading'))
@@ -64,4 +66,4 @@ export const sendNewPasswordTC = (data: NewPasswordType): AppThunk => (dispatch)
 //         })
 // }
 
-export type ForgotPasswordActionsType = ReturnType<typeof setSuccessAC> |  ReturnType<typeof setNewPasswordAC>
+export type ForgotPasswordActionsType = ReturnType<typeof setSuccessAC> | ReturnType<typeof setNewPasswordAC>

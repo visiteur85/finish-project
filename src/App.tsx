@@ -7,7 +7,7 @@ import {Test} from "./components/Test/Test";
 import {PageNotFound} from "./components/Page404/PageNotFound";
 import {useAppDispatch, useAppSelector} from "./store/store";
 import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
-import {initializeAppTC} from "./store/app-reducer";
+import {initializeAppTC} from "./store/appReducer";
 import Button from "@mui/material/Button";
 import {logoutTC} from "./store/authReducer";
 import LinearProgress from '@mui/material/LinearProgress';

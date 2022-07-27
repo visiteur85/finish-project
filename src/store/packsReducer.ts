@@ -1,5 +1,5 @@
 import {AppThunk} from "./store";
-import {setAppStatusAC} from "./app-reducer";
+import {setAppStatusAC} from "./appReducer";
 import {handleServerAppError} from "../utils/error-utils";
 import {AnswerGetPackType, OnePackType, PacksApi, sortPacksUpdateType} from "../components/api/packsApi";
 
@@ -19,10 +19,10 @@ const initialState = {
         private: false
     },
 } as AnswerGetPackType
-//
-export type PAckReducerType = typeof initialState
 
-export const packReducer = (state = initialState, action: PacksActionType): PAckReducerType => {
+export type PackReducerType = typeof initialState
+
+export const packReducer = (state = initialState, action: PacksActionType): PackReducerType => {
     switch (action.type) {
         case "pack/GET-PACKS":
             return {...state, ...action.packs}
@@ -66,7 +66,6 @@ export const packReducer = (state = initialState, action: PacksActionType): PAck
 };
 //AC
 export const setSearchNamePacksAC = (packName: string) => ({type: "pack/SET-SEARCH-PACKS-NAME", packName} as const)
-
 export const getPacksDataAC = (packs: AnswerGetPackType) => ({type: "pack/GET-PACKS", packs} as const);
 export const setPrivatePacksAC = (privatePacks: boolean) => ({type: "pack/PRIVATE-PACKS", privatePacks} as const);
 export const changeCountOfRawsAC = (countOfRows: number) => ({type: "pack/CHANGE-COUNT-ROWS", countOfRows} as const);
@@ -93,54 +92,58 @@ export type PacksActionType =
     | ReturnType<typeof setPrivatePacksAC>
 
 //thunks
-export const getPacksTC = (): AppThunk => (dispatch, getState) => {
-    dispatch(setAppStatusAC('loading'))
-    let model = getState().packs.filterForPacks
-    PacksApi.getPack(model)
-        .then((res) => {
-            dispatch(getPacksDataAC(res.data))
-            dispatch(setAppStatusAC('succeeded'))
-        })
-        .catch(e => {
-            handleServerAppError(e, dispatch)
-        })
+export const getPacksTC = (): AppThunk =>async (dispatch, getState) => {
+    try {
+        let model = getState().packs.filterForPacks
+
+        dispatch(setAppStatusAC('loading'))
+        let res = await PacksApi.getPack(model)
+        dispatch(getPacksDataAC(res.data))
+        dispatch(setAppStatusAC('succeeded'))
+    }
+    catch (e: any) {
+        handleServerAppError(e, dispatch)
+    } finally {
+        dispatch(setAppStatusAC('idle'))
+    }
 };
 
 
-export const deletePackTC = (idPack: string): AppThunk => (dispatch,) => {
-    dispatch(setAppStatusAC('loading'))
-    PacksApi.delPack(idPack)
-        .then(() => {
-            dispatch(getPacksTC())
-            dispatch(setAppStatusAC('succeeded'))
-        })
-        .catch(e => {
-            handleServerAppError(e, dispatch)
-        })
+export const deletePackTC = (idPack: string): AppThunk =>async (dispatch,) => {
+   try {
+       dispatch(setAppStatusAC('loading'))
+       await PacksApi.delPack(idPack)
+       dispatch(getPacksTC())
+       dispatch(setAppStatusAC('succeeded'))
+   } catch (e: any) {
+       handleServerAppError(e, dispatch)
+   } finally {
+       dispatch(setAppStatusAC('idle'))
+   }
 }
 
-export const changePackTC = (idPack: string, name: string): AppThunk => (dispatch,) => {
-    dispatch(setAppStatusAC('loading'))
-    PacksApi.changePack(idPack, name)
-        .then(() => {
-            dispatch(getPacksTC())
-            dispatch(setAppStatusAC('succeeded'))
-        })
-        .catch(e => {
-            handleServerAppError(e, dispatch)
-        })
+export const changePackTC = (idPack: string, name: string): AppThunk =>async (dispatch,) => {
+   try {
+       dispatch(setAppStatusAC('loading'))
+       await PacksApi.changePack(idPack, name)
+       dispatch(getPacksTC())
+       dispatch(setAppStatusAC('succeeded'))
+   } catch (e: any) {
+       handleServerAppError(e, dispatch)
+   } finally {
+       dispatch(setAppStatusAC('idle'))
+   }
 }
 
-export const addNewPackTS = (newName: string, privatePacks:boolean): AppThunk => (dispatch,) => {
-    dispatch(setAppStatusAC('loading'))
-    PacksApi.addNewPack(newName,privatePacks)
-        .then((res) => {
-            if (res.status === 201) {
-                dispatch(getPacksTC())
-                dispatch(setAppStatusAC('succeeded'))
-            }
-        })
-        .catch(e => {
-            handleServerAppError(e, dispatch)
-        })
+export const addNewPackTS = (newName: string, privatePacks:boolean): AppThunk =>async (dispatch,) => {
+  try {
+      dispatch(setAppStatusAC('loading'))
+      await PacksApi.addNewPack(newName,privatePacks)
+      dispatch(getPacksTC())
+      dispatch(setAppStatusAC('succeeded'))
+  } catch (e: any) {
+      handleServerAppError(e, dispatch)
+  } finally {
+      dispatch(setAppStatusAC('idle'))
+  }
 }

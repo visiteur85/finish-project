@@ -1,8 +1,8 @@
 import * as React from 'react';
+import {FC, PropsWithChildren} from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
-import {FC, ReactNode, useState, PropsWithChildren, useEffect} from "react";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
@@ -29,11 +29,9 @@ type PropsType = {
 
 }
 export const BasicModal: FC<PropsWithChildren<PropsType>> = (props) => {
-    const {
-        children, open, setOpen, button, cardsCount
-    } = props
 
-    // const [open, setOpen] = React.useState(false);
+    const {children, open, setOpen, button, cardsCount} = props
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
@@ -52,8 +50,9 @@ export const BasicModal: FC<PropsWithChildren<PropsType>> = (props) => {
     else if (button === "startLearn") {
         changeButton = <button style={{border:"none", backgroundColor:"transparent"}}
                                onClick={handleOpen}
-                               disabled={cardsCount === 0 ? true : false}
-        ><SchoolIcon /></button>
+                               disabled={cardsCount === 0}>
+            <SchoolIcon/>
+        </button>
     }
     return (
         <div>

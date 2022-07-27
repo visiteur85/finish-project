@@ -22,12 +22,6 @@ export const authAPI = {
 }
 
 
-// type
-export type RegisterType<D = {}> = {
-    addedUser:D
-    error?: string;
-}
-
 export type ProfileType = {
     _id: string
     email: string | null

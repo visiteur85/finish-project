@@ -1,23 +1,19 @@
 import {AppThunk} from "./store";
-import {setAppStatusAC} from "./app-reducer";
+import {setAppStatusAC} from "./appReducer";
 import {handleServerAppError} from "../utils/error-utils";
 import {cardsApi, RequestCardType} from "../components/api/cardsApi";
 import {setPackUserIdAC, showPyPacksAC} from "./packsReducer";
 
-const initialState = {
-    // cardsTotalCount:0,
-
-} as RequestCardType;
+const initialState = {} as RequestCardType;
 
 export type CardsReducerType = typeof initialState
 
-export const cardsReducer = (state = initialState, action: CardssActionType): CardsReducerType => {
+export const cardsReducer = (state = initialState, action: CardsActionType): CardsReducerType => {
     switch (action.type) {
         case "cards/GET-CARDS":
             return {...state, ...action.cards}
         case "cards/change-GRADE":{
-            return {...state, cards: state.cards.map(card=> card._id === action.card_id ? {...card, grade:action.grade} : card)}
-        }
+            return {...state, cards: state.cards.map(card=> card._id === action.card_id ? {...card, grade:action.grade} : card)}}
         case "cards/CHANGE-CURRENT-PAGE":
             return {...state, page: action.currentPage}
         case "cards/CHANGE-COUNT-ROWS":
@@ -29,7 +25,7 @@ export const cardsReducer = (state = initialState, action: CardssActionType): Ca
 
 export const getCardsDataAC = (cards: RequestCardType) => ({type: "cards/GET-CARDS", cards} as const);
 
-export type CardssActionType = ReturnType<typeof getCardsDataAC> | ReturnType<typeof changeGradeAC> |
+export type CardsActionType = ReturnType<typeof getCardsDataAC> | ReturnType<typeof changeGradeAC> |
 ReturnType<typeof changeCurrentPageCardsAC> | ReturnType<typeof changeCountOfRawsCardsAC>
 
 
