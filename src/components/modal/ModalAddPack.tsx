@@ -81,7 +81,7 @@ export const ModalAddPack: React.FC<ModalAddPackPropsType> = props => {
                 />
                 <span>private packs</span>
             </div>
-
+            <Button style={{width: "200px"}} variant="contained">add new cover</Button>
             <div className={m.buttons}>
                 <Button onClick={cancelHandler} style={{width: "124px"}}>Cancel</Button>
                 <Button onClick={addNewPackHandler} style={{width: "124px"}}>Send</Button>

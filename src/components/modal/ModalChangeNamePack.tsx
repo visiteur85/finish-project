@@ -53,6 +53,7 @@ export const ModalChangeNamePack: React.FC<ModalAddPackPropsType> = props => {
                 <div>
                     <p className={m.title}>Change name of your pack</p>
                 </div>
+                <div><img src="#" alt="your cover"/></div>
                 <div className={m.title}>
                     <TextField
                         id="standard-textarea"
@@ -68,6 +69,7 @@ export const ModalChangeNamePack: React.FC<ModalAddPackPropsType> = props => {
                 <div className={m.title}>
                     {error && <div className={style.error}>{error}</div>}
                 </div>
+                <Button style={{width: "200px"}} variant="contained">change cover</Button>
                 <div className={m.buttons}>
                     <Button onClick={cancelHandler} style={{width: "124px"}}>Cancel</Button>
                     <Button onClick={addNewPackHandler} style={{width: "124px"}}>Send</Button>
