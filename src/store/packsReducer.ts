@@ -16,7 +16,8 @@ const initialState = {
         packName: '' as string,
         user_id: '' as string,
         packUserId: '' as string,
-        private: false
+        private: false,
+        deckCover:""
     },
 } as AnswerGetPackType
 
@@ -135,10 +136,10 @@ export const changePackTC = (idPack: string, name: string): AppThunk =>async (di
    }
 }
 
-export const addNewPackTS = (newName: string, privatePacks:boolean): AppThunk =>async (dispatch,) => {
+export const addNewPackTS = (newName: string, privatePacks:boolean, file:string ): AppThunk =>async (dispatch,) => {
   try {
       dispatch(setAppStatusAC('loading'))
-      await PacksApi.addNewPack(newName,privatePacks)
+      await PacksApi.addNewPack(newName,privatePacks, file)
       dispatch(getPacksTC())
       dispatch(setAppStatusAC('succeeded'))
   } catch (e: any) {

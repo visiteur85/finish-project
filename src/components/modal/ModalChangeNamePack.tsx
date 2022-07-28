@@ -6,6 +6,7 @@ import {ButtonGroup} from "@mui/material";
 import {useState} from "react";
 import style from "../Profile/Profile.module.css";
 import m from "../Cards/ModalForNewCards.module.css";
+import {InputTypeFileCover} from "./addNewpack/InputTypeFileCover";
 
 
 type ModalAddPackPropsType = {
@@ -23,7 +24,6 @@ export const ModalChangeNamePack: React.FC<ModalAddPackPropsType> = props => {
     const [error, SetError] = useState<null | string>(null);
     const [open, setOpen] = React.useState(false);
 
-
     const addNewPackHandler = () => {
         if (newName.trim() !== "") {
             changeNamePack(id, newName)
@@ -32,8 +32,8 @@ export const ModalChangeNamePack: React.FC<ModalAddPackPropsType> = props => {
         } else {
             SetError("Введите текст")
         }
-
     }
+
     const onKeyPressHandler = (e: React.KeyboardEvent<HTMLDivElement>) => e.key === 'Enter' && addNewPackHandler();
 
     const onChangeHandler = (e: any) => {
@@ -69,7 +69,7 @@ export const ModalChangeNamePack: React.FC<ModalAddPackPropsType> = props => {
                 <div className={m.title}>
                     {error && <div className={style.error}>{error}</div>}
                 </div>
-                <Button style={{width: "200px"}} variant="contained">change cover</Button>
+                <InputTypeFileCover/>
                 <div className={m.buttons}>
                     <Button onClick={cancelHandler} style={{width: "124px"}}>Cancel</Button>
                     <Button onClick={addNewPackHandler} style={{width: "124px"}}>Send</Button>

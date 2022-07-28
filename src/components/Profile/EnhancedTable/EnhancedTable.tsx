@@ -15,7 +15,7 @@ import {NavLink} from "react-router-dom";
 import {PATH} from "../../../App";
 import SortIcon from '@mui/icons-material/Sort';
 import style from "../EnhancedTable/EnhancedTable.module.css"
-import {ModalAddPack} from "../../modal/ModalAddPack";
+import {ModalAddPack} from "../../modal/addNewpack/ModalAddPack";
 import {ModalDelPack} from "../../modal/ModalDelPack";
 import {ModalChangeNamePack} from "../../modal/ModalChangeNamePack";
 
@@ -33,6 +33,7 @@ export const EnhancedTable = () => {
     const userID = useAppSelector(state => state.profile.profile._id);
 
 
+
     const [filter, setFilter] = useState<Record<filtersNamesType, boolean>>({
         name: false,
         updated: false,
@@ -41,8 +42,8 @@ export const EnhancedTable = () => {
 
     const dispatch = useAppDispatch();
 
-    const addNewPack = (newName: string, privatePacks: boolean) => {
-        dispatch(addNewPackTS(newName, privatePacks))
+    const addNewPack = (newName: string, privatePacks: boolean,file:string) => {
+        dispatch(addNewPackTS(newName, privatePacks,file))
     }
 
     const handleChangeRowsPerPage = (e: any) => {
@@ -101,8 +102,9 @@ export const EnhancedTable = () => {
                                 key={row._id}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}>
                                 <TableCell align="center">
-                                    <img src="https://chocoradio.ru/upload/resize_cache/iblock/46f/622_622_240cd750bba9870f18aada2478b24840a/46f23d2cb7d461530918c85c0bc67e5f.jpg"
-                                         alt="new cover" width="25px" height="25px"/></TableCell>
+                                    <img width={40} height={40} src={row.deckCover} alt=""/>
+
+                                </TableCell>
                                 <NavLink to={PATH.CARDS + `/${row._id}`}>
                                     <TableCell align="center">{row.name}</TableCell>
                                 </NavLink>

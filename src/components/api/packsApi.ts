@@ -25,8 +25,8 @@ export const PacksApi = {
             }
         })
     },
-    addNewPack(newName:string, privatePacks:boolean) {
-        const cardPack = {name: newName,private:privatePacks}
+    addNewPack(newName:string, privatePacks:boolean, file:string) {
+        const cardPack = {name: newName,private:privatePacks, deckCover:file}
         return instance.post(`cards/pack`, {cardsPack:cardPack})}
     ,
     delPack(idPack:string) {
@@ -59,6 +59,7 @@ export type OnePackType = {
     created: string
     updated: string
     __v: number
+    deckCover:string
 }
 
 export type FilterForPacksType = {
@@ -71,6 +72,7 @@ export type FilterForPacksType = {
     user_id?: string | null
     packUserId?: string | null
     private?:boolean
+
 }
 
 export type sortPacksUpdateType = "0updated" | "1updated" | "0name" | "1name" | "0cardsCount" | "1cardsCount"
