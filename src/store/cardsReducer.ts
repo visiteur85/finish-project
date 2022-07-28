@@ -45,7 +45,7 @@ export const getCardsTC = (cardsPack_id: string,): AppThunk => async (dispatch, 
         dispatch(showPyPacksAC(cardsPack_id))
         dispatch(getCardsDataAC(res.data))
         dispatch(setAppStatusAC('succeeded'))
-    } catch (e: any) {
+    } catch (e:any) {
         handleServerAppError(e, dispatch)
     } finally {
         dispatch(setAppStatusAC('idle'))

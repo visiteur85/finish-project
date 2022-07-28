@@ -38,11 +38,8 @@ export const Profile = () => {
     const dispatch = useAppDispatch();
 
     const [editMode, setEditMode] = useState(false);
-
-    const [name, SetNewName] = useState<string>(profile && profile.name ? profile.name : '')
-
+    const [name, SetNewName] = useState(profile && profile.name ? profile.name : '')
     const [error, SetError] = useState<null | string>(null);
-
 
 
     const minMAxAmount = [minAmount || 0, maxAmount || 100]
@@ -64,10 +61,9 @@ export const Profile = () => {
         }
     }
 
-    const onChangeHandler = (e: any) => {
+    const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement> ) => {
         SetError(null)
-        let newValue = e.currentTarget.value
-        SetNewName(newValue)
+        SetNewName(e.currentTarget.value)
     }
 
     let debouncedValue = useDebounce(minAmount, maxAmount, 1000);
@@ -88,7 +84,7 @@ export const Profile = () => {
 
     const onKeyPressHandler = (e: React.KeyboardEvent<HTMLDivElement>) => e.key === 'Enter' && onBlurHandler();
 
-    const onClickForMypacksHandler = () => {
+    const onClickForMyPacksHandler = () => {
         dispatch(showPyPacksAC(user_id))
         dispatch(getPacksTC())
     }
@@ -183,7 +179,7 @@ export const Profile = () => {
                     </div>
                     <div className={style.table}>
                         <EnhancedTable/>
-                        <Button style={{width: "150px"}} onClick={onClickForMypacksHandler} variant="outlined">my
+                        <Button style={{width: "150px"}} onClick={onClickForMyPacksHandler} variant="outlined">my
                             Packs</Button>
                         <Button style={{width: "150px"}} onClick={onClickForAllHandler} variant="outlined">All
                             Packs</Button>

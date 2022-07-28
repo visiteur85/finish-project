@@ -17,7 +17,7 @@ export const Cards = React.memo(() => {
     const {id} = useParams<{ id: string }>()
 
     useEffect(() => {
-            dispatch(getCardsTC(id!, ));
+            dispatch(getCardsTC(id!));
         },
         [dispatch, id])
 

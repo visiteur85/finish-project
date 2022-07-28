@@ -123,10 +123,10 @@ export const deletePackTC = (idPack: string): AppThunk =>async (dispatch,) => {
    }
 }
 
-export const changePackTC = (idPack: string, name: string): AppThunk =>async (dispatch,) => {
+export const changePackTC = (idPack: string, name: string,file:string): AppThunk =>async (dispatch,) => {
    try {
        dispatch(setAppStatusAC('loading'))
-       await PacksApi.changePack(idPack, name)
+       await PacksApi.changePack(idPack, name,file)
        dispatch(getPacksTC())
        dispatch(setAppStatusAC('succeeded'))
    } catch (e: any) {

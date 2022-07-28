@@ -1,15 +1,13 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../store/store";
 import {
     addNewPackTS,
     changeCountOfRawsAC,
     changeCurrentPageAC, changePackTC, deletePackTC,
-    getPacksTC,
+    getPacksTC, setSearchNamePacksAC,
     sortPacksAc
 } from "../../../store/packsReducer";
-
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow} from "@mui/material";
-
 import {Search} from "../Search/Search";
 import {NavLink} from "react-router-dom";
 import {PATH} from "../../../App";
@@ -20,6 +18,7 @@ import {ModalDelPack} from "../../modal/ModalDelPack";
 import {ModalChangeNamePack} from "../../modal/ModalChangeNamePack";
 
 import {ModalStartLearn} from "../../modal/Learn/ModalStartLearn";
+import TextField from '@material-ui/core/TextField/TextField';
 
 
 type filtersNamesType = "name" | "updated" | "cardsCount"
@@ -31,8 +30,6 @@ export const EnhancedTable = () => {
     const packsAllPage = useAppSelector(state => state.packs.cardPacksTotalCount);
     const amountOfRows = useAppSelector(state => state.packs.filterForPacks.pageCount) || 4;
     const userID = useAppSelector(state => state.profile.profile._id);
-
-
 
     const [filter, setFilter] = useState<Record<filtersNamesType, boolean>>({
         name: false,
@@ -46,9 +43,8 @@ export const EnhancedTable = () => {
         dispatch(addNewPackTS(newName, privatePacks,file))
     }
 
-    const handleChangeRowsPerPage = (e: any) => {
-        let value = e.target.value
-        dispatch(changeCountOfRawsAC(value))
+    const handleChangeRowsPerPage = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        dispatch(changeCountOfRawsAC(+e.target.value))
         dispatch(getPacksTC())
     }
 
@@ -66,13 +62,31 @@ export const EnhancedTable = () => {
     const delPack = (id: string) => {
         dispatch(deletePackTC(id));
     }
-    const changePack = (id: string, name: string) => {
-        dispatch(changePackTC(id, name));
+    const changePack = (id: string, name: string,file:string) => {
+        dispatch(changePackTC(id, name,file));
     }
 
+
+    const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        event.currentTarget.value && setSearchName(event.currentTarget.value)
+        event.currentTarget.value && dispatch(setSearchNamePacksAC(event.currentTarget.value))
+    }
+
+    const onSearchHandler = () => {
+        dispatch(getPacksTC())
+        setSearchName('')
+    }
+
+    const onKeyPressHandler = (e: React.KeyboardEvent<HTMLDivElement>) => e.key === 'Enter' && onSearchHandler();
     return (
         <div>
             <div className={style.headerForTableWithModale}>
+                {/*<TextField*/}
+                {/*    onKeyPress={onKeyPressHandler}*/}
+                {/*    onChange={onChangeInputHandler}*/}
+                {/*    placeholder={'search packs'}*/}
+                {/*    value={searchName}*/}
+                {/*/>*/}
                 <Search searchName={searchName} setSearchName={setSearchName}/>
                 <ModalAddPack addNewPack={addNewPack}/>
             </div>
@@ -103,7 +117,6 @@ export const EnhancedTable = () => {
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}>
                                 <TableCell align="center">
                                     <img width={40} height={40} src={row.deckCover} alt=""/>
-
                                 </TableCell>
                                 <NavLink to={PATH.CARDS + `/${row._id}`}>
                                     <TableCell align="center">{row.name}</TableCell>
