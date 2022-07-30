@@ -1,15 +1,13 @@
 import React, {useEffect} from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import {useAppDispatch, useAppSelector} from '../../store/store';
-import {NavLink, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {changeCountOfRawsCardsAC, changeCurrentPageCardsAC, deleteCardsTC, getCardsTC} from '../../store/cardsReducer';
 import {ModalForNewCards} from "./ModalForNewCards";
 import {ModalDelCards} from "./ModalDelCards";
 import {ModalChangeCards} from "./ModalChangeNameCards";
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow} from "@mui/material";
-import {PATH} from "../../App";
-import { Grade } from './Grade/Grade';
-import {changeCountOfRawsAC, changeCurrentPageAC, getPacksTC} from "../../store/packsReducer";
+import {Grade} from './Grade/Grade';
 
 export const Cards = React.memo(() => {
 
@@ -47,8 +45,7 @@ export const Cards = React.memo(() => {
     }
 
     const handleChangeRowsPerPage = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        let value = e.target.value
-        dispatch(changeCountOfRawsCardsAC(+value))
+        dispatch(changeCountOfRawsCardsAC(+e.target.value))
         dispatch(getCardsTC(id!))
     }
 

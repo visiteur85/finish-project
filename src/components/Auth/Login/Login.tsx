@@ -20,7 +20,7 @@ import styleContainer from "../../../style/Container.module.css"
 import {useAppDispatch, useAppSelector} from "../../../store/store";
 import {loginTC} from "../../../store/authReducer";
 
-export const Login = () => {
+export const Login = React.memo(() => {
     const dispatch = useAppDispatch()
     const [disable, setDisable] = useState<boolean>(false)
 
@@ -135,7 +135,7 @@ export const Login = () => {
             </div>
             </div>
         )
-    }
+    })
 
 
 

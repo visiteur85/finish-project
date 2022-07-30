@@ -14,15 +14,12 @@ export const passwordRecoveryAPI = {
     sendNewPassword(data: NewPasswordType) {
         return instance.post<RequestType>(`auth/set-new-password`, data)
     }
-    // sendNewPassword(token: string,password?: string) {
-    //     return instance.post<RequestType>(`auth/set-new-password?token=${token}`, {token, password})
-    // }
 }
 
 export type SendMailType = {
     email: string
-    from?: string
-    message?: string
+    from: string
+    message: string
 }
 
 export type RequestType = {
