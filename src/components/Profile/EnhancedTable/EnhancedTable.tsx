@@ -122,10 +122,10 @@ export const EnhancedTable = () => {
                                 <NavLink to={PATH.CARDS + `/${row._id}`}>
                                     <TableCell style={{height:"40px", boxSizing:"content-box"}} align="center">{row.name}</TableCell>
                                 </NavLink>
-                                <TableCell style={{height:"40px", boxSizing:"content-box" }} align="center">{row.cardsCount}</TableCell>
-                                <TableCell style={{height:"40px", boxSizing:"content-box"}} align="center">{row.updated.toString().slice(2, 10)}</TableCell>
-                                <TableCell style={{height:"40px", boxSizing:"content-box"}} align="center">{row.user_name}</TableCell>
-                                <TableCell  style={{display: "flex", height:"40px", boxSizing:"content-box"}} align="center">
+                                <TableCell  align="center">{row.cardsCount}</TableCell>
+                                <TableCell  align="center">{row.updated.toString().slice(2, 10)}</TableCell>
+                                <TableCell  align="center">{row.user_name}</TableCell>
+                                <TableCell   align="center">
                                     {userID === row.user_id &&
                                         <div style={{display: "flex"}}>
                                             <ModalDelPack delPack={delPack} id={row._id} name={row.name}/>
