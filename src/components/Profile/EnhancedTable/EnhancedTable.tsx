@@ -17,6 +17,7 @@ import {ModalAddPack} from "../../modal/addNewpack/ModalAddPack";
 import {ModalDelPack} from "../../modal/ModalDelPack";
 import {ModalChangeNamePack} from "../../modal/ModalChangeNamePack";
 import {ModalStartLearn} from "../../modal/Learn/ModalStartLearn";
+import cover from "../../../style/images/branding_logo.png"
 import TextField from '@material-ui/core/TextField/TextField';
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -106,16 +107,16 @@ export const EnhancedTable = () => {
                             <TableRow
                                 key={row._id}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-                                <TableCell align="center">
-                                    <img width={40} height={40} src={row.deckCover} alt=""/>
+                                <TableCell style={{height:"40px", boxSizing:"content-box"}} align="center">
+                                    <img width={30} height={30} src={row.deckCover || cover} alt=""/>
                                 </TableCell>
                                 <NavLink to={PATH.CARDS + `/${row._id}`}>
-                                    <TableCell align="center">{row.name}</TableCell>
+                                    <TableCell style={{height:"40px", boxSizing:"content-box"}} align="center">{row.name}</TableCell>
                                 </NavLink>
-                                <TableCell align="center">{row.cardsCount}</TableCell>
-                                <TableCell align="center">{row.updated.toString().slice(2, 10)}</TableCell>
-                                <TableCell align="center">{row.user_name}</TableCell>
-                                <TableCell style={{display: "flex"}} align="center">
+                                <TableCell style={{height:"40px", boxSizing:"content-box" }} align="center">{row.cardsCount}</TableCell>
+                                <TableCell style={{height:"40px", boxSizing:"content-box"}} align="center">{row.updated.toString().slice(2, 10)}</TableCell>
+                                <TableCell style={{height:"40px", boxSizing:"content-box"}} align="center">{row.user_name}</TableCell>
+                                <TableCell  style={{display: "flex", height:"40px", boxSizing:"content-box"}} align="center">
                                     {userID === row.user_id &&
                                         <div style={{display: "flex"}}>
                                             <ModalDelPack delPack={delPack} id={row._id} name={row.name}/>
