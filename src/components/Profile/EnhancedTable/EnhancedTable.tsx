@@ -18,6 +18,7 @@ import {ModalDelPack} from "../../modal/ModalDelPack";
 import {ModalChangeNamePack} from "../../modal/ModalChangeNamePack";
 
 import {ModalStartLearn} from "../../modal/Learn/ModalStartLearn";
+import cover from "../../../style/images/branding_logo.png"
 import TextField from '@material-ui/core/TextField/TextField';
 
 
@@ -116,7 +117,7 @@ export const EnhancedTable = () => {
                                 key={row._id}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}>
                                 <TableCell align="center">
-                                    <img width={40} height={40} src={row.deckCover} alt=""/>
+                                    <img width={40} height={40} src={row.deckCover || cover} alt=""/>
                                 </TableCell>
                                 <NavLink to={PATH.CARDS + `/${row._id}`}>
                                     <TableCell align="center">{row.name}</TableCell>
