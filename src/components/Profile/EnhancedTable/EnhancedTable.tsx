@@ -119,9 +119,9 @@ export const EnhancedTable = () => {
                                 <TableCell style={{height:"40px", boxSizing:"content-box"}} align="center">
                                     <img width={30} height={30} src={row.deckCover || cover} alt=""/>
                                 </TableCell>
-                                <NavLink to={PATH.CARDS + `/${row._id}`}>
-                                    <TableCell style={{height:"40px", boxSizing:"content-box"}} align="center">{row.name}</TableCell>
-                                </NavLink>
+
+                                    <TableCell style={{height:"40px", boxSizing:"content-box"}} align="center"><NavLink to={PATH.CARDS + `/${row._id}`}>{row.name} </NavLink></TableCell>
+
                                 <TableCell  align="center">{row.cardsCount}</TableCell>
                                 <TableCell  align="center">{row.updated.toString().slice(2, 10)}</TableCell>
                                 <TableCell  align="center">{row.user_name}</TableCell>
