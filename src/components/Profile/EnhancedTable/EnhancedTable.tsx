@@ -117,7 +117,7 @@ export const EnhancedTable = () => {
                                 key={row._id}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}>
                                 <TableCell style={{height:"40px", boxSizing:"content-box"}} align="center">
-                                    <img width={30} height={30} src={row.deckCover || cover} alt=""/>
+                                    <img width={60} height={60} src={row.deckCover || cover} alt=""/>
                                 </TableCell>
 
                                     <TableCell style={{height:"40px", boxSizing:"content-box"}} align="center"><NavLink to={PATH.CARDS + `/${row._id}`}>{row.name} </NavLink></TableCell>
