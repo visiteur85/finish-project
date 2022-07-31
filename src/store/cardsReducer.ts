@@ -42,7 +42,6 @@ export const getCardsTC = (cardsPack_id: string,): AppThunk => async (dispatch, 
 
         let res = await cardsApi.getCards(cardsPack_id, pageCount )
         dispatch(setPackUserIdAC(res.data.packUserId))
-        dispatch(showPyPacksAC(cardsPack_id))
         dispatch(getCardsDataAC(res.data))
         dispatch(setAppStatusAC('succeeded'))
     } catch (e:any) {

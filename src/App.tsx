@@ -30,7 +30,6 @@ export const PATH = {
     LEARN: '/learn',
     TEST_MAP: '/test-map',
     TEST: '/text',
-
 };
 
 export const App = () => {
@@ -39,7 +38,6 @@ export const App = () => {
     const isInitialized = useAppSelector((state) => state.app.isInitialized)
     const isLoggedIn=useAppSelector(state => state.auth.isLoggedIn)
     const navigate=useNavigate()
-    const {token} = useParams<string>()
 
     useEffect(() => {
         if (!isInitialized) {
@@ -54,7 +52,6 @@ export const App = () => {
         </div>
     }
 
-    // http://localhost:3000/#/set-new-password/?token=d6666f00-fad8-11ec-b7ab-979eef7aec19
     const logoutHandler = () => {
         dispatch(logoutTC())
     };
@@ -74,17 +71,14 @@ export const App = () => {
             <Routes>
                 <Route path={"login"} element={<Login/>}/>
                 <Route path={"/"} element={<Profile/>}/>
-                {/*<Route path={"/cards"} element={<Cards/>}/>*/}
                 <Route path={"registration"} element={<Registration/>}/>
                 <Route path={"forgotPass"} element={<ForgotPass/>}/>
-                <Route path={"setPass"} element={<SetPassword/>}/>
                 <Route path={"setPass/:token"} element={<SetPassword/>}/>
                 <Route path={"profile"} element={<Profile/>}/>
                 <Route path={"test"} element={<Test/>}/>
                 <Route path={"404"} element={<PageNotFound/>}/>
                 <Route path={"cards/:id"} element={<Cards/>}/>
                 <Route path={"checkEmail"} element={<CheckEmail/>}/>
-
                 <Route path="*" element={<Navigate to={"404"}/>}/>
             </Routes>
         </div>

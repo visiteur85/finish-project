@@ -23,6 +23,12 @@ export const ForgotPass = () => {
     const formik = useFormik({
         initialValues: {
             email: '',
+            from: "",
+            message: `<div style="background-color: lime; padding: 15px">
+password recovery link: 
+<a href='http://localhost:3000/#/setPass/$token$'>
+link</a>
+</div>`,
         },
         validate: (values) => {
             const errors: Partial<FormikErrorType> = {};

@@ -30,7 +30,7 @@ export const SetPassword = () => {
     const formik = useFormik({
         initialValues: {
             password: '',
-            resetPasswordToken: ''
+            resetPasswordToken: token
         },
         validate: (values) => {
             const errors: Partial<FormikErrorType> = {};
@@ -89,10 +89,6 @@ export const SetPassword = () => {
                         </FormLabel>
                         <form onSubmit={formik.handleSubmit}>
                             <FormGroup>
-                                <TextField margin="normal"
-                                           label="resetPasswordToken"
-                                           {...formik.getFieldProps('resetPasswordToken')}
-                                />
                                 <FormControl variant="outlined">
                                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                     <OutlinedInput label="Password"

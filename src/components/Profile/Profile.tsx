@@ -12,6 +12,13 @@ import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutli
 import Button from "@mui/material/Button";
 import {PATH} from "../../App";
 import {InputTypeFile} from "./InputTypeFile";
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
+import DirectionsIcon from '@mui/icons-material/Directions';
 
 const useDebounce = (value1: number = 0, value2: number = 0, delay: number): number[] => {
     let [state, setState] = useState<number[]>([value1, value2])
@@ -142,6 +149,7 @@ export const Profile = () => {
                                      src={profile.avatar || avatar}
                                      alt="avatar"/>
                                 <InputTypeFile/>
+
                             </div>
 
                             <div className={style.changeInput}>

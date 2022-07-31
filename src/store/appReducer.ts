@@ -2,7 +2,6 @@ import {authAPI} from "../components/api/api";
 import {setIsLoggedInAC} from "./authReducer";
 import {AppThunk} from "./store";
 import {getProfileDataAC} from "./profileReducer";
-import {handleServerAppError} from "../utils/error-utils";
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
@@ -35,7 +34,7 @@ export const initializeAppTC = ():AppThunk => async (dispatch) => {
        dispatch(getProfileDataAC(res.data))
    } catch (e: any) {
        dispatch(setIsLoggedInAC(false))
-       handleServerAppError(e, dispatch)
+       dispatch(setAppStatusAC('idle'))
    } finally {
        dispatch(setAppIsInitializedAC(true))
    }
