@@ -94,7 +94,7 @@ export const EnhancedTable = () => {
             <TableContainer component={Paper}>
                 <Table sx={{minWidth: 650}} aria-label="simple table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow >
                             <TableCell>Cover
                             </TableCell>
                             <TableCell>Name
@@ -116,25 +116,28 @@ export const EnhancedTable = () => {
                             <TableRow
                                 key={row._id}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-                                <TableCell style={{height:"40px", boxSizing:"content-box"}} align="center">
-                                    <img width={30} height={30} src={row.deckCover || cover} alt=""/>
+                                <TableCell  align="center">
+                                    <img width={50} height={50} src={row.deckCover || cover} alt=""/>
                                 </TableCell>
-                                <NavLink to={PATH.CARDS + `/${row._id}`}>
-                                    <TableCell style={{height:"40px", boxSizing:"content-box"}} align="center">{row.name}</TableCell>
-                                </NavLink>
-                                <TableCell style={{height:"40px", boxSizing:"content-box" }} align="center">{row.cardsCount}</TableCell>
-                                <TableCell style={{height:"40px", boxSizing:"content-box"}} align="center">{row.updated.toString().slice(2, 10)}</TableCell>
-                                <TableCell style={{height:"40px", boxSizing:"content-box"}} align="center">{row.user_name}</TableCell>
-                                <TableCell  style={{display: "flex", height:"40px", boxSizing:"content-box"}} align="center">
+
+                                <TableCell  align="center"><NavLink to={PATH.CARDS + `/${row._id}`}>{row.name}   </NavLink></TableCell>
+
+                                <TableCell  align="center">{row.cardsCount}</TableCell>
+                                <TableCell  align="center">{row.updated.toString().slice(2, 10)}</TableCell>
+                                <TableCell  align="center">{row.user_name}</TableCell>
+                                <TableCell   align="center">
+                                    <div style={{display: "flex"}}>
                                     {userID === row.user_id &&
-                                        <div style={{display: "flex"}}>
+                                     <>
                                             <ModalDelPack delPack={delPack} id={row._id} name={row.name}/>
                                             <ModalChangeNamePack changeNamePack={changePack} id={row._id}
                                                                  nameOfPack={row.name}/>
-                                        </div>}
+                                     </>
+                                        }
 
                                     <ModalStartLearn packId={row._id} nameOfPack={row.name}
                                                      cardsCount={row.cardsCount}/>
+                                    </div>
 
                                 </TableCell>
                             </TableRow>
