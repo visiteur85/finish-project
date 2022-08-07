@@ -22,7 +22,7 @@
     min-height: 636px;
     margin-right: auto;
     margin-left: auto;
-    background-color: cadetblue;
+    background-color: #ECECF9;
     border-radius: 8px;
     display: flex;
     overflow: hidden;
@@ -44,7 +44,7 @@
 
 
 .table {
-    background-color: white;
+    background-color:#FEFEFF;
     width: 100%;
     padding-top: 10px;
 
@@ -112,13 +112,12 @@
 }
 
 .errorInput {
-    border-color: red;
+    border: solid 1px red;
 }
 
 .numberOfCards {
-
     height: 100%;
-
+    background-color: #ECECF9;
 }
 
 button {

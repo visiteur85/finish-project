@@ -117,7 +117,7 @@ export const Login = React.memo(() => {
                                         checked={formik.values.rememberMe}
                                         {...formik.getFieldProps('rememberMe')}
                                     />}/>
-                                <Button disabled={disable} type={'submit'} variant={'contained'} color={'primary'}>
+                                <Button disabled={disable} type={'submit'} variant={'contained'} className={log.button}>
                                     Login
                                 </Button>
                             </FormGroup>
@@ -127,7 +127,6 @@ export const Login = React.memo(() => {
                             <NavLink to={'/registration'}>SIGN UP</NavLink>
                             <div>
                                 <NavLink to={'/forgotPass'}>Forgot your password?</NavLink>
-
                             </div>
                         </FormLabel>
                     </FormControl>

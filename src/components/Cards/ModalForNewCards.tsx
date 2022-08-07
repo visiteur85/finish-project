@@ -12,10 +12,10 @@ import m from "./ModalForNewCards.module.css";
 
 export const ModalForNewCards = () => {
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const dispatch = useAppDispatch()
-    const [addValue, setAddValue] = useState<string>('')
-    const [addValue2, setAddValue2] = useState<string>('')//
+    const [addValue, setAddValue] = useState('')
+    const [addValue2, setAddValue2] = useState('')//
     const [error, SetError] = useState<null | string>(null);
 
     const {id} = useParams()
@@ -86,9 +86,7 @@ export const ModalForNewCards = () => {
                 </div>
 
             <div  className={m.buttons}>
-                <Button   variant="outlined" onClick={cancelHandler}
-                         style={{width: "124px"}}
-                >Cancel</Button>
+                <Button   variant="outlined" onClick={cancelHandler} style={{width: "124px"}}>Cancel</Button>
                 <Button  variant="outlined"  onClick={addNewCards} style={{width: "124px"}}>Send</Button>
             </div>
             </div>

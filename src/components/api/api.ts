@@ -19,6 +19,9 @@ export const authAPI = {
     logout() {
         return instance.delete(`/auth/me`)
     },
+    getUsers() {
+        return instance.get<GetUsersType>('/social/users')
+    }
 }
 
 
@@ -40,4 +43,24 @@ export type LoginParamsType = {
     password: string
     rememberMe?: boolean
 }
+export type UsersType = {
+    avatar: string
+    created: string
+    email: string
+    isAdmin: boolean
+    name: string
+    publicCardPacksCount: 0
+    updated: string
+    verified: boolean
+    _id: string
+}
+export type GetUsersType = {
+    users: UsersType[]
+    maxPublicCardPacksCount: number
+    minPublicCardPacksCount: number
+    page: number
+    pageCount: number
+    usersTotalCount: number
+}
+
 

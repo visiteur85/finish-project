@@ -15,8 +15,8 @@ export const cardsApi = {
     getCards(cardsPack_id: string, pageCount:number) {
         return instance.get<RequestCardType>(`/cards/card?`, {params: {cardsPack_id,pageCount}})
     },
-    addCards (cards: newCardType) {
-        return instance.post<CardsType>(`/cards/card`,{card:{...cards}})
+    addCards (card: newCardType) {
+        return instance.post<CardsType>(`/cards/card`,{card})
     },
     deleteCards(cardsPack_id:string) {
         return instance.delete(`/cards/card?id=${cardsPack_id}`)
@@ -106,7 +106,6 @@ export type CardsType = {
 
 }
 export type newCardType = {
-    // cardsPack_id: string
     _id?: string
     question?: string
     answer?: string

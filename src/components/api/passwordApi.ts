@@ -9,7 +9,7 @@ const instance = axios.create({
 
 export const passwordRecoveryAPI = {
     sendEmail(data: SendMailType) {
-        return instance.post<RequestType>(`auth/forgot`, data)
+        return instance.post(`auth/forgot`, {data})
     },
     sendNewPassword(data: NewPasswordType) {
         return instance.post<RequestType>(`auth/set-new-password`, data)

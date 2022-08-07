@@ -5,8 +5,14 @@ import {handleServerAppError} from "../utils/error-utils";
 import {AxiosError} from "axios";
 
 const initialState = {
+    data: {
+        email: '',
+        from: '',
+        message: '',
+    } as SendMailType,
     recoverySuccess: '',
-    successMessage: ''
+    successMessage: '',
+    email:''
 }
 
 export type InitialStateType = typeof initialState
@@ -14,15 +20,18 @@ export type InitialStateType = typeof initialState
 export const forgotPasswordReducer = (state = initialState, action: ForgotPasswordActionsType): InitialStateType => {
     switch (action.type) {
         case 'PASSWORD/SET_SUCCESS':
-            return {...state, recoverySuccess: action.recoverySuccess}
+            return {...state, data: action.data}
         case 'PASSWORD/SEND-NEW-PASSWORD':
             return {...state, successMessage: action.successMessage}
+        case 'PASSWORD/SEND-EMAIL':
+            return {...state, email: action.email}
         default:
             return state
     }
 };
 
-export const setSuccessAC = (recoverySuccess: string) => ({type: 'PASSWORD/SET_SUCCESS', recoverySuccess} as const)
+export const setSuccessAC = (data: SendMailType) => ({type: 'PASSWORD/SET_SUCCESS', data} as const)
+export const setEmailsAC = (email: string) => ({type: 'PASSWORD/SEND-EMAIL', email} as const)
 export const setNewPasswordAC = (successMessage: string) => ({type: 'PASSWORD/SEND-NEW-PASSWORD',
     successMessage} as const)
 
@@ -32,7 +41,7 @@ export const sendEmailTC = (data: SendMailType): AppThunk => async (dispatch) =>
         dispatch(setAppStatusAC('loading'))
         let res = await passwordRecoveryAPI.sendEmail(data)
         dispatch(setAppStatusAC('succeeded'))
-        dispatch(setSuccessAC(res.data.info))
+        dispatch(setSuccessAC(res.data))
     } catch (e: any) {
         handleServerAppError(e, dispatch)
     } finally {
@@ -54,3 +63,4 @@ export const sendNewPasswordTC = (data: NewPasswordType): AppThunk => async (dis
 
 
 export type ForgotPasswordActionsType = ReturnType<typeof setSuccessAC> | ReturnType<typeof setNewPasswordAC>
+|ReturnType<typeof setEmailsAC>

@@ -20,14 +20,18 @@ type ModalAddPackPropsType = {
 }
 
 export const ModalChangeCards: React.FC<ModalAddPackPropsType> = props => {
+
     const {_id, answer, question} = props;
+
     const dispatch = useAppDispatch()
     const {id} = useParams()
-    const [addValue, setAddValue] = useState<string>(question)
-    const [addValue2, setAddValue2] = useState<string>(answer)
-    const [error, SetError] = useState<null | string>(null);
-    const [open, setOpen] = React.useState(false);
     const privatePacks = useAppSelector(state => state.packs.filterForPacks.private);
+
+
+    const [addValue, setAddValue] = useState(question)
+    const [addValue2, setAddValue2] = useState(answer)
+    const [error, SetError] = useState<null | string>(null);
+    const [open, setOpen] = useState(false);
 
 
     const changeCards = () => {
@@ -38,11 +42,12 @@ export const ModalChangeCards: React.FC<ModalAddPackPropsType> = props => {
                 setAddValue2("")
                 setOpen(false)
             } else {
-                SetError("Введите текст")
+                SetError("Enter text")
             }
         }
     }
     const onKeyPressHandler = (e: React.KeyboardEvent<HTMLDivElement>) => e.key === 'Enter' && changeCards();
+    const onKeyPressHandler2 = (e: React.KeyboardEvent<HTMLDivElement>) => e.key === 'Enter' && changeCards();
 
     const cancelHandler = () => {
         setOpen(false)
@@ -56,8 +61,7 @@ export const ModalChangeCards: React.FC<ModalAddPackPropsType> = props => {
         setAddValue2(e.currentTarget.value)
     }
     const onChangeHandlerStatus = (e: ChangeEvent<HTMLInputElement>) => {
-        let newIsDoneValue = e.currentTarget.checked
-        dispatch(setPrivatePacksAC(newIsDoneValue))
+        dispatch(setPrivatePacksAC(e.currentTarget.checked))
     }
     return (
         <BasicModal button={"changeNamePack"} open={open} setOpen={setOpen}>
@@ -88,7 +92,7 @@ export const ModalChangeCards: React.FC<ModalAddPackPropsType> = props => {
                             variant="standard"
                             value={addValue2}
                             onChange={onChangeHandler2}
-                            onKeyPress={onKeyPressHandler}
+                            onKeyPress={onKeyPressHandler2}
                         />
                     </div>
                     <div className={m.title}>
