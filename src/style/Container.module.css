@@ -1,7 +1,9 @@
 .container {
-    max-width: 1280px;
+    /*min-width: 1280px;*/
     margin-right: auto;
     margin-left: auto;
     background: linear-gradient(180deg, #E6D4DE 0%, #9890C7 100%);
-    min-height: 720px;
+    /*min-height: 720px;*/
+    min-height: 100vh;
+    min-width:100%;
 }

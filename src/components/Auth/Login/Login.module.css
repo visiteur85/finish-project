@@ -3,6 +3,7 @@
     background: linear-gradient(180deg, #E6D4DE 0%, #9890C7 100%);
     padding-top: 60px;
 }
+
 .group {
 
     width: 413px;
@@ -13,12 +14,14 @@
     margin-left: auto;
     /*margin-top: 60px;*/
 }
+
 .passInput {
     width: 347px;
     height: 48px;
     left: 467px;
     top: 299px;
 }
+
 .eay {
 
     width: 24px;
@@ -26,6 +29,7 @@
     left: 774px;
     top: 312px;
 }
+
 .share {
 
     left: 4.17%;
@@ -34,6 +38,7 @@
     bottom: 18.75%;
     background: #2D2E46;
 }
+
 .path {
 
     left: 37.5%;
@@ -43,15 +48,16 @@
 
     background: #DADADA;
 }
+
 .path3 {
 
     left: 4.17%;
     right: 4.17%;
     top: 18.75%;
     bottom: 18.75%;
-
     background: #DADADA;
 }
+
 .path2 {
 
     left: 29.17%;
@@ -59,4 +65,12 @@
     top: 29.17%;
     bottom: 29.17%;
     background: #DADADA;
+}
+
+.button {
+    background-color: #21268F;
+    box-shadow: 0 4px 18px rgba(33, 38, 143, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    width: 266px;
+    height: 36px;
+    border-radius: 30px;
 }

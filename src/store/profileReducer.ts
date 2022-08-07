@@ -8,7 +8,7 @@ import {handleServerAppError} from "../utils/error-utils";
 const initialState = {
     profile: {
         _id: "",
-        email: "",
+        email: '',
         name: "",
         avatar: "",
         publicCardPacksCount: 0,

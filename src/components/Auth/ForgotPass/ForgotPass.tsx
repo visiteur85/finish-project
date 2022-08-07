@@ -9,9 +9,9 @@ import log from './../Login/Login.module.css'
 import {Navigate, useNavigate} from "react-router-dom";
 import {FormikErrorType} from "../Registartion/Registration";
 import styleContainer from "../../../style/Container.module.css"
-import { NavLink } from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from "../../../store/store";
-import {sendEmailTC} from "../../../store/forgotPasReducer";
+import {sendEmailTC, setEmailsAC} from "../../../store/forgotPasReducer";
 
 
 export const ForgotPass = () => {
@@ -25,10 +25,10 @@ export const ForgotPass = () => {
             email: '',
             from: "",
             message: `<div style="background-color: lime; padding: 15px">
-password recovery link: 
-<a href='http://localhost:3000/#/setPass/$token$'>
-link</a>
-</div>`,
+            password recovery link: 
+            <a href='http://localhost:3000/#/setPass/$token$'>
+            link</a>
+            </div>`,
         },
         validate: (values) => {
             const errors: Partial<FormikErrorType> = {};
@@ -39,15 +39,16 @@ link</a>
             }
             return errors;
         },
-        onSubmit:   async (values) => {
-                await dispatch(sendEmailTC(values))
-                navigate('/checkEmail')
-                setDisable(true)
-                formik.resetForm()
+        onSubmit: async (values) => {
+            dispatch(setEmailsAC(values.email))
+            await dispatch(sendEmailTC(values))
+            navigate('/checkEmail')
+            setDisable(true)
+            formik.resetForm()
         },
     })
-    
-    if(isLoggedIn) {
+
+    if (isLoggedIn) {
         return <Navigate to={'/profile'}/>
     }
 
@@ -78,7 +79,7 @@ link</a>
                         </form>
                         <FormLabel>
                             <p>Did you remember your password?</p>
-                            <NavLink to={'/login'}>Try  logging  in</NavLink>
+                            <NavLink to={'/login'}>Try logging in</NavLink>
                         </FormLabel>
                     </FormControl>
                 </div>

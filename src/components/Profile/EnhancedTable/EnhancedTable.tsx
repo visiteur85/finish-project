@@ -31,7 +31,6 @@ import ArrowDropDownSharpIcon from '@mui/icons-material/ArrowDropDownSharp';
 type filtersNamesType = "name" | "updated" | "cardsCount"
 
 export const EnhancedTable = () => {
-    const [searchName, setSearchName] = useState('')
     const packs = useAppSelector(state => state.packs.cardPacks);
     const currentPacksPage = useAppSelector(state => state.packs.filterForPacks.page) || 1;
     const packsAllPage = useAppSelector(state => state.packs.cardPacksTotalCount);
@@ -77,7 +76,7 @@ export const EnhancedTable = () => {
         <div>
             <div className={style.headerForTableWithModale}>
 
-                <Search searchName={searchName} setSearchName={setSearchName}/>
+                <Search/>
 
                 <ModalAddPack addNewPack={addNewPack}/>
 
@@ -106,7 +105,27 @@ export const EnhancedTable = () => {
                         {packs.map((row) => (
                             <TableRow
                                 key={row._id}
-                                sx={{'&:last-child td, &:last-child th': {border: 0}}}>
+                                // tr:nth-child(old) tr:nth-child(2n+1)
+                                // sx={{
+                                //     p: '2px 4px',
+                                //     display: 'flex',
+                                //     alignItems: 'center',
+                                //     width: 400,
+                                //     border: error ? "solid  2px red" : "solid  1px #635D80",
+                                //     marginBottom: "20px",
+                                //     backgroundColor: "#ECECF9"
+                                // }}
+                                // sx={{
+                                //     '&:last-child td, &:last-child th, &:nth-child(old) th ,&:nth-child(old) td': {
+                                //         border: 0,
+                                //         backgroundColor: '#F8F7FD'}
+                                // }
+                                sx={{
+                                    '&:last-child td, &:last-child th, &:nth-child(old) th ,&:nth-child(old) td': {
+                                        border: 0,
+                                            backgroundColor: '#F8F7FD'}
+                                }
+                                }>
                                 <TableCell style={{height:"40px", boxSizing:"content-box"}} align="center">
                                     <img width={30} height={30} src={row.deckCover || cover} alt=""/>
                                 </TableCell>

@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FC} from 'react';
+import React, {ChangeEvent, DetailedHTMLProps, FC, InputHTMLAttributes, useState, KeyboardEvent} from 'react';
 import {getPacksTC, setSearchNamePacksAC} from "../../../store/packsReducer";
 import {useAppDispatch} from "../../../store/store";
 import {Paper} from "@mui/material";
@@ -6,41 +6,50 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
+import {updateCardsTC} from "../../../store/cardsReducer";
+import style from "../Profile.module.css";
 
 type SearchPropsType = {
     searchName: string
     setSearchName: (value: string) => void
 }
 
-export const Search: FC<SearchPropsType> = ({searchName, setSearchName}) => {
+export const Search = () => {
 
     const dispatch = useAppDispatch()
+    const [error, setError] = useState<null | string>(null);
+    const [searchName, setSearchName] = useState('')
 
-    const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchName(event.currentTarget.value)
-        dispatch(setSearchNamePacksAC(event.currentTarget.value))
+    const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setError(null)
+        setSearchName(e.currentTarget.value)
+        dispatch(setSearchNamePacksAC(e.currentTarget.value))
     }
 
     const onSearchHandler = () => {
-        dispatch(getPacksTC())
-        setSearchName('')
+        if (searchName.trim() !== '') {
+            dispatch(getPacksTC())
+            setSearchName('')
+        } else {
+            setError("Enter text")
+        }
     }
 
-    const onKeyPressHandler = (e: React.KeyboardEvent<HTMLDivElement>) => e.key === 'Enter' && onSearchHandler();
+    const onKeyPressHandler = (e: React.KeyboardEvent<HTMLDivElement>) => e.key === 'Enter' && onSearchHandler
 
     return (
         <div>
-            <Paper
-                component="form"
-                sx={{
-                    p: '2px 4px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    width: 400,
-                    border: "solid  1px #635D80",
-                    marginBottom: "20px",
-                    backgroundColor: "#ECECF9"
-                }}
+            {error && <div className={style.error}>{error}</div>}
+            <Paper component="form"
+                   sx={{
+                       p: '2px 4px',
+                       display: 'flex',
+                       alignItems: 'center',
+                       width: 400,
+                       border: error ? "solid  2px red" : "solid  1px #635D80",
+                       marginBottom: "20px",
+                       backgroundColor: "#ECECF9"
+                   }}
             >
                 <IconButton type="submit" sx={{p: '10px'}} aria-label="search" onClick={onSearchHandler}>
                     <SearchIcon/>
@@ -49,11 +58,9 @@ export const Search: FC<SearchPropsType> = ({searchName, setSearchName}) => {
                     onKeyPress={onKeyPressHandler}
                     onChange={onChangeInputHandler}
                     value={searchName}
-                    sx={{ml: 1, flex: 1}}
                     placeholder="Search... "
-                    inputProps={{'aria-label': 'search google maps'}}
+                    style={{width:370}}
                 />
-                <Divider sx={{height: 28, m: 0.5}} orientation="vertical"/>
             </Paper>
         </div>
     );

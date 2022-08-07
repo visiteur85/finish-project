@@ -11,20 +11,19 @@ import {Grade} from './Grade/Grade';
 
 export const Cards = React.memo(() => {
 
-    const dispatch = useAppDispatch()
-    const {id} = useParams<{ id: string }>()
-
-    useEffect(() => {
-            dispatch(getCardsTC(id!));
-        },
-        [dispatch, id])
-
     const cards = useAppSelector(state => state.card.cards);
     // const navigate = useNavigate()
     const userID = useAppSelector(state => state.profile.profile._id);
     const cardsAllPage = useAppSelector(state => state.card.cardsTotalCount);
     const currentCardsPage = useAppSelector(state => state.card.page) || 1;
     const amountOfRows = useAppSelector(state => state.card.pageCount) || 4;
+
+    const dispatch = useAppDispatch()
+    const {id} = useParams<{ id: string }>()
+
+    useEffect(() => {
+            dispatch(getCardsTC(id!));
+        }, [dispatch, id])
 
 
     // const redirect = () => navigate(PATH.CARDS + `/${packUserId}`)
@@ -51,7 +50,6 @@ export const Cards = React.memo(() => {
 
 
     return (
-
         <div>
             <ModalForNewCards/>
             <div>

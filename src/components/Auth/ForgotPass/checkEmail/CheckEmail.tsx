@@ -6,7 +6,7 @@ import {useAppSelector} from "../../../../store/store";
 
 export const CheckEmail = React.memo(() => {
 
-    const email = useAppSelector(state => state.profile.profile.email!);
+    const email = useAppSelector(state => state.profile.profile.email);
     console.log('email',email)
     return (
         <div className={`${styleContainer.container} ${s.checkEmailContainerPad}`}>

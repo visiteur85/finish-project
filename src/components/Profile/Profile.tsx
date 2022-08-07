@@ -19,6 +19,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import DirectionsIcon from '@mui/icons-material/Directions';
+import {logoutTC} from "../../store/authReducer";
 
 const useDebounce = (value1: number = 0, value2: number = 0, delay: number): number[] => {
     let [state, setState] = useState<number[]>([value1, value2])
@@ -48,11 +49,9 @@ export const Profile = () => {
     const [name, SetNewName] = useState(profile && profile.name ? profile.name : '')
     const [error, SetError] = useState<null | string>(null);
 
-
     const minMAxAmount = [minAmount || 0, maxAmount || 100]
 
     const navigate = useNavigate()
-
 
     const editModeHandler = () => {
         setEditMode(true)
@@ -104,7 +103,9 @@ export const Profile = () => {
     const toCards = () => {
       return  navigate(PATH.PROFILE)
     }
-
+    const logoutHandler = () => {
+        dispatch(logoutTC())
+    };
     // const goPathToProfileOrCards = (path: string) => {
     //     navigate(path)
     // }
@@ -140,6 +141,7 @@ export const Profile = () => {
             {/*        </div>*/}
             {/*    </div>*/}
             {/*</div>*/}
+
             <div className={style.mainProfile}>
                 <div className={style.profileWithTable}>
                     <div className={style.profile}>
@@ -149,7 +151,9 @@ export const Profile = () => {
                                      src={profile.avatar || avatar}
                                      alt="avatar"/>
                                 <InputTypeFile/>
-
+                                <Button style={{width:"150px"}} onClick={logoutHandler} variant="outlined" color="error">
+                                    Logout
+                                </Button>
                             </div>
 
                             <div className={style.changeInput}>
@@ -161,7 +165,7 @@ export const Profile = () => {
                                            onKeyPress={onKeyPressHandler}
                                     />
                                     :
-                                    <p data-tooltip={"Изменить имя"} className={style.nameOfProfile}>{profile.name}
+                                    <p data-tooltip={"change name"} className={style.nameOfProfile}>{profile.name}
                                         <DriveFileRenameOutlineIcon onClick={editModeHandler}/>
 
                                     </p>
@@ -183,14 +187,15 @@ export const Profile = () => {
                                     // getAriaValueText={valuetext}
                                 />
                             </div>
+                            <Button style={{width: "150px"}} onClick={onClickForMyPacksHandler} variant="outlined">My
+                                Packs</Button>
+                            <Button style={{width: "150px"}} onClick={onClickForAllHandler} variant="outlined">All
+                                Packs</Button>
                         </div>
                     </div>
                     <div className={style.table}>
                         <EnhancedTable/>
-                        <Button style={{width: "150px"}} onClick={onClickForMyPacksHandler} variant="outlined">my
-                            Packs</Button>
-                        <Button style={{width: "150px"}} onClick={onClickForAllHandler} variant="outlined">All
-                            Packs</Button>
+
                     </div>
                 </div>
             </div>

@@ -52,9 +52,7 @@ export const App = () => {
         </div>
     }
 
-    const logoutHandler = () => {
-        dispatch(logoutTC())
-    };
+
 
     return (
         <div className="App">
@@ -63,9 +61,7 @@ export const App = () => {
             {status === 'loading' && <LinearProgress color="success" />}
 
             {isLoggedIn && <div style={{marginBottom:"5px"}}>
-                <Button style={{width:"150px"}} onClick={logoutHandler} variant="outlined" color="error">
-                Logout
-                </Button>
+
             </div>
             }
             <Routes>
