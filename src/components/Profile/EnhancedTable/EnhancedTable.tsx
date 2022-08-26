@@ -1,31 +1,29 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../store/store";
 import {
     addNewPackTS,
     changeCountOfRawsAC,
-    changeCurrentPageAC, changePackTC, deletePackTC,
-    getPacksTC, setSearchNamePacksAC,
+    changeCurrentPageAC,
+    changePackTC,
+    deletePackTC,
+    getPacksTC,
     sortPacksAc
 } from "../../../store/packsReducer";
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow} from "@mui/material";
 import {Search} from "../Search/Search";
 import {NavLink} from "react-router-dom";
 import {PATH} from "../../../App";
-import SortIcon from '@mui/icons-material/Sort';
 import style from "../EnhancedTable/EnhancedTable.module.css"
 import {ModalAddPack} from "../../modal/addNewpack/ModalAddPack";
-import {ModalDelPack} from "../../modal/ModalDelPack";
+import {ModalDelete} from "../../modal/ModalDelete";
 import {ModalChangeNamePack} from "../../modal/ModalChangeNamePack";
-
 import {ModalStartLearn} from "../../modal/Learn/ModalStartLearn";
 import cover from "../../../style/images/branding_logo.png"
-import TextField from '@material-ui/core/TextField/TextField';
-
+import ArrowDropDownSharpIcon from '@mui/icons-material/ArrowDropDownSharp';
 
 type filtersNamesType = "name" | "updated" | "cardsCount"
 
 export const EnhancedTable = () => {
-    const [searchName, setSearchName] = useState<string>('')
     const packs = useAppSelector(state => state.packs.cardPacks);
     const currentPacksPage = useAppSelector(state => state.packs.filterForPacks.page) || 1;
     const packsAllPage = useAppSelector(state => state.packs.cardPacksTotalCount);
@@ -60,52 +58,37 @@ export const EnhancedTable = () => {
         dispatch(getPacksTC())
     };
 
-    const delPack = (id: string) => {
+    const deletePackHandler = (id: string) => {
         dispatch(deletePackTC(id));
     }
     const changePack = (id: string, name: string,file:string) => {
         dispatch(changePackTC(id, name,file));
     }
 
-
-    const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        event.currentTarget.value && setSearchName(event.currentTarget.value)
-        event.currentTarget.value && dispatch(setSearchNamePacksAC(event.currentTarget.value))
-    }
-
-    const onSearchHandler = () => {
-        dispatch(getPacksTC())
-        setSearchName('')
-    }
-
-    const onKeyPressHandler = (e: React.KeyboardEvent<HTMLDivElement>) => e.key === 'Enter' && onSearchHandler();
     return (
         <div>
             <div className={style.headerForTableWithModale}>
-                {/*<TextField*/}
-                {/*    onKeyPress={onKeyPressHandler}*/}
-                {/*    onChange={onChangeInputHandler}*/}
-                {/*    placeholder={'search packs'}*/}
-                {/*    value={searchName}*/}
-                {/*/>*/}
-                <Search searchName={searchName} setSearchName={setSearchName}/>
+
+                <Search/>
+
                 <ModalAddPack addNewPack={addNewPack}/>
+
             </div>
             <TableContainer component={Paper}>
                 <Table sx={{minWidth: 650}} aria-label="simple table">
-                    <TableHead>
+                    <TableHead style={{backgroundColor:'#ECECF9'}}>
                         <TableRow>
                             <TableCell>Cover
                             </TableCell>
                             <TableCell>Name
-                                <SortIcon fontSize={"large"} onClick={() => onSortTable(filter.name, "name")}/>
+                                <ArrowDropDownSharpIcon fontSize={"medium"} onClick={() => onSortTable(filter.name, "name")}/>
                             </TableCell>
                             <TableCell align="right">Cards
-                                <SortIcon fontSize={"large"}
+                                <ArrowDropDownSharpIcon fontSize={"medium"}
                                           onClick={() => onSortTable(filter.cardsCount, "cardsCount")}/>
                             </TableCell>
                             <TableCell align="center">Last Updated
-                                <SortIcon fontSize={"large"} onClick={() => onSortTable(filter.updated, "updated")}/>
+                                <ArrowDropDownSharpIcon fontSize={"medium"} onClick={() => onSortTable(filter.updated, "updated")}/>
                             </TableCell>
                             <TableCell align="right">Created by</TableCell>
                             <TableCell align="right">Actions</TableCell>
@@ -115,20 +98,35 @@ export const EnhancedTable = () => {
                         {packs.map((row) => (
                             <TableRow
                                 key={row._id}
-                                sx={{'&:last-child td, &:last-child th': {border: 0}}}>
+                                // tr:nth-child(old) tr:nth-child(2n+1)
+                                // sx={{
+                                //     p: '2px 4px',
+                                //     display: 'flex',
+                                //     alignItems: 'center',
+                                //     width: 400,
+                                //     border: error ? "solid  2px red" : "solid  1px #635D80",
+                                //     marginBottom: "20px",
+                                //     backgroundColor: "#ECECF9"
+                                // }}
+                                sx={{
+                                    '&:last-child td, &:last-child th,&:nth-child(even)': {
+                                        border: 0,
+                                        backgroundColor: '#F8F7FD'}
+                                }
+                                }>
                                 <TableCell style={{height:"40px", boxSizing:"content-box"}} align="center">
-                                    <img width={60} height={60} src={row.deckCover || cover} alt=""/>
+                                    <img width={30} height={30} src={row.deckCover || cover} alt=""/>
                                 </TableCell>
-
-                                    <TableCell style={{height:"40px", boxSizing:"content-box"}} align="center"><NavLink to={PATH.CARDS + `/${row._id}`}>{row.name} </NavLink></TableCell>
-
-                                <TableCell  align="center">{row.cardsCount}</TableCell>
-                                <TableCell  align="center">{row.updated.toString().slice(2, 10)}</TableCell>
-                                <TableCell  align="center">{row.user_name}</TableCell>
-                                <TableCell   align="center">
+                                <NavLink to={PATH.CARDS + `/${row._id}`}>
+                                    <TableCell style={{height:"40px", boxSizing:"content-box"}} align="center">{row.name}</TableCell>
+                                </NavLink>
+                                <TableCell style={{height:"40px", boxSizing:"content-box" }} align="center">{row.cardsCount}</TableCell>
+                                <TableCell style={{height:"40px", boxSizing:"content-box"}} align="center">{row.updated.toString().slice(2, 10)}</TableCell>
+                                <TableCell style={{height:"40px", boxSizing:"content-box"}} align="center">{row.user_name}</TableCell>
+                                <TableCell  style={{display: "flex", height:"40px", boxSizing:"content-box"}} align="center">
                                     {userID === row.user_id &&
                                         <div style={{display: "flex"}}>
-                                            <ModalDelPack delPack={delPack} id={row._id} name={row.name}/>
+                                            <ModalDelete deleteLine={deletePackHandler} id={row._id} name={row.name} title={'Pack'}/>
                                             <ModalChangeNamePack changeNamePack={changePack} id={row._id}
                                                                  nameOfPack={row.name}/>
                                         </div>}

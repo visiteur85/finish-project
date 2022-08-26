@@ -8,6 +8,7 @@ import {ModalDelCards} from "./ModalDelCards";
 import {ModalChangeCards} from "./ModalChangeNameCards";
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow} from "@mui/material";
 import {Grade} from './Grade/Grade';
+import {ModalDelete} from "../modal/ModalDelete";
 
 export const Cards = React.memo(() => {
 
@@ -76,7 +77,7 @@ export const Cards = React.memo(() => {
                                     <TableCell align="right">
                                         {userID === row.user_id &&
                                             <div style={{display: "flex"}}>
-                                                <ModalDelCards deleteCardsHandler={deleteCardsHandler} id={row._id}/>
+                                                <ModalDelete deleteLine={deleteCardsHandler} id={row._id} name={'card'} title={'Cards'}/>
                                                 <ModalChangeCards _id={row._id} question={row.question} answer={row.answer}/>
                                             </div>
                                         }

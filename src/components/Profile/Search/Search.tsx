@@ -1,18 +1,12 @@
-import React, {ChangeEvent, DetailedHTMLProps, FC, InputHTMLAttributes, useState, KeyboardEvent} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import {getPacksTC, setSearchNamePacksAC} from "../../../store/packsReducer";
 import {useAppDispatch} from "../../../store/store";
 import {Paper} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
-import Divider from "@mui/material/Divider";
-import {updateCardsTC} from "../../../store/cardsReducer";
 import style from "../Profile.module.css";
 
-type SearchPropsType = {
-    searchName: string
-    setSearchName: (value: string) => void
-}
 
 export const Search = () => {
 

@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import {ButtonGroup} from "@mui/material";
 import {BasicModal} from "../modal/BasicModal";
 import m from "./ModalForNewCards.module.css";
-import {useCallback} from "react";
+import {useCallback, useState} from "react";
 
 
 type ModalAddPackPropsType = {
@@ -14,14 +14,15 @@ type ModalAddPackPropsType = {
 
 export const ModalDelCards: React.FC<ModalAddPackPropsType> = props => {
 
-    const {id, deleteCardsHandler} = props;
+    const {id, deleteCardsHandler,name} = props;
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
-    const delPackHandler =useCallback (() => {
+    const delPackHandler = useCallback(() => {
         deleteCardsHandler(id)
         setOpen(false)
-    },[id])
+    }, [id])
+
     const cancelHandler = () => {
         setOpen(false)
     }
@@ -37,7 +38,7 @@ export const ModalDelCards: React.FC<ModalAddPackPropsType> = props => {
                 <h4>Delete Cards</h4>
             </div>
             <div className={m.title}>
-                <p>Do you really want to remove <b>cards</b>?
+                <p>Do you really want to remove <b>{name}</b>?
                     <br/>
                     All cards will be excluded from this course.</p>
             </div>
